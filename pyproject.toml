@@ -7,4 +7,5 @@ dependencies = [
     "langchain>=1.2.7",
     "langchain-openai>=1.1.7",
     "langgraph>=1.0.7",
+    "websockets>=14.0",
 ]

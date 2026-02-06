@@ -1,3 +1,4 @@
+import asyncio
 import os
 from typing import Annotated, TypedDict
 
@@ -6,6 +7,8 @@ from langchain_openai import AzureChatOpenAI
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode, tools_condition
+
+from langgraph_viz import visualize
 
 load_dotenv()
 
@@ -49,8 +52,17 @@ workflow.add_edge(START, "agent")
 workflow.add_conditional_edges("agent", tools_condition)
 workflow.add_edge("tools", "agent")
 
-workflow.add_edge("agent", END)
-
-# Compile
+# Compile and wrap with visualization
 app = workflow.compile()
-print(app.get_graph().draw_mermaid())
+app = visualize(app)
+
+
+async def main():
+    result = await app.ainvoke(
+        {"messages": [{"role": "user", "content": "What is the weather?"}]}
+    )
+    print(result)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
