@@ -10,6 +10,7 @@ interface UseWebSocketReturn {
   events: ExecutionEvent[];
   connectionStatus: ConnectionStatus;
   clearEvents: () => void;
+  reconnect: () => void;
 }
 
 const RECONNECT_BASE_MS = 1000;
@@ -24,8 +25,21 @@ export function useWebSocket(url: string): UseWebSocketReturn {
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectAttempt = useRef(0);
   const reconnectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [reconnectTrigger, setReconnectTrigger] = useState(0);
 
   const clearEvents = useCallback(() => setEvents([]), []);
+
+  const reconnect = useCallback(() => {
+    reconnectAttempt.current = 0;
+    if (reconnectTimer.current) {
+      clearTimeout(reconnectTimer.current);
+      reconnectTimer.current = null;
+    }
+    if (wsRef.current) {
+      wsRef.current.close();
+    }
+    setReconnectTrigger((t) => t + 1);
+  }, []);
 
   useEffect(() => {
     let unmounted = false;
@@ -72,7 +86,6 @@ export function useWebSocket(url: string): UseWebSocketReturn {
       };
 
       ws.onerror = () => {
-        // onclose will fire after this
         ws.close();
       };
     }
@@ -102,7 +115,7 @@ export function useWebSocket(url: string): UseWebSocketReturn {
       if (reconnectTimer.current) clearTimeout(reconnectTimer.current);
       wsRef.current?.close();
     };
-  }, [url]);
+  }, [url, reconnectTrigger]);
 
-  return { topology, events, connectionStatus, clearEvents };
+  return { topology, events, connectionStatus, clearEvents, reconnect };
 }

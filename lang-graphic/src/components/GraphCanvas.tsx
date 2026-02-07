@@ -26,7 +26,7 @@ export function GraphCanvas({ nodes, edges }: GraphCanvasProps) {
       edges={edges}
       nodeTypes={nodeTypes}
       edgeTypes={edgeTypes}
-      fitView
+      onInit={(instance) => instance.fitView()}
       minZoom={0.1}
       maxZoom={2.5}
       defaultEdgeOptions={{ type: "custom" }}

@@ -93,10 +93,10 @@ def visualize(
         asyncio.set_event_loop(loop)
         loop.run_until_complete(_run_server())
 
-    server_thread = threading.Thread(target=_thread_target, daemon=True)
+    server_thread = threading.Thread(target=_thread_target)
     server_thread.start()
 
     if open_browser:
         webbrowser.open("http://localhost:5173")
 
-    return VisualizedGraph(graph, manager, edge_lookup)
+    return VisualizedGraph(graph, manager, edge_lookup, server_thread)

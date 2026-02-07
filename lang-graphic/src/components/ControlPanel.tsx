@@ -3,6 +3,7 @@ import type { ConnectionStatus } from "../hooks/useWebSocket";
 interface ControlPanelProps {
   status: ConnectionStatus;
   onClearEvents: () => void;
+  onReconnect: () => void;
 }
 
 const statusColors: Record<ConnectionStatus, string> = {
@@ -17,7 +18,7 @@ const statusLabels: Record<ConnectionStatus, string> = {
   disconnected: "Disconnected",
 };
 
-export function ControlPanel({ status, onClearEvents }: ControlPanelProps) {
+export function ControlPanel({ status, onClearEvents, onReconnect }: ControlPanelProps) {
   return (
     <div
       style={{
@@ -49,6 +50,20 @@ export function ControlPanel({ status, onClearEvents }: ControlPanelProps) {
       <div style={{ flex: 1 }} />
 
       <span style={{ color: "#475569", fontSize: 12 }}>LangGraph Viz</span>
+
+      <button
+        onClick={onReconnect}
+        style={{
+          padding: "3px 10px",
+          fontSize: 11,
+          background: "#334155",
+          border: "1px solid #475569",
+          borderRadius: 4,
+          color: "#94a3b8",
+        }}
+      >
+        Reconnect
+      </button>
 
       <button
         onClick={onClearEvents}

@@ -8,14 +8,14 @@ import "./styles/app.css";
 const WS_URL = "ws://localhost:8765";
 
 export default function App() {
-  const { topology, events, connectionStatus, clearEvents } =
+  const { topology, events, connectionStatus, clearEvents, reconnect } =
     useWebSocket(WS_URL);
   const { nodes: baseNodes, edges: baseEdges } = useGraphLayout(topology);
   const { nodes, edges } = useExecutionState(baseNodes, baseEdges, events);
 
   return (
     <div className="app">
-      <ControlPanel status={connectionStatus} onClearEvents={clearEvents} />
+      <ControlPanel status={connectionStatus} onClearEvents={clearEvents} onReconnect={reconnect} />
       <div className="app__canvas">
         {topology ? (
           <GraphCanvas nodes={nodes} edges={edges} />
