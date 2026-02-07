@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import threading
 import asyncio
 import uuid
 from collections.abc import AsyncIterator
@@ -25,12 +24,10 @@ class VisualizedGraph:
         graph: Any,
         ws_manager: Any,
         edge_lookup: dict[tuple[str, str], str],
-        server_thread: threading.Thread,
     ) -> None:
         self._graph = graph
         self._ws = ws_manager
         self._edge_lookup = edge_lookup
-        self._server_thread = server_thread
 
     def __getattr__(self, name: str) -> Any:
         # Delegate anything not explicitly defined to the underlying graph
@@ -104,7 +101,6 @@ class VisualizedGraph:
                 )
 
         await self._broadcast(protocol.run_end_message(run_id))
-        self._server_thread.join()
         return result
 
     async def astream(
