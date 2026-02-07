@@ -1,67 +1,104 @@
 import asyncio
 import os
-from typing import Annotated, TypedDict
+from typing import TypedDict, Annotated
 
 from dotenv import load_dotenv
+from langchain_core.messages import BaseMessage, HumanMessage
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_openai import AzureChatOpenAI
-from langgraph.graph import StateGraph, START, END
+from langchain_openai import ChatOpenAI
+from langgraph.graph import END, StateGraph
 from langgraph.graph.message import add_messages
-from langgraph.prebuilt import ToolNode, tools_condition
 
 from langgraph_viz import visualize
 
 load_dotenv()
 
 
-# 1. Define the State (memory of the agent)
-class State(TypedDict):
-    messages: Annotated[list, add_messages]
+def get_llm():
+    if os.getenv("OPENAI_API_KEY"):
+        return ChatOpenAI()
+    return AzureChatOpenAI(
+        api_version="2024-02-01",
+        api_key=os.getenv("AZURE_API_KEY"),
+        azure_endpoint=os.getenv("AZURE_ENDPOINT"),
+        azure_deployment=os.getenv("AZURE_DEPLOYMENT"),
+    )
 
 
-# 2. Define the Tools
-def search_tool(query: str):
-    """Call to search the web."""
-    return "The weather is sunny."
-
-
-tools = [search_tool]
-tool_node = ToolNode(tools)
-
-# 3. Define the Node (agent logic)
-llm = AzureChatOpenAI(
-    api_version="2024-02-01",
-    api_key=os.getenv("AZURE_API_KEY"),
-    azure_endpoint=os.getenv("AZURE_ENDPOINT"),
-    azure_deployment=os.getenv("AZURE_DEPLOYMENT"),
+reflection_prompt = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            "You are a viral twitter influencer grading a tweet. Generate critique and recommendations for the user's tweet."
+            "Always provide detailed recommendations, including requests for length, virality, style, etc.",
+        ),
+        MessagesPlaceholder(variable_name="messages"),
+    ]
 )
-llm_with_tools = llm.bind_tools(tools)
+
+generation_prompt = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            "You are a twitter techie influencer assistant tasked with writing excellent twitter posts."
+            " Generate the best twitter post possible for the user's request."
+            " If the user provides critique, respond with a revised version of your previous attempts.",
+        ),
+        MessagesPlaceholder(variable_name="messages"),
+    ]
+)
+
+llm = get_llm()
+
+generate_chain = generation_prompt | llm
+reflect_chain = reflection_prompt | llm
 
 
-def agent(state: State):
-    return {"messages": [llm_with_tools.invoke(state["messages"])]}
+class MessageGraph(TypedDict):
+    messages: Annotated[list[BaseMessage], add_messages]
 
 
-# 4. Build the Graph
-workflow = StateGraph(State)
-workflow.add_node("agent", agent)
-workflow.add_node("tools", tool_node)
+REFLECT = "reflect"
+GENERATE = "generate"
 
-# Set edges
-workflow.add_edge(START, "agent")
-# tools_condition checks if the agent wants to use a tool
-workflow.add_conditional_edges("agent", tools_condition)
-workflow.add_edge("tools", "agent")
 
-# Compile and wrap with visualization
-app = workflow.compile()
-app = visualize(app)
+def generation_node(state: MessageGraph):
+    return {"messages": [generate_chain.invoke({"messages": state["messages"]})]}
+
+
+def reflection_node(state: MessageGraph):
+    res = reflect_chain.invoke({"messages": state["messages"]})
+    return {"messages": [HumanMessage(content=res.content)]}
+
+
+builder = StateGraph(state_schema=MessageGraph)
+builder.add_node(GENERATE, generation_node)
+builder.add_node(REFLECT, reflection_node)
+builder.set_entry_point(GENERATE)
+
+
+def should_continue(state: MessageGraph):
+    if len(state["messages"]) > 6:
+        return END
+    return REFLECT
+
+
+builder.add_conditional_edges(GENERATE, should_continue, path_map={END: END, REFLECT: REFLECT})
+builder.add_edge(REFLECT, GENERATE)
+
+graph = builder.compile()
+graph = visualize(graph)
 
 
 async def main():
-    result = await app.ainvoke(
-        {"messages": [{"role": "user", "content": "What is the weather?"}]}
-    )
-    print(result)
+    inputs = {
+        "messages": [
+            HumanMessage(
+                content="""Make this tweet better:"@LangChainAI — newly Tool Calling feature is seriously underrated. After a long wait, it's here - making the implementation of agents across different models with function calling""")
+        ]
+    }
+    print(await graph.ainvoke(inputs))
 
 
 if __name__ == "__main__":
