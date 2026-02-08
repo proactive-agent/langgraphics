@@ -5,8 +5,8 @@ from typing import TypedDict, Annotated
 from dotenv import load_dotenv
 from langchain_core.messages import BaseMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_ollama import ChatOllama
 from langchain_openai import AzureChatOpenAI
-from langchain_openai import ChatOpenAI
 from langgraph.graph import END, StateGraph
 from langgraph.graph.message import add_messages
 
@@ -16,8 +16,11 @@ load_dotenv()
 
 
 def get_llm():
-    if os.getenv("OPENAI_API_KEY"):
-        return ChatOpenAI()
+    if os.getenv("OLLAMA_MODEL"):
+        return ChatOllama(
+            model=os.getenv("OLLAMA_MODEL"),
+            base_url=os.getenv("OLLAMA_BASE_URL"),
+        )
     return AzureChatOpenAI(
         api_version="2024-02-01",
         api_key=os.getenv("AZURE_API_KEY"),
