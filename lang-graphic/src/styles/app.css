@@ -16,13 +16,27 @@ body,
 }
 
 .app {
-  display: flex;
-  flex-direction: column;
   width: 100%;
   height: 100%;
 }
 
-.app__canvas {
-  flex: 1;
-  position: relative;
+.status-indicator {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 12px;
+  font-size: 11px;
+  color: #94a3b8;
+  z-index: 5;
+}
+
+.status-indicator__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
 }

@@ -1,25 +1,32 @@
-import {
-  ReactFlow,
-  Background,
-  Controls,
-  MiniMap,
-  type Node,
-  type Edge,
-} from "@xyflow/react";
+import { ReactFlow, Background, type Node, type Edge } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { CustomNode } from "./CustomNode";
 import { CustomEdge } from "./CustomEdge";
 import type { NodeData, EdgeData } from "../types/graph";
+import type { ConnectionStatus } from "../hooks/useWebSocket";
 
 const nodeTypes = { custom: CustomNode };
 const edgeTypes = { custom: CustomEdge };
 
+const statusColors: Record<ConnectionStatus, string> = {
+  connected: "#22c55e",
+  connecting: "#f59e0b",
+  disconnected: "#ef4444",
+};
+
+const statusLabels: Record<ConnectionStatus, string> = {
+  connected: "Connected",
+  connecting: "Connecting...",
+  disconnected: "Disconnected",
+};
+
 interface GraphCanvasProps {
   nodes: Node<NodeData>[];
   edges: Edge<EdgeData>[];
+  connectionStatus: ConnectionStatus;
 }
 
-export function GraphCanvas({ nodes, edges }: GraphCanvasProps) {
+export function GraphCanvas({ nodes, edges, connectionStatus }: GraphCanvasProps) {
   return (
     <ReactFlow
       nodes={nodes}
@@ -27,37 +34,30 @@ export function GraphCanvas({ nodes, edges }: GraphCanvasProps) {
       nodeTypes={nodeTypes}
       edgeTypes={edgeTypes}
       onInit={(instance) => instance.fitView()}
-      minZoom={0.1}
-      maxZoom={2.5}
       defaultEdgeOptions={{ type: "custom" }}
       proOptions={{ hideAttribution: true }}
+      panOnDrag={false}
+      zoomOnScroll={false}
+      zoomOnPinch={false}
+      zoomOnDoubleClick={false}
+      nodesDraggable={false}
+      nodesConnectable={false}
+      elementsSelectable={false}
     >
       <Background color="#334155" gap={20} size={1} />
-      <Controls
-        style={{ background: "#1e293b", border: "1px solid #334155" }}
-      />
-      <MiniMap
-        nodeColor={(n) => {
-          const data = n.data as NodeData;
-          switch (data.status) {
-            case "active":
-              return "#22c55e";
-            case "completed":
-              return "#3b82f6";
-            case "error":
-              return "#ef4444";
-            default:
-              return "#64748b";
-          }
-        }}
-        maskColor="rgba(15, 23, 42, 0.7)"
-        style={{
-          background: "#1e293b",
-          border: "1px solid #334155",
-          bottom: 10,
-          right: 10,
-        }}
-      />
+      <div className="status-indicator">
+        <div
+          className="status-indicator__dot"
+          style={{
+            background: statusColors[connectionStatus],
+            boxShadow:
+              connectionStatus === "connected"
+                ? `0 0 6px ${statusColors[connectionStatus]}`
+                : undefined,
+          }}
+        />
+        <span>{statusLabels[connectionStatus]}</span>
+      </div>
     </ReactFlow>
   );
 }
