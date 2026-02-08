@@ -1,5 +1,10 @@
-import { ReactFlow, Background, type Node, type Edge } from "@xyflow/react";
-import "@xyflow/react/dist/style.css";
+import ReactFlow, {
+  ReactFlowProvider,
+  Background,
+  type Node,
+  type Edge,
+} from "reactflow";
+import "reactflow/dist/style.css";
 import { CustomNode } from "./CustomNode";
 import { CustomEdge } from "./CustomEdge";
 import type { NodeData, EdgeData } from "../types/graph";
@@ -28,36 +33,46 @@ interface GraphCanvasProps {
 
 export function GraphCanvas({ nodes, edges, connectionStatus }: GraphCanvasProps) {
   return (
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      nodeTypes={nodeTypes}
-      edgeTypes={edgeTypes}
-      onInit={(instance) => instance.fitView()}
-      defaultEdgeOptions={{ type: "custom" }}
-      proOptions={{ hideAttribution: true }}
-      panOnDrag={false}
-      zoomOnScroll={false}
-      zoomOnPinch={false}
-      zoomOnDoubleClick={false}
-      nodesDraggable={false}
-      nodesConnectable={false}
-      elementsSelectable={false}
-    >
-      <Background color="#334155" gap={20} size={1} />
-      <div className="status-indicator">
-        <div
-          className="status-indicator__dot"
-          style={{
-            background: statusColors[connectionStatus],
-            boxShadow:
-              connectionStatus === "connected"
-                ? `0 0 6px ${statusColors[connectionStatus]}`
-                : undefined,
-          }}
-        />
-        <span>{statusLabels[connectionStatus]}</span>
-      </div>
-    </ReactFlow>
+    <ReactFlowProvider>
+      <style>{`
+        .react-flow__handle {
+          opacity: 0;
+          width: 0px;
+          height: 0px;
+          border: none;
+        }
+      `}</style>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        onInit={(instance) => instance.fitView()}
+        defaultEdgeOptions={{ type: "custom" }}
+        proOptions={{ hideAttribution: true }}
+        panOnDrag={false}
+        zoomOnScroll={false}
+        zoomOnPinch={false}
+        zoomOnDoubleClick={false}
+        nodesDraggable={false}
+        nodesConnectable={false}
+        elementsSelectable={false}
+      >
+        <Background color="#334155" gap={20} size={1} />
+        <div className="status-indicator">
+          <div
+            className="status-indicator__dot"
+            style={{
+              background: statusColors[connectionStatus],
+              boxShadow:
+                connectionStatus === "connected"
+                  ? `0 0 6px ${statusColors[connectionStatus]}`
+                  : undefined,
+            }}
+          />
+          <span>{statusLabels[connectionStatus]}</span>
+        </div>
+      </ReactFlow>
+    </ReactFlowProvider>
   );
 }

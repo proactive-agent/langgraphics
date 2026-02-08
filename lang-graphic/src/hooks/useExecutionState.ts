@@ -1,7 +1,7 @@
 /** Applies WebSocket execution events to node/edge statuses for React Flow. */
 
 import { useMemo } from "react";
-import type { Node, Edge } from "@xyflow/react";
+import type { Node, Edge } from "reactflow";
 import type { NodeData, EdgeData, NodeStatus, EdgeStatus } from "../types/graph";
 import type { ExecutionEvent } from "../types/protocol";
 

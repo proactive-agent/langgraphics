@@ -1,7 +1,7 @@
 /** Hook that computes dagre layout when topology changes. */
 
 import { useMemo } from "react";
-import type { Node, Edge } from "@xyflow/react";
+import type { Node, Edge } from "reactflow";
 import type { GraphMessage } from "../types/protocol";
 import type { NodeData, EdgeData } from "../types/graph";
 import { computeLayout } from "../utils/layout";

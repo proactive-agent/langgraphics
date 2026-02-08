@@ -1,9 +1,10 @@
 /** Dagre-based auto-layout: converts graph topology to positioned React Flow nodes/edges. */
 
 import dagre from "@dagrejs/dagre";
-import type { Node, Edge } from "@xyflow/react";
+import type { Node, Edge } from "reactflow";
 import type { GraphMessage } from "../types/protocol";
 import type { NodeData, EdgeData } from "../types/graph";
+import { indexEdgesToClosePorts, neighborPortId } from "./ports";
 
 const NODE_WIDTH = 180;
 const NODE_HEIGHT = 60;
@@ -65,18 +66,27 @@ export function computeLayout(topology: GraphMessage): {
     };
   });
 
-  // Map to React Flow edges
-  const edges: Edge<EdgeData>[] = topology.edges.map((e) => ({
-    id: e.id,
-    source: e.source,
-    target: e.target,
-    type: "custom",
-    data: {
-      conditional: e.conditional,
-      label: e.label,
-      status: "idle" as const,
-    },
-  }));
+  // Build parallel-edge index for handle assignment
+  const edgeIndex = indexEdgesToClosePorts(topology.edges);
+
+  // Map to React Flow edges with neighbor-port handles
+  const edges: Edge<EdgeData>[] = topology.edges.map((e) => {
+    const idx = edgeIndex.get(e.id) ?? 0;
+
+    return {
+      id: e.id,
+      source: e.source,
+      target: e.target,
+      type: "custom",
+      sourceHandle: neighborPortId(e.target, idx),
+      targetHandle: neighborPortId(e.source, idx),
+      data: {
+        conditional: e.conditional,
+        label: e.label,
+        status: "idle" as const,
+      },
+    };
+  });
 
   return { nodes, edges };
 }
