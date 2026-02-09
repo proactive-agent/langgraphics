@@ -1,5 +1,6 @@
 import ReactFlow, {
   ReactFlowProvider,
+  BackgroundVariant,
   Background,
   type Node,
   type Edge,
@@ -58,7 +59,7 @@ export function GraphCanvas({ nodes, edges, connectionStatus }: GraphCanvasProps
         nodesConnectable={false}
         elementsSelectable={false}
       >
-        <Background color="#334155" gap={20} size={1} />
+        <Background color="white" lineWidth={0.2} gap={25} variant={BackgroundVariant.Lines} />
         <div className="status-indicator">
           <div
             className="status-indicator__dot"

@@ -1,43 +1,34 @@
-/* Custom edge styling for different states */
-
-/* Base edge path */
 .custom-edge {
-  fill: none;
-  stroke-width: 2;
-  transition: stroke 0.3s ease;
+    fill: none;
+    stroke-width: 1;
+    transition: stroke 0.3s ease;
 }
 
-/* Idle edge */
 .custom-edge--idle {
-  stroke: #94a3b8;
+    stroke: #94a3b8;
 }
 
-/* Active edge: green with animated dot */
 .custom-edge--active {
-  stroke: #22c55e;
-  stroke-width: 2.5;
+    stroke: #22c55e;
+    stroke-width: 1;
 }
 
-/* Traversed edge: blue */
 .custom-edge--traversed {
-  stroke: #3b82f6;
-  stroke-width: 2;
+    stroke: #3b82f6;
+    stroke-width: 1;
 }
 
-/* Conditional edge dashes */
 .custom-edge--conditional {
-  stroke-dasharray: 6 4;
+    stroke-dasharray: 3 2;
 }
 
-/* Animated dot on active edges */
 .custom-edge__dot {
-  fill: #22c55e;
+    fill: #22c55e;
 }
 
-/* Edge label */
 .custom-edge__label {
-  font-size: 10px;
-  fill: #64748b;
-  text-anchor: middle;
-  dominant-baseline: central;
+    font-size: 10px;
+    fill: #64748b;
+    text-anchor: middle;
+    dominant-baseline: central;
 }
