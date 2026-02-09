@@ -83,9 +83,9 @@ export const CustomEdge = memo(function CustomEdge(props: EdgeProps | any) {
             {status === "active" && (
                 <circle className="custom-edge__dot" r={2}>
                     <animateMotion
-                        dur="1s"
-                        repeatCount="indefinite"
+                        dur="0.75s"
                         path={edgePath}
+                        repeatCount={"indefinite"}
                     />
                 </circle>
             )}
