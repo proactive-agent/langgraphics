@@ -13,9 +13,6 @@ interface UseWebSocketReturn {
   reconnect: () => void;
 }
 
-const RECONNECT_BASE_MS = 1000;
-const RECONNECT_MAX_MS = 10000;
-
 export function useWebSocket(url: string): UseWebSocketReturn {
   const [topology, setTopology] = useState<GraphMessage | null>(null);
   const [events, setEvents] = useState<ExecutionEvent[]>([]);
@@ -92,22 +89,18 @@ export function useWebSocket(url: string): UseWebSocketReturn {
 
     function scheduleReconnect() {
       if (unmounted) return;
-      const delay = Math.min(
-        RECONNECT_BASE_MS * 2 ** reconnectAttempt.current,
-        RECONNECT_MAX_MS
-      );
       reconnectAttempt.current++;
-      reconnectTimer.current = setTimeout(connect, delay);
+      reconnectTimer.current = setTimeout(connect, 1000);
     }
 
     connect();
 
-    // Ping keepalive every 30s
+    // Ping keepalive every 10s
     const pingInterval = setInterval(() => {
       if (wsRef.current?.readyState === WebSocket.OPEN) {
         wsRef.current.send(JSON.stringify({ type: "ping" }));
       }
-    }, 30000);
+    }, 10000);
 
     return () => {
       unmounted = true;
