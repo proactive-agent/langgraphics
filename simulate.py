@@ -1,6 +1,5 @@
 import asyncio
 import json
-import sys
 import time
 
 import websockets
@@ -35,9 +34,10 @@ DEFAULT_MESSAGES: list[dict] = [
     {"type": "node_end", "node": "generate", "task_id": "d1c8b9e7", "timestamp": 1770567310.8824415},
     {"type": "edge_active", "source": "generate", "target": "__end__", "edge_id": "e1",
      "timestamp": 1770567364.1234567},
+    {"type": "run_end", "timestamp": 1770567364.1234567},
 ]
 
-DELAY = 1  # seconds between messages
+DELAY = 3  # seconds — only applied after edge_* messages
 
 connected: set[websockets.WebSocketServerProtocol] = set()
 
@@ -46,10 +46,8 @@ async def handler(ws: websockets.WebSocketServerProtocol) -> None:
     connected.add(ws)
     print(f"[+] client connected  ({len(connected)} total)")
     try:
-        async for raw in ws:
-            msg = json.loads(raw)
-            if msg.get("type") == "ping":
-                await ws.send(json.dumps({"type": "pong"}))
+        async for _raw in ws:
+            pass  # ignore client messages
     except websockets.ConnectionClosed:
         pass
     finally:
@@ -74,7 +72,7 @@ async def replay(messages: list[dict]) -> None:
     while not connected:
         await asyncio.sleep(0.1)
 
-    print(f"Replaying {len(messages)} messages (interval={DELAY}s) …")
+    print(f"Replaying {len(messages)} messages …")
     for i, msg in enumerate(messages):
         print(f"  [{i + 1}/{len(messages)}] {msg['type']}", end="")
         if "node" in msg:
@@ -85,26 +83,20 @@ async def replay(messages: list[dict]) -> None:
 
         await broadcast(msg)
 
-        if i < len(messages) - 1:
+        if msg["type"].startswith("edge_"):
             await asyncio.sleep(DELAY)
 
     print("Done.")
 
 
-async def main(messages: list[dict]) -> None:
+async def main() -> None:
     async with serve(handler, "localhost", 8765):
         print("WebSocket server listening on ws://localhost:8765")
-        await replay(messages)
+        await replay(DEFAULT_MESSAGES)
 
 
 if __name__ == "__main__":
-    messages = DEFAULT_MESSAGES
-    if len(sys.argv) > 1:
-        with open(sys.argv[1]) as f:
-            messages = json.load(f)
-        print(f"Loaded {len(messages)} messages from {sys.argv[1]}")
-
     try:
-        asyncio.run(main(messages))
+        asyncio.run(main())
     except KeyboardInterrupt:
         print("\nStopped.")
