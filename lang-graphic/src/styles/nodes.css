@@ -18,18 +18,18 @@
 }
 
 .custom-node--start {
-    background: #f0fdf4;
-    border: 2px solid #86efac;
-    color: #166534;
+    background: #658bcb;
+    border: 1px solid #194eff;
+    color: #21367c;
     border-radius: 20px;
     padding: 6px 16px;
     font-size: 11px;
 }
 
 .custom-node--end {
-    background: #fef2f2;
-    border: 2px solid #ef4444;
-    color: #991b1b;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    color: #334155;
     border-radius: 20px;
     padding: 6px 16px;
     font-size: 11px;

@@ -53,7 +53,16 @@ export function useExecutionState(
                             edgeStatuses.set(id, "traversed");
                         }
                     }
+
+                    // Activate the target node at the same time as the edge
+                    for (const [id, status] of nodeStatuses) {
+                        if (status === "active") {
+                            nodeStatuses.set(id, "completed");
+                        }
+                    }
+
                     edgeStatuses.set(event.edge_id, "active");
+                    nodeStatuses.set(event.target, "active");
                     break;
 
                 case "run_end":
