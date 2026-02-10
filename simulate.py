@@ -6,15 +6,51 @@ import websockets
 from websockets.asyncio.server import serve
 
 DEFAULT_MESSAGES: list[dict] = [
-    {"type": "graph", "nodes": [{"id": "__start__", "name": "__start__", "node_type": "start"},
-                                {"id": "generate", "name": "generate", "node_type": "node"},
-                                {"id": "reflect", "name": "reflect", "node_type": "node"},
-                                {"id": "__end__", "name": "__end__", "node_type": "end"}],
-     "edges": [{"id": "e0", "source": "__start__", "target": "generate", "conditional": False, "label": None},
-               {"id": "e1", "source": "generate", "target": "__end__", "conditional": True, "label": None},
-               {"id": "e2", "source": "generate", "target": "reflect", "conditional": True, "label": None},
-               {"id": "e3", "source": "reflect", "target": "generate", "conditional": False, "label": None}]},
-    {"type": "edge_active", "source": "__start__", "target": "generate", "edge_id": "e0"},
+    {
+        "type": "graph",
+        "nodes": [
+            {"id": "__start__", "name": "__start__", "node_type": "start"},
+            {"id": "generate", "name": "generate", "node_type": "node"},
+            {"id": "reflect", "name": "reflect", "node_type": "node"},
+            {"id": "__end__", "name": "__end__", "node_type": "end"},
+        ],
+        "edges": [
+            {
+                "id": "e0",
+                "source": "__start__",
+                "target": "generate",
+                "conditional": False,
+                "label": None,
+            },
+            {
+                "id": "e1",
+                "source": "generate",
+                "target": "__end__",
+                "conditional": True,
+                "label": None,
+            },
+            {
+                "id": "e2",
+                "source": "generate",
+                "target": "reflect",
+                "conditional": True,
+                "label": None,
+            },
+            {
+                "id": "e3",
+                "source": "reflect",
+                "target": "generate",
+                "conditional": False,
+                "label": None,
+            },
+        ],
+    },
+    {
+        "type": "edge_active",
+        "source": "__start__",
+        "target": "generate",
+        "edge_id": "e0",
+    },
     {"type": "edge_active", "source": "generate", "target": "reflect", "edge_id": "e2"},
     {"type": "edge_active", "source": "reflect", "target": "generate", "edge_id": "e3"},
     {"type": "edge_active", "source": "generate", "target": "reflect", "edge_id": "e2"},

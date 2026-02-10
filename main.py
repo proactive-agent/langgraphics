@@ -87,7 +87,9 @@ def should_continue(state: MessageGraph):
     return REFLECT
 
 
-builder.add_conditional_edges(GENERATE, should_continue, path_map={END: END, REFLECT: REFLECT})
+builder.add_conditional_edges(
+    GENERATE, should_continue, path_map={END: END, REFLECT: REFLECT}
+)
 builder.add_edge(REFLECT, GENERATE)
 
 graph = builder.compile()
@@ -98,7 +100,8 @@ async def main():
     inputs = {
         "messages": [
             HumanMessage(
-                content="""Make this tweet better:"@LangChainAI — newly Tool Calling feature is seriously underrated. After a long wait, it's here - making the implementation of agents across different models with function calling""")
+                content="""Make this tweet better:"@LangChainAI — newly Tool Calling feature is seriously underrated. After a long wait, it's here - making the implementation of agents across different models with function calling"""
+            )
         ]
     }
     print(await graph.ainvoke(inputs))

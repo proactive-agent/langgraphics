@@ -11,12 +11,14 @@ def extract_topology(graph: Any) -> dict[str, Any]:
 
     edges = []
     for i, edge in enumerate(raw.edges):
-        edges.append({
-            "id": f"e{i}",
-            "source": edge.source,
-            "target": edge.target,
-            "conditional": edge.conditional,
-            "label": str(edge.data) if edge.data is not None else None,
-        })
+        edges.append(
+            {
+                "id": f"e{i}",
+                "source": edge.source,
+                "target": edge.target,
+                "conditional": edge.conditional,
+                "label": str(edge.data) if edge.data is not None else None,
+            }
+        )
 
     return {"type": "graph", "nodes": nodes, "edges": edges}

@@ -81,7 +81,9 @@ def _start_http_server(host: str, port: int) -> TCPServer:
     return server
 
 
-def _start_ws_server(manager: ConnectionManager, host: str, port: int) -> threading.Thread:
+def _start_ws_server(
+    manager: ConnectionManager, host: str, port: int
+) -> threading.Thread:
     async def _run() -> None:
         manager._loop = asyncio.get_running_loop()
         server = await serve(manager.handler, host, port)
@@ -99,12 +101,12 @@ def _start_ws_server(manager: ConnectionManager, host: str, port: int) -> thread
 
 
 def visualize(
-        graph: Any,
-        *,
-        host: str = "localhost",
-        port: int = 8764,
-        ws_port: int = 8765,
-        open_browser: bool = True,
+    graph: Any,
+    *,
+    host: str = "localhost",
+    port: int = 8764,
+    ws_port: int = 8765,
+    open_browser: bool = True,
 ) -> VisualizedGraph:
     manager = ConnectionManager()
     topology = extract_topology(graph)
