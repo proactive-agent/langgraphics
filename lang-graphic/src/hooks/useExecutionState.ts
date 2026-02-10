@@ -32,20 +32,6 @@ export function useExecutionState(
                     edgeStatuses.clear();
                     break;
 
-                case "node_start":
-                    // Mark any previously active node as completed
-                    for (const [id, status] of nodeStatuses) {
-                        if (status === "active") {
-                            nodeStatuses.set(id, "completed");
-                        }
-                    }
-                    nodeStatuses.set(event.node, "active");
-                    break;
-
-                case "node_end":
-                    nodeStatuses.set(event.node, "completed");
-                    break;
-
                 case "edge_active":
                     // Mark previously active edges as traversed
                     for (const [id, status] of edgeStatuses) {

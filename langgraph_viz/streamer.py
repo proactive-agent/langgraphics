@@ -24,11 +24,11 @@ class VisualizedGraph:
     """
 
     def __init__(
-        self,
-        graph: Any,
-        ws_manager: ConnectionManager,
-        edge_lookup: dict[tuple[str, str], str],
-        http_server: TCPServer,
+            self,
+            graph: Any,
+            ws_manager: ConnectionManager,
+            edge_lookup: dict[tuple[str, str], str],
+            http_server: TCPServer,
     ) -> None:
         self._graph = graph
         self._ws = ws_manager
@@ -79,15 +79,13 @@ class VisualizedGraph:
         result: Any = None
 
         async for chunk in self._graph.astream(
-            input, config=config, stream_mode="updates", **kwargs
+                input, config=config, stream_mode="updates", **kwargs
         ):
             # In "updates" mode, each chunk is a dict: {node_name: output}
             if isinstance(chunk, dict):
                 for node_name in chunk:
                     if node_name == "__metadata__":
                         continue
-
-                    task_id = str(uuid.uuid4())[:8]
 
                     # Emit edge_active if we can infer the transition
                     edge_key = (last_node, node_name)
@@ -96,15 +94,6 @@ class VisualizedGraph:
                         await self._broadcast(
                             protocol.edge_active_message(last_node, node_name, edge_id)
                         )
-
-                    # Emit node_start
-                    await self._broadcast(protocol.node_start_message(node_name, task_id))
-
-                    # Small delay so the frontend can show the active state
-                    await asyncio.sleep(0.3)
-
-                    # Emit node_end
-                    await self._broadcast(protocol.node_end_message(node_name, task_id))
 
                     last_node = node_name
                     result = chunk[node_name]
@@ -118,12 +107,13 @@ class VisualizedGraph:
                     protocol.edge_active_message(last_node, "__end__", edge_id)
                 )
 
+        await asyncio.sleep(1)
         await self._broadcast(protocol.run_end_message(run_id))
         self.shutdown()
         return result
 
     async def astream(
-        self, input: Any, config: Any = None, **kwargs: Any
+            self, input: Any, config: Any = None, **kwargs: Any
     ) -> AsyncIterator:
         """
         Stream graph execution, forwarding events to the frontend while
@@ -150,9 +140,6 @@ class VisualizedGraph:
                             protocol.edge_active_message(last_node, node_name, edge_id)
                         )
 
-                    await self._broadcast(protocol.node_start_message(node_name, task_id))
-                    await asyncio.sleep(0.3)
-                    await self._broadcast(protocol.node_end_message(node_name, task_id))
                     last_node = node_name
 
             yield chunk
