@@ -1,15 +1,33 @@
 [project]
 name = "langgraphics"
 version = "0.1.0"
+description = "Visualize live LangGraph execution and see how your agent thinks as it runs."
+readme = "README.md"
+license = "MIT"
 requires-python = ">=3.12"
+authors = [
+    { name = "Artyom Vancyan" },
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
 dependencies = [
-    "dotenv>=0.9.9",
-    "grandalf>=0.8",
+    "websockets>=14.0",
+]
+
+[dependency-groups]
+dev = [
     "langchain>=1.2.7",
     "langchain-ollama>=1.0.1",
     "langchain-openai>=1.1.7",
     "langgraph>=1.0.7",
-    "websockets>=14.0",
+    "python-dotenv>=1.2.1",
+    "ruff>=0.15.0",
 ]
 
 [build-system]
