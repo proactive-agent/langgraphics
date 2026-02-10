@@ -2,7 +2,7 @@
 name = "langgraphics"
 version = "0.1.0"
 description = "Visualize live LangGraph execution and see how your agent thinks as it runs."
-readme = "README.md"
+readme = { file = "README.md", content-type = "text/markdown" }
 license = "MIT"
 requires-python = ">=3.12"
 authors = [
