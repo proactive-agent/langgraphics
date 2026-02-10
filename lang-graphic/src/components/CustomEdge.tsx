@@ -1,29 +1,12 @@
 import {memo} from "react";
 import {type Edge, type EdgeProps, getBezierPath, useStore} from "reactflow";
-import type {EdgeData} from "../types/graph";
-import {pairKey, safeEdgesFromStore} from "../utils/ports";
-import "../styles/edges.css";
+import type {EdgeData} from "../types";
+import {pairKey, safeEdgesFromStore} from "../layout";
 
-/**
- * Custom edge with:
- * - Parallel edge curve offsets (when multiple edges share the same ports)
- * - Status-based CSS classes for execution visualization
- * - Animated dot on active edges
- * - Conditional edge dashes + labels
- */
 export const CustomEdge = memo(function CustomEdge(props: EdgeProps | any) {
     const {
-        id,
-        source,
-        target,
-        sourceHandle,
-        targetHandle,
-        sourceX,
-        sourceY,
-        targetX,
-        targetY,
-        sourcePosition,
-        targetPosition,
+        id, source, target, sourceHandle, targetHandle,
+        sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition,
         data: rawData,
     } = props;
 
@@ -34,23 +17,15 @@ export const CustomEdge = memo(function CustomEdge(props: EdgeProps | any) {
 
     const edges = useStore(safeEdgesFromStore) as Edge[];
 
-    // Find edges sharing the exact same pair of ports for curve offset
     const portKey = `${pairKey(source, target)}|${sourceHandle ?? ""}|${targetHandle ?? ""}`;
     const group = edges
-    .filter(
-        (e) =>
-            `${pairKey(e.source, e.target)}|${e.sourceHandle ?? ""}|${e.targetHandle ?? ""}` ===
-            portKey
-    )
+    .filter((e) => `${pairKey(e.source, e.target)}|${e.sourceHandle ?? ""}|${e.targetHandle ?? ""}` === portKey)
     .slice()
     .sort((a, b) => a.id.localeCompare(b.id));
 
     const idx = group.findIndex((e) => e.id === id);
     const n = group.length;
-
-    // Perpendicular offset for parallel edges sharing the same ports
-    const gap = 6;
-    const delta = n <= 1 ? 0 : (idx - (n - 1) / 2) * gap;
+    const delta = n <= 1 ? 0 : (idx - (n - 1) / 2) * 6;
 
     const dx = targetX - sourceX;
     const dy = targetY - sourceY;
@@ -59,41 +34,22 @@ export const CustomEdge = memo(function CustomEdge(props: EdgeProps | any) {
     const py = (dx / len) * delta;
 
     const [edgePath, labelX, labelY] = getBezierPath({
-        sourceX: sourceX + px,
-        sourceY: sourceY + py,
-        sourcePosition,
-        targetX: targetX + px,
-        targetY: targetY + py,
-        targetPosition,
+        sourceX: sourceX + px, sourceY: sourceY + py, sourcePosition,
+        targetX: targetX + px, targetY: targetY + py, targetPosition,
         curvature: 0.2,
     });
 
-    const statusClass = `custom-edge custom-edge--${status}${
-        conditional ? " custom-edge--conditional" : ""
-    }`;
+    const statusClass = `custom-edge custom-edge--${status}${conditional ? " custom-edge--conditional" : ""}`;
 
     return (
         <>
-            <path
-                id={id}
-                className={statusClass}
-                d={edgePath}
-                markerEnd={`url(#arrow-${status})`}
-            />
+            <path id={id} className={statusClass} d={edgePath} markerEnd={`url(#arrow-${status})`}/>
             {status === "active" && (
                 <circle className="custom-edge__dot" r={2}>
-                    <animateMotion
-                        dur="0.75s"
-                        path={edgePath}
-                        repeatCount={"indefinite"}
-                    />
+                    <animateMotion dur="0.75s" path={edgePath} repeatCount="indefinite"/>
                 </circle>
             )}
-            {label && (
-                <text x={labelX} y={labelY - 10} className="custom-edge__label">
-                    {label}
-                </text>
-            )}
+            {label && <text x={labelX} y={labelY - 10} className="custom-edge__label">{label}</text>}
         </>
     );
 });
