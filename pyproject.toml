@@ -1,5 +1,5 @@
 [project]
-name = "lang-api"
+name = "langgraphics"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
@@ -17,7 +17,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build]
-include = ["langgraph_viz/**/*"]
+include = ["langgraphics/**/*"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["langgraph_viz"]
+packages = ["langgraphics"]

@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
     plugins: [react()],
     build: {
-        outDir: '../langgraph_viz/static',
+        outDir: '../langgraphics/static',
         emptyOutDir: true,
     },
     server: {

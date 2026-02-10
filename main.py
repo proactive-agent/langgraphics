@@ -10,7 +10,7 @@ from langchain_openai import AzureChatOpenAI
 from langgraph.graph import END, StateGraph
 from langgraph.graph.message import add_messages
 
-from langgraph_viz import visualize
+from langgraphics import visualize
 
 load_dotenv()
 

@@ -8,10 +8,10 @@ from collections.abc import AsyncIterator
 from socketserver import TCPServer
 from typing import TYPE_CHECKING, Any
 
-from langgraph_viz import protocol
+from langgraphics import protocol
 
 if TYPE_CHECKING:
-    from langgraph_viz.server import ConnectionManager
+    from langgraphics.server import ConnectionManager
 
 
 class VisualizedGraph:

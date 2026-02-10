@@ -15,8 +15,8 @@ from typing import Any
 import websockets
 from websockets.asyncio.server import Server, serve
 
-from langgraph_viz.extractor import build_edge_lookup, extract_topology
-from langgraph_viz.streamer import VisualizedGraph
+from langgraphics.extractor import build_edge_lookup, extract_topology
+from langgraphics.streamer import VisualizedGraph
 
 STATIC_DIR = Path(__file__).parent / "static"
 
