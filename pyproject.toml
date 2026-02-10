@@ -11,3 +11,13 @@ dependencies = [
     "langgraph>=1.0.7",
     "websockets>=14.0",
 ]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = ["langgraph_viz/**/*"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["langgraph_viz"]

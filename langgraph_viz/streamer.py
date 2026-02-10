@@ -5,9 +5,13 @@ from __future__ import annotations
 import asyncio
 import uuid
 from collections.abc import AsyncIterator
-from typing import Any
+from socketserver import TCPServer
+from typing import TYPE_CHECKING, Any
 
 from langgraph_viz import protocol
+
+if TYPE_CHECKING:
+    from langgraph_viz.server import ConnectionManager
 
 
 class VisualizedGraph:
@@ -22,12 +26,14 @@ class VisualizedGraph:
     def __init__(
         self,
         graph: Any,
-        ws_manager: Any,
+        ws_manager: ConnectionManager,
         edge_lookup: dict[tuple[str, str], str],
+        http_server: TCPServer,
     ) -> None:
         self._graph = graph
         self._ws = ws_manager
         self._edge_lookup = edge_lookup
+        self._http_server = http_server
 
     def __getattr__(self, name: str) -> Any:
         # Delegate anything not explicitly defined to the underlying graph
@@ -46,6 +52,18 @@ class VisualizedGraph:
             await asyncio.wrap_future(future)
         except Exception:
             pass
+
+    def shutdown(self) -> None:
+        """Gracefully stop both the HTTP and WebSocket servers.
+
+        1. Closes all WebSocket connections and stops the WS server.
+        2. Stops the HTTP server.
+
+        Safe to call multiple times — subsequent calls are no-ops.
+        """
+        self._ws.shutdown()
+        self._http_server.shutdown()
+        print("[langgraph-viz] Servers stopped.")
 
     async def ainvoke(self, input: Any, config: Any = None, **kwargs: Any) -> Any:
         """
@@ -101,6 +119,7 @@ class VisualizedGraph:
                 )
 
         await self._broadcast(protocol.run_end_message(run_id))
+        self.shutdown()
         return result
 
     async def astream(
