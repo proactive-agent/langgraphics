@@ -1,4 +1,4 @@
-import {Position} from "reactflow";
+import {Position} from "@xyflow/react";
 
 export type NodeStatus = "idle" | "active" | "completed" | "error";
 export type EdgeStatus = "idle" | "active" | "traversed";
@@ -10,14 +10,14 @@ export interface NodeHandle {
     style: { top?: string; left?: string; transform: string };
 }
 
-export interface NodeData {
+export interface NodeData extends Record<string, unknown> {
     label: string;
     nodeType: "start" | "end" | "node";
     status: NodeStatus;
     handles: NodeHandle[];
 }
 
-export interface EdgeData {
+export interface EdgeData extends Record<string, unknown> {
     conditional: boolean;
     label: string | null;
     status: EdgeStatus;

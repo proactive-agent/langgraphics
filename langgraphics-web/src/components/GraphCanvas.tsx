@@ -1,10 +1,10 @@
-import ReactFlow, {Background, BackgroundVariant, type Edge, type Node, ReactFlowProvider} from "reactflow";
-import "reactflow/dist/style.css";
+import {ReactFlow, Background, BackgroundVariant, type Edge, type Node, type NodeTypes, ReactFlowProvider} from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
 import {CustomNode} from "./CustomNode";
 import type {EdgeData, NodeData} from "../types";
 import type {ConnectionStatus} from "../hooks";
 
-const nodeTypes = {custom: CustomNode};
+const nodeTypes: NodeTypes = {custom: CustomNode as NodeTypes[string]};
 
 const STATUS_COLOR: Record<ConnectionStatus, string> = {
     connected: "#22c55e",

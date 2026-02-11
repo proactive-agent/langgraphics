@@ -1,6 +1,6 @@
 import dagre from "@dagrejs/dagre";
-import {Position} from "reactflow";
-import type {Edge, Node} from "reactflow";
+import {Position} from "@xyflow/react";
+import type {Edge, Node} from "@xyflow/react";
 import type {EdgeData, GraphMessage, NodeData} from "./types";
 
 const NODE_WIDTH = 180;
@@ -54,8 +54,8 @@ export function computeLayout(topology: GraphMessage): {
             const step = 100 / (ids.length + 1);
             ids.forEach((id, i) => handles.push({
                 id,
-                type: id.startsWith("src:") ? "source" : "target",
                 position,
+                type: id.startsWith("src:") ? "source" : "target",
                 style: {left: `${step * (i + 1)}%`, transform: "translateX(-50%)"},
             }));
         }

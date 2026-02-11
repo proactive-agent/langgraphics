@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "@dagrejs/dagre": "^1.1.4",
+    "@xyflow/react": "^12.10.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "reactflow": "^11.11.4"
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",

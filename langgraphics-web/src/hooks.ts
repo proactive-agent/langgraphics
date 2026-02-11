@@ -1,5 +1,5 @@
 import {useEffect, useMemo, useRef, useState} from "react";
-import {type Edge, MarkerType, type Node} from "reactflow";
+import {type Edge, MarkerType, type Node} from "@xyflow/react";
 import type {EdgeData, EdgeStatus, ExecutionEvent, GraphMessage, NodeData, NodeStatus, WsMessage} from "./types";
 import {computeLayout} from "./layout";
 
