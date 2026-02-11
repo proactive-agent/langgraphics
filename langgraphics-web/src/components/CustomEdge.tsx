@@ -13,7 +13,6 @@ export const CustomEdge = memo(function CustomEdge(props: EdgeProps | any) {
     const data = rawData as EdgeData | undefined;
     const status = data?.status ?? "idle";
     const conditional = data?.conditional ?? false;
-    const label = data?.label ?? null;
 
     const edges = useStore(safeEdgesFromStore) as Edge[];
 
@@ -33,23 +32,18 @@ export const CustomEdge = memo(function CustomEdge(props: EdgeProps | any) {
     const px = (-dy / len) * delta;
     const py = (dx / len) * delta;
 
-    const [edgePath, labelX, labelY] = getBezierPath({
+    const [edgePath, _1, _2] = getBezierPath({
         sourceX: sourceX + px, sourceY: sourceY + py, sourcePosition,
         targetX: targetX + px, targetY: targetY + py, targetPosition,
         curvature: 0.2,
     });
 
-    const statusClass = `custom-edge custom-edge--${status}${conditional ? " custom-edge--conditional" : ""}`;
-
     return (
-        <>
-            <path id={id} className={statusClass} d={edgePath} markerEnd={`url(#arrow-${status})`}/>
-            {status === "active" && (
-                <circle className="custom-edge__dot" r={2}>
-                    <animateMotion dur="0.75s" path={edgePath} repeatCount="indefinite"/>
-                </circle>
-            )}
-            {label && <text x={labelX} y={labelY - 10} className="custom-edge__label">{label}</text>}
-        </>
+        <path
+            id={id}
+            d={edgePath}
+            markerEnd={`url(#arrow-${status})`}
+            className={`custom-edge custom-edge--${status}${conditional ? " custom-edge--conditional" : ""}`}
+        />
     );
 });

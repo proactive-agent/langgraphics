@@ -133,9 +133,9 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
             const status = edgeStatuses.get(edge.id);
             const markerEnd = {type: MarkerType.Arrow};
             if (status && edge.data && status !== edge.data.status) {
-                return {...edge, data: {...edge.data, status}, markerEnd};
+                return {...edge, animated: status === "active", data: {...edge.data, status}, markerEnd};
             }
-            return {...edge, markerEnd};
+            return {...edge, animated: status === "active", markerEnd};
         });
 
         return {nodes, edges};

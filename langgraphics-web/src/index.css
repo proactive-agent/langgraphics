@@ -141,8 +141,9 @@ html, body, #root {
     stroke-width: 1;
 }
 
+.animated .custom-edge,
 .custom-edge--conditional {
-    stroke-dasharray: 3 2;
+    stroke-dasharray: 3 2 !important;
 }
 
 .custom-edge__dot {
