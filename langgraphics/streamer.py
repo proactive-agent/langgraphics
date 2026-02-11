@@ -10,48 +10,41 @@ class VisualizedGraph:
     def __init__(
         self,
         graph: Any,
-        ws_manager: Any,
+        ws: Any,
         edge_lookup: dict[tuple[str, str], str],
         http_server: TCPServer,
     ) -> None:
         self._graph = graph
-        self._ws = ws_manager
+        self._ws = ws
         self._edge_lookup = edge_lookup
         self._http_server = http_server
 
     def __getattr__(self, name: str) -> Any:
         return getattr(self._graph, name)
 
-    @staticmethod
-    def _run_start(run_id: str) -> str:
-        return json.dumps({"type": "run_start", "run_id": run_id})
-
-    @staticmethod
-    def _run_end(run_id: str) -> str:
-        return json.dumps({"type": "run_end", "run_id": run_id})
-
-    @staticmethod
-    def _edge_active(source: str, target: str, edge_id: str) -> str:
-        return json.dumps(
-            {
-                "type": "edge_active",
-                "source": source,
-                "target": target,
-                "edge_id": edge_id,
-            }
-        )
-
-    async def _broadcast(self, message: str) -> None:
+    async def _broadcast(self, message: dict[str, Any]) -> None:
         if self._ws._loop is None:
             return
         try:
             await asyncio.wrap_future(
                 asyncio.run_coroutine_threadsafe(
-                    self._ws.broadcast(message), self._ws._loop
+                    self._ws.broadcast(json.dumps(message)), self._ws._loop
                 )
             )
         except Exception:
             pass
+
+    async def _emit_edge(self, source: str, target: str) -> None:
+        edge_id = self._edge_lookup.get((source, target))
+        if edge_id:
+            await self._broadcast(
+                {
+                    "type": "edge_active",
+                    "source": source,
+                    "target": target,
+                    "edge_id": edge_id,
+                }
+            )
 
     def shutdown(self) -> None:
         self._ws.shutdown()
@@ -59,10 +52,10 @@ class VisualizedGraph:
         print("[langgraphics] Servers stopped.")
 
     async def ainvoke(self, input: Any, config: Any = None, **kwargs: Any) -> Any:
-        run_id = str(uuid.uuid4())[:8]
-        await self._broadcast(self._run_start(run_id))
+        run_id = uuid.uuid4().hex[:8]
+        await self._broadcast({"type": "run_start", "run_id": run_id})
 
-        last_node: str | None = "__start__"
+        last_node = "__start__"
         result: Any = None
 
         async for chunk in self._graph.astream(
@@ -72,30 +65,23 @@ class VisualizedGraph:
                 for node_name in chunk:
                     if node_name == "__metadata__":
                         continue
-                    edge_id = self._edge_lookup.get((last_node, node_name))
-                    if edge_id:
-                        await self._broadcast(
-                            self._edge_active(last_node, node_name, edge_id)
-                        )
+                    await self._emit_edge(last_node, node_name)
                     last_node = node_name
                     result = chunk[node_name]
 
-        edge_id = self._edge_lookup.get((last_node, "__end__"))
-        if edge_id:
-            await self._broadcast(self._edge_active(last_node, "__end__", edge_id))
-
+        await self._emit_edge(last_node, "__end__")
         await asyncio.sleep(1)
-        await self._broadcast(self._run_end(run_id))
+        await self._broadcast({"type": "run_end", "run_id": run_id})
         self.shutdown()
         return result
 
     async def astream(
         self, input: Any, config: Any = None, **kwargs: Any
     ) -> AsyncIterator:
-        run_id = str(uuid.uuid4())[:8]
-        await self._broadcast(self._run_start(run_id))
+        run_id = uuid.uuid4().hex[:8]
+        await self._broadcast({"type": "run_start", "run_id": run_id})
 
-        last_node: str = "__start__"
+        last_node = "__start__"
         stream_mode = kwargs.get("stream_mode", "values")
 
         async for chunk in self._graph.astream(input, config=config, **kwargs):
@@ -103,19 +89,14 @@ class VisualizedGraph:
                 for node_name in chunk:
                     if node_name == "__metadata__":
                         continue
-                    edge_id = self._edge_lookup.get((last_node, node_name))
-                    if edge_id:
-                        await self._broadcast(
-                            self._edge_active(last_node, node_name, edge_id)
-                        )
+                    await self._emit_edge(last_node, node_name)
                     last_node = node_name
             yield chunk
 
-        edge_id = self._edge_lookup.get((last_node, "__end__"))
-        if last_node != "__start__" and edge_id:
-            await self._broadcast(self._edge_active(last_node, "__end__", edge_id))
+        if last_node != "__start__":
+            await self._emit_edge(last_node, "__end__")
 
-        await self._broadcast(self._run_end(run_id))
+        await self._broadcast({"type": "run_end", "run_id": run_id})
 
     def invoke(self, input: Any, config: Any = None, **kwargs: Any) -> Any:
         return asyncio.run(self.ainvoke(input, config=config, **kwargs))

@@ -4,14 +4,20 @@ from typing import Any
 def extract_topology(graph: Any) -> dict[str, Any]:
     raw = graph.get_graph()
 
-    nodes = []
-    for node_id, node in raw.nodes.items():
-        node_type = {"__start__": "start", "__end__": "end"}.get(node.name, "node")
-        nodes.append({"id": node_id, "name": node.name, "node_type": node_type})
-
-    edges = []
-    for i, edge in enumerate(raw.edges):
-        edges.append(
+    return {
+        "type": "graph",
+        "nodes": [
+            {
+                "id": node_id,
+                "name": node.name,
+                "node_type": {
+                    "__end__": "end",
+                    "__start__": "start",
+                }.get(node.name, "node"),
+            }
+            for node_id, node in raw.nodes.items()
+        ],
+        "edges": [
             {
                 "id": f"e{i}",
                 "source": edge.source,
@@ -19,6 +25,6 @@ def extract_topology(graph: Any) -> dict[str, Any]:
                 "conditional": edge.conditional,
                 "label": str(edge.data) if edge.data is not None else None,
             }
-        )
-
-    return {"type": "graph", "nodes": nodes, "edges": edges}
+            for i, edge in enumerate(raw.edges)
+        ],
+    }

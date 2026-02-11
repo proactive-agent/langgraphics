@@ -11,48 +11,36 @@ from typing import Any
 import websockets
 from websockets.asyncio.server import Server, serve
 
-from langgraphics.extractor import extract_topology
-from langgraphics.streamer import VisualizedGraph
+from .extractor import extract_topology
+from .streamer import VisualizedGraph
 
 STATIC_DIR = Path(__file__).parent / "static"
 
 
 class ConnectionManager:
-    def __init__(self) -> None:
-        self.connections: set[Any] = set()
-        self._topology_json: str | None = None
-        self._loop: asyncio.AbstractEventLoop | None = None
-        self._ws_server: Server | None = None
-
-    def set_topology(self, topology: dict[str, Any]) -> None:
+    def __init__(self, topology: dict[str, Any]) -> None:
+        self._connections: set[Any] = set()
         self._topology_json = json.dumps(topology)
+        self._loop: asyncio.AbstractEventLoop | None = None
+        self._server: Server | None = None
 
     async def handler(self, websocket: Any) -> None:
-        self.connections.add(websocket)
+        self._connections.add(websocket)
         try:
-            if self._topology_json:
-                await websocket.send(self._topology_json)
-            async for message in websocket:
-                data = json.loads(message)
-                if data.get("type") == "ping":
-                    await websocket.send(json.dumps({"type": "pong"}))
+            await websocket.send(self._topology_json)
+            async for _message in websocket:
+                pass
         except websockets.exceptions.ConnectionClosed:
             pass
         finally:
-            self.connections.discard(websocket)
+            self._connections.discard(websocket)
 
     async def broadcast(self, message: str) -> None:
-        if not self.connections:
-            return
-        await asyncio.gather(
-            *[conn.send(message) for conn in self.connections],
-            return_exceptions=True,
-        )
-
-    def broadcast_sync(self, message: str) -> None:
-        if self._loop is None or not self.connections:
-            return
-        asyncio.run_coroutine_threadsafe(self.broadcast(message), self._loop)
+        if self._connections:
+            await asyncio.gather(
+                *[c.send(message) for c in self._connections],
+                return_exceptions=True,
+            )
 
     def shutdown(self) -> None:
         loop = self._loop
@@ -60,15 +48,15 @@ class ConnectionManager:
             return
 
         async def _shutdown() -> None:
-            if self.connections:
+            if self._connections:
                 await asyncio.gather(
-                    *[conn.close() for conn in list(self.connections)],
+                    *[c.close() for c in list(self._connections)],
                     return_exceptions=True,
                 )
-                self.connections.clear()
-            if self._ws_server is not None:
-                self._ws_server.close()
-                await self._ws_server.wait_closed()
+                self._connections.clear()
+            if self._server is not None:
+                self._server.close()
+                await self._server.wait_closed()
 
         asyncio.run_coroutine_threadsafe(_shutdown(), loop).result(timeout=5)
         self._loop = None
@@ -81,23 +69,18 @@ def _start_http_server(host: str, port: int) -> TCPServer:
     return server
 
 
-def _start_ws_server(
-    manager: ConnectionManager, host: str, port: int
-) -> threading.Thread:
+def _start_ws_server(manager: ConnectionManager, host: str, port: int) -> None:
     async def _run() -> None:
         manager._loop = asyncio.get_running_loop()
-        server = await serve(manager.handler, host, port)
-        manager._ws_server = server
-        await server.wait_closed()
+        manager._server = await serve(manager.handler, host, port)
+        await manager._server.wait_closed()
 
     def _thread_target() -> None:
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         loop.run_until_complete(_run())
 
-    thread = threading.Thread(target=_thread_target, daemon=True)
-    thread.start()
-    return thread
+    threading.Thread(target=_thread_target, daemon=True).start()
 
 
 def visualize(
@@ -108,10 +91,9 @@ def visualize(
     ws_port: int = 8765,
     open_browser: bool = True,
 ) -> VisualizedGraph:
-    manager = ConnectionManager()
     topology = extract_topology(graph)
+    manager = ConnectionManager(topology)
     edge_lookup = {(e["source"], e["target"]): e["id"] for e in topology["edges"]}
-    manager.set_topology(topology)
 
     http_server = _start_http_server(host, port)
     _start_ws_server(manager, host, ws_port)
