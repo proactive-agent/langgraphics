@@ -1,10 +1,19 @@
+import {Position} from "reactflow";
+
 export type NodeStatus = "idle" | "active" | "completed" | "error";
 export type EdgeStatus = "idle" | "active" | "traversed";
+
+export interface NodeHandle {
+    id: string;
+    position: Position;
+    style: { top?: string; left?: string; transform: string };
+}
 
 export interface NodeData {
     label: string;
     nodeType: "start" | "end" | "node";
     status: NodeStatus;
+    handles: NodeHandle[];
 }
 
 export interface EdgeData {

@@ -1,6 +1,6 @@
 import dagre from "@dagrejs/dagre";
-import {Position} from "reactflow";
 import type {Edge, Node, XYPosition} from "reactflow";
+import {Position} from "reactflow";
 import type {EdgeData, GraphMessage, NodeData} from "./types";
 
 const NODE_WIDTH = 180;
@@ -8,38 +8,18 @@ const NODE_HEIGHT = 60;
 const SMALL_NODE_WIDTH = 120;
 const SMALL_NODE_HEIGHT = 40;
 
-export function pairKey(a: string, b: string) {
+function pairKey(a: string, b: string) {
     return a < b ? `${a}--${b}` : `${b}--${a}`;
 }
 
-export function uniqSorted(xs: string[]) {
-    return Array.from(new Set(xs)).sort((a, b) => a.localeCompare(b));
-}
-
-export function safeEdgesFromStore(s: unknown): unknown[] {
-    const store = s as Record<string, unknown> | null | undefined;
-    return Array.isArray(store?.edges) ? (store.edges as unknown[]) : [];
-}
-
-export function safeNodeAbsPos(s: unknown, nodeId: string): XYPosition | null {
-    const store = s as Record<string, unknown> | null | undefined;
-    const ni = store?.nodeInternals as Map<string, Record<string, unknown>> | undefined;
-    if (!ni || typeof ni.get !== "function") return null;
-    const n = ni.get(nodeId);
-    if (!n) return null;
-    const pa = n.positionAbsolute as XYPosition | undefined;
-    const p = n.position as XYPosition | undefined;
-    return {x: pa?.x ?? p?.x ?? 0, y: pa?.y ?? p?.y ?? 0};
-}
-
-export function facingPosition(from: XYPosition, to: XYPosition): Position {
+function facingPosition(from: XYPosition, to: XYPosition): Position {
     const dx = to.x - from.x;
     const dy = to.y - from.y;
     if (Math.abs(dx) >= Math.abs(dy)) return dx >= 0 ? Position.Right : Position.Left;
     return dy >= 0 ? Position.Bottom : Position.Top;
 }
 
-export function neighborPortId(neighborId: string, idx: number) {
+function neighborPortId(neighborId: string, idx: number) {
     return `nbr:${neighborId}:${idx}`;
 }
 
@@ -69,34 +49,70 @@ export function computeLayout(topology: GraphMessage): {
     g.setDefaultEdgeLabel(() => ({}));
     g.setGraph({rankdir: "TB", ranksep: 80, nodesep: 40, marginx: 20, marginy: 20});
 
-    for (const node of topology.nodes) {
-        const isTerminal = node.node_type === "start" || node.node_type === "end";
-        g.setNode(node.id, {
+    for (const n of topology.nodes) {
+        const isTerminal = n.node_type === "start" || n.node_type === "end";
+        g.setNode(n.id, {
             width: isTerminal ? SMALL_NODE_WIDTH : NODE_WIDTH,
             height: isTerminal ? SMALL_NODE_HEIGHT : NODE_HEIGHT,
         });
     }
-
-    for (const edge of topology.edges) {
-        g.setEdge(edge.source, edge.target);
-    }
-
+    for (const e of topology.edges) g.setEdge(e.source, e.target);
     dagre.layout(g);
 
+    const nodePos = new Map<string, XYPosition>();
+    for (const n of topology.nodes) {
+        const p = g.node(n.id);
+        nodePos.set(n.id, {x: p.x, y: p.y});
+    }
+
+    const edgeIndex = indexEdgesToClosePorts(topology.edges);
+
+    const neighborCounts = new Map<string, Map<string, number>>();
+    for (const e of topology.edges) {
+        const idx = edgeIndex.get(e.id) ?? 0;
+        for (const [nodeId, nbrId] of [[e.source, e.target], [e.target, e.source]]) {
+            if (!neighborCounts.has(nodeId)) neighborCounts.set(nodeId, new Map());
+            const m = neighborCounts.get(nodeId)!;
+            m.set(nbrId, Math.max(m.get(nbrId) ?? 0, idx + 1));
+        }
+    }
+
     const nodes: Node<NodeData>[] = topology.nodes.map((n) => {
-        const pos = g.node(n.id);
         const isTerminal = n.node_type === "start" || n.node_type === "end";
         const w = isTerminal ? SMALL_NODE_WIDTH : NODE_WIDTH;
         const h = isTerminal ? SMALL_NODE_HEIGHT : NODE_HEIGHT;
+        const pos = nodePos.get(n.id)!;
+
+        const bySide = new Map<Position, string[]>();
+        const nbrs = Array.from(neighborCounts.get(n.id)?.entries() ?? [])
+        .sort(([a], [b]) => a.localeCompare(b));
+        for (const [nbrId, count] of nbrs) {
+            const side = facingPosition(pos, nodePos.get(nbrId)!);
+            const arr = bySide.get(side) ?? [];
+            for (let i = 0; i < count; i++) arr.push(neighborPortId(nbrId, i));
+            bySide.set(side, arr);
+        }
+        for (const arr of bySide.values()) arr.sort();
+
+        const handles: NodeData["handles"] = [];
+        for (const [side, ids] of bySide.entries()) {
+            const step = 100 / (ids.length + 1);
+            for (let i = 0; i < ids.length; i++) {
+                const tPct = step * (i + 1);
+                const style = side === Position.Left || side === Position.Right
+                    ? {top: `${tPct}%`, transform: "translateY(-50%)"}
+                    : {left: `${tPct}%`, transform: "translateX(-50%)"};
+                handles.push({id: ids[i], position: side, style});
+            }
+        }
+
         return {
             id: n.id,
             type: "custom",
             position: {x: pos.x - w / 2, y: pos.y - h / 2},
-            data: {label: n.name, nodeType: n.node_type, status: "idle" as const},
+            data: {label: n.name, nodeType: n.node_type, status: "idle" as const, handles},
         };
     });
-
-    const edgeIndex = indexEdgesToClosePorts(topology.edges);
 
     const edges: Edge<EdgeData>[] = topology.edges.map((e) => {
         const idx = edgeIndex.get(e.id) ?? 0;

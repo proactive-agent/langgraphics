@@ -28,9 +28,10 @@ export function GraphCanvas({nodes, edges, connectionStatus}: GraphCanvasProps) 
     return (
         <ReactFlowProvider>
             <ReactFlow
-                nodes={nodes} edges={edges}
+                fitView
+                nodes={nodes}
+                edges={edges}
                 nodeTypes={nodeTypes}
-                onInit={(instance) => instance.fitView()}
                 proOptions={{hideAttribution: true}}
                 panOnDrag={false} zoomOnScroll={false} zoomOnPinch={false}
                 zoomOnDoubleClick={false} nodesDraggable={false}
