@@ -1,7 +1,10 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {type Edge, MarkerType, type Node} from "reactflow";
 import type {EdgeData, EdgeStatus, ExecutionEvent, GraphMessage, NodeData, NodeStatus, WsMessage} from "./types";
 import {computeLayout} from "./layout";
+
+const RECONNECT_INTERVAL = 500;
+const CONNECTION_TIMEOUT = 500;
 
 export type ConnectionStatus = "connecting" | "connected" | "disconnected";
 
@@ -10,20 +13,11 @@ export function useWebSocket(url: string) {
     const [events, setEvents] = useState<ExecutionEvent[]>([]);
     const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("disconnected");
     const wsRef = useRef<WebSocket | null>(null);
-    const reconnectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const [reconnectTrigger, setReconnectTrigger] = useState(0);
-
-    const reconnect = useCallback(() => {
-        if (reconnectTimer.current) {
-            clearTimeout(reconnectTimer.current);
-            reconnectTimer.current = null;
-        }
-        wsRef.current?.close();
-        setReconnectTrigger((t) => t + 1);
-    }, []);
+    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         let unmounted = false;
+        let runDone = false;
 
         function connect() {
             if (unmounted) return;
@@ -31,10 +25,14 @@ export function useWebSocket(url: string) {
             const ws = new WebSocket(url);
             wsRef.current = ws;
 
+            timerRef.current = setTimeout(() => {
+                if (ws.readyState !== WebSocket.OPEN) ws.close();
+            }, CONNECTION_TIMEOUT);
+
             ws.onopen = () => {
-                if (!unmounted) {
-                    setConnectionStatus("connected");
-                }
+                clearTimeout(timerRef.current!);
+                timerRef.current = null;
+                if (!unmounted) setConnectionStatus("connected");
             };
 
             ws.onmessage = (event) => {
@@ -42,12 +40,14 @@ export function useWebSocket(url: string) {
                 try {
                     const msg: WsMessage = JSON.parse(event.data);
                     if (msg.type === "graph") {
+                        runDone = false;
                         setTopology(msg);
                         setEvents([]);
-                    } else if (msg.type === "pong") { /* ignore */
                     } else if (msg.type === "run_start") {
+                        runDone = false;
                         setEvents([msg]);
                     } else {
+                        if (msg.type === "run_end") runDone = true;
                         setEvents((prev) => [...prev, msg as ExecutionEvent]);
                     }
                 } catch { /* ignore parse errors */
@@ -57,36 +57,22 @@ export function useWebSocket(url: string) {
             ws.onclose = () => {
                 if (!unmounted) {
                     setConnectionStatus("disconnected");
-                    scheduleReconnect();
+                    if (!runDone) timerRef.current = setTimeout(connect, RECONNECT_INTERVAL);
                 }
             };
-            ws.onerror = () => {
-                ws.close();
-            };
-        }
-
-        function scheduleReconnect() {
-            if (unmounted) return;
-            reconnectTimer.current = setTimeout(connect, 1000);
+            ws.onerror = () => ws.close();
         }
 
         connect();
 
-        const pingInterval = setInterval(() => {
-            if (wsRef.current?.readyState === WebSocket.OPEN) {
-                wsRef.current.send(JSON.stringify({type: "ping"}));
-            }
-        }, 10000);
-
         return () => {
             unmounted = true;
-            clearInterval(pingInterval);
-            if (reconnectTimer.current) clearTimeout(reconnectTimer.current);
+            if (timerRef.current) clearTimeout(timerRef.current);
             wsRef.current?.close();
         };
-    }, [url, reconnectTrigger]);
+    }, [url]);
 
-    return {topology, events, connectionStatus, reconnect};
+    return {topology, events, connectionStatus};
 }
 
 export function useGraphState(topology: GraphMessage | null, events: ExecutionEvent[]) {
