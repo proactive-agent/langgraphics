@@ -14,7 +14,7 @@ export function computeLayout(topology: GraphMessage): {
 } {
     const g = new dagre.graphlib.Graph();
     g.setDefaultEdgeLabel(() => ({}));
-    g.setGraph({rankdir: "TB", ranksep: 80, nodesep: 40, marginx: 20, marginy: 20});
+    g.setGraph({rankdir: "TB", ranksep: 80, nodesep: 60, marginx: 20, marginy: 20});
 
     for (const n of topology.nodes) {
         const isTerminal = n.node_type === "start" || n.node_type === "end";

@@ -6,12 +6,9 @@ import {computeLayout} from "./layout";
 const RECONNECT_INTERVAL = 500;
 const CONNECTION_TIMEOUT = 500;
 
-export type ConnectionStatus = "connecting" | "connected" | "disconnected";
-
 export function useWebSocket(url: string) {
     const [topology, setTopology] = useState<GraphMessage | null>(null);
     const [events, setEvents] = useState<ExecutionEvent[]>([]);
-    const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("disconnected");
     const wsRef = useRef<WebSocket | null>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -21,7 +18,6 @@ export function useWebSocket(url: string) {
 
         function connect() {
             if (unmounted) return;
-            setConnectionStatus("connecting");
             const ws = new WebSocket(url);
             wsRef.current = ws;
 
@@ -32,7 +28,6 @@ export function useWebSocket(url: string) {
             ws.onopen = () => {
                 clearTimeout(timerRef.current!);
                 timerRef.current = null;
-                if (!unmounted) setConnectionStatus("connected");
             };
 
             ws.onmessage = (event) => {
@@ -55,10 +50,7 @@ export function useWebSocket(url: string) {
             };
 
             ws.onclose = () => {
-                if (!unmounted) {
-                    setConnectionStatus("disconnected");
-                    if (!runDone) timerRef.current = setTimeout(connect, RECONNECT_INTERVAL);
-                }
+                if (!unmounted && !runDone) timerRef.current = setTimeout(connect, RECONNECT_INTERVAL);
             };
             ws.onerror = () => ws.close();
         }
@@ -72,7 +64,7 @@ export function useWebSocket(url: string) {
         };
     }, [url]);
 
-    return {topology, events, connectionStatus};
+    return {topology, events};
 }
 
 export function useGraphState(topology: GraphMessage | null, events: ExecutionEvent[]) {

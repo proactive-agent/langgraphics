@@ -1,18 +1,19 @@
 import {createRoot} from "react-dom/client";
 import {useGraphState, useWebSocket} from "./hooks";
 import {GraphCanvas} from "./components/GraphCanvas";
+import "@xyflow/react/dist/style.css";
 import "./index.css";
 
 const WS_URL = "ws://localhost:8765";
 
 function Index() {
-    const {topology, events, connectionStatus} = useWebSocket(WS_URL);
+    const {topology, events} = useWebSocket(WS_URL);
     const {nodes, edges} = useGraphState(topology, events);
 
     return (
         <>
             {topology ? (
-                <GraphCanvas nodes={nodes} edges={edges} connectionStatus={connectionStatus}/>
+                <GraphCanvas nodes={nodes} edges={edges}/>
             ) : (
                 <div style={{
                     display: "flex",
