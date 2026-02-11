@@ -131,8 +131,9 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
         const edges = base.edges.map((edge) => {
             const status = edgeStatuses.get(edge.id);
             const conditional = edge.data?.conditional ?? false;
-            const className = status === "active" ? status : conditional ? "conditional" : "default";
-            const markerEnd = {type: MarkerType.Arrow};
+            const className = conditional ? `conditional ${status}` : status;
+            const color = status === "active" ? "#22c55e" : status === "traversed" ? "#3b82f6" : undefined;
+            const markerEnd = {type: MarkerType.Arrow, ...(color ? {color} : {})};
             if (status && edge.data && status !== edge.data.status) {
                 return {
                     ...edge,
