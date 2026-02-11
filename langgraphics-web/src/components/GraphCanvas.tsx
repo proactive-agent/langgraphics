@@ -33,9 +33,9 @@ export function GraphCanvas({nodes, edges, connectionStatus}: GraphCanvasProps) 
                 edges={edges}
                 nodeTypes={nodeTypes}
                 proOptions={{hideAttribution: true}}
-                panOnDrag={false} zoomOnScroll={false} zoomOnPinch={false}
                 zoomOnDoubleClick={false} nodesDraggable={false}
                 nodesConnectable={false} elementsSelectable={false}
+                panOnDrag={false} zoomOnScroll={false} zoomOnPinch={false}
             >
                 <Background color="white" lineWidth={0.2} gap={25} variant={BackgroundVariant.Lines}/>
                 <div className="status-indicator">

@@ -6,6 +6,7 @@ export type EdgeStatus = "idle" | "active" | "traversed";
 export interface NodeHandle {
     id: string;
     position: Position;
+    type: "source" | "target";
     style: { top?: string; left?: string; transform: string };
 }
 

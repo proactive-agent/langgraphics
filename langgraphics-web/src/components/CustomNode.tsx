@@ -7,11 +7,8 @@ export const CustomNode = memo(function CustomNode({data}: NodeProps) {
     return (
         <div className="react-flow__node-default">
             <div>{label}</div>
-            {handles.map((h) => (
-                <Handle key={h.id} type="source" id={h.id} position={h.position} style={h.style}/>
-            ))}
-            {handles.map((h) => (
-                <Handle key={h.id} type="target" id={h.id} position={h.position} style={h.style}/>
+            {handles.map((h, i) => (
+                <Handle key={i} type={h.type} id={h.id} position={h.position} style={h.style}/>
             ))}
         </div>
     );
