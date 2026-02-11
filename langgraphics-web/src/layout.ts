@@ -104,7 +104,6 @@ export function computeLayout(topology: GraphMessage): {
             id: e.id,
             source: e.source,
             target: e.target,
-            type: "custom",
             sourceHandle: neighborPortId(e.target, idx),
             targetHandle: neighborPortId(e.source, idx),
             data: {conditional: e.conditional, label: e.label, status: "idle" as const},

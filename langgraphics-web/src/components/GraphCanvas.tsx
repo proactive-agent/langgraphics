@@ -1,12 +1,10 @@
 import ReactFlow, {Background, BackgroundVariant, type Edge, type Node, ReactFlowProvider} from "reactflow";
 import "reactflow/dist/style.css";
 import {CustomNode} from "./CustomNode";
-import {CustomEdge} from "./CustomEdge";
 import type {EdgeData, NodeData} from "../types";
 import type {ConnectionStatus} from "../hooks";
 
 const nodeTypes = {custom: CustomNode};
-const edgeTypes = {custom: CustomEdge};
 
 const STATUS_COLOR: Record<ConnectionStatus, string> = {
     connected: "#22c55e",
@@ -20,12 +18,6 @@ const STATUS_LABEL: Record<ConnectionStatus, string> = {
     disconnected: "Disconnected",
 };
 
-const ARROW_MARKERS = [
-    {id: "arrow-idle", color: "#94a3b8"},
-    {id: "arrow-active", color: "#22c55e"},
-    {id: "arrow-traversed", color: "#3b82f6"},
-];
-
 interface GraphCanvasProps {
     nodes: Node<NodeData>[];
     edges: Edge<EdgeData>[];
@@ -35,22 +27,10 @@ interface GraphCanvasProps {
 export function GraphCanvas({nodes, edges, connectionStatus}: GraphCanvasProps) {
     return (
         <ReactFlowProvider>
-            <svg style={{position: "absolute", width: 0, height: 0}}>
-                <defs>
-                    {ARROW_MARKERS.map((m) => (
-                        <marker key={m.id} id={m.id} viewBox="0 0 10 10" refX="10" refY="5"
-                                markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                            <polyline points="0 0, 10 5, 0 10" fill="none" stroke={m.color}
-                                      strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </marker>
-                    ))}
-                </defs>
-            </svg>
             <ReactFlow
                 nodes={nodes} edges={edges}
-                nodeTypes={nodeTypes} edgeTypes={edgeTypes}
+                nodeTypes={nodeTypes}
                 onInit={(instance) => instance.fitView()}
-                defaultEdgeOptions={{type: "custom"}}
                 proOptions={{hideAttribution: true}}
                 panOnDrag={false} zoomOnScroll={false} zoomOnPinch={false}
                 zoomOnDoubleClick={false} nodesDraggable={false}

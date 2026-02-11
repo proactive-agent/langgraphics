@@ -10,7 +10,7 @@ function Index() {
     const {nodes, edges} = useGraphState(topology, events);
 
     return (
-        <div className="app">
+        <>
             {topology ? (
                 <GraphCanvas nodes={nodes} edges={edges} connectionStatus={connectionStatus}/>
             ) : (
@@ -25,7 +25,7 @@ function Index() {
                     Waiting for graph topology from WebSocket...
                 </div>
             )}
-        </div>
+        </>
     );
 }
 

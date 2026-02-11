@@ -124,18 +124,25 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
             }
         }
 
-        const nodes = base.nodes.map((node) => {
-            const status = nodeStatuses.get(node.id);
-            return status && status !== node.data.status ? {...node, data: {...node.data, status}} : node;
-        });
+        const nodes = base.nodes.map((node) => ({
+            ...node, className: nodeStatuses.get(node.id),
+        }));
 
         const edges = base.edges.map((edge) => {
             const status = edgeStatuses.get(edge.id);
+            const conditional = edge.data?.conditional ?? false;
+            const className = status === "active" ? status : conditional ? "conditional" : "default";
             const markerEnd = {type: MarkerType.Arrow};
             if (status && edge.data && status !== edge.data.status) {
-                return {...edge, animated: status === "active", data: {...edge.data, status}, markerEnd};
+                return {
+                    ...edge,
+                    markerEnd,
+                    className,
+                    data: {...edge.data, status},
+                    animated: status === "active",
+                };
             }
-            return {...edge, animated: status === "active", markerEnd};
+            return {...edge, className, animated: status === "active", markerEnd};
         });
 
         return {nodes, edges};
