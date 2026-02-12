@@ -36,12 +36,21 @@ html, body, #root {
     stroke-dasharray: 3 2 !important;
 }
 
+.react-flow__edge.error path {
+    stroke: #ef4444;
+}
+
 .react-flow__edge.active path {
     stroke: #22c55e;
 }
 
 .react-flow__edge.traversed path {
     stroke: #3b82f6;
+}
+
+.react-flow__node.error .react-flow__node-default {
+    border-color: #ef4444;
+    color: #ef4444;
 }
 
 .react-flow__node.active .react-flow__node-default {

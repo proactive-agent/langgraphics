@@ -1,7 +1,7 @@
 import {Position} from "@xyflow/react";
 
 export type NodeStatus = "idle" | "active" | "completed" | "error";
-export type EdgeStatus = "idle" | "active" | "traversed";
+export type EdgeStatus = "idle" | "active" | "traversed" | "error";
 
 export interface NodeHandle {
     id: string;
@@ -46,27 +46,23 @@ export interface GraphMessage {
 export interface RunStartMessage {
     type: "run_start";
     run_id: string;
-    timestamp: number;
 }
 
 export interface RunEndMessage {
     type: "run_end";
     run_id: string;
-    timestamp: number;
 }
 
 export interface NodeStartMessage {
     type: "node_start";
     node: string;
     task_id: string;
-    timestamp: number;
 }
 
 export interface NodeEndMessage {
     type: "node_end";
     node: string;
     task_id: string;
-    timestamp: number;
 }
 
 export interface EdgeActiveMessage {
@@ -74,7 +70,13 @@ export interface EdgeActiveMessage {
     source: string;
     target: string;
     edge_id: string;
-    timestamp: number;
+}
+
+export interface ErrorMessage {
+    type: "error";
+    source: string;
+    target: string;
+    edge_id: string | null;
 }
 
 export interface PongMessage {
@@ -83,7 +85,7 @@ export interface PongMessage {
 
 export type WsMessage =
     | GraphMessage | RunStartMessage | RunEndMessage
-    | NodeStartMessage | NodeEndMessage | EdgeActiveMessage | PongMessage;
+    | NodeStartMessage | NodeEndMessage | EdgeActiveMessage | ErrorMessage | PongMessage;
 
 export type ExecutionEvent =
-    | RunStartMessage | RunEndMessage | NodeStartMessage | NodeEndMessage | EdgeActiveMessage;
+    | RunStartMessage | RunEndMessage | NodeStartMessage | NodeEndMessage | EdgeActiveMessage | ErrorMessage;

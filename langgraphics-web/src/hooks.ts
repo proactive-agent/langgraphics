@@ -42,7 +42,7 @@ export function useWebSocket(url: string) {
                         runDone = false;
                         setEvents([msg]);
                     } else {
-                        if (msg.type === "run_end") runDone = true;
+                        if (msg.type === "run_end" || msg.type === "error") runDone = true;
                         setEvents((prev) => [...prev, msg as ExecutionEvent]);
                     }
                 } catch { /* ignore parse errors */
@@ -92,6 +92,15 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
                 }
                 edgeStatuses.set(event.edge_id, "active");
                 nodeStatuses.set(event.target, "active");
+            } else if (event.type === "error") {
+                for (const [id, status] of edgeStatuses) {
+                    if (status === "active") edgeStatuses.set(id, "traversed");
+                }
+                for (const [id, status] of nodeStatuses) {
+                    if (status === "active") nodeStatuses.set(id, "completed");
+                }
+                if (event.edge_id) edgeStatuses.set(event.edge_id, "error");
+                nodeStatuses.set(event.target, "error");
             } else if (event.type === "run_end") {
                 for (const [id, status] of nodeStatuses) {
                     if (status === "active") nodeStatuses.set(id, "completed");
@@ -110,7 +119,7 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
             const status = edgeStatuses.get(edge.id);
             const conditional = edge.data?.conditional ?? false;
             const className = conditional ? `conditional ${status}` : status;
-            const color = status === "active" ? "#22c55e" : status === "traversed" ? "#3b82f6" : undefined;
+            const color = status === "error" ? "#ef4444" : status === "active" ? "#22c55e" : status === "traversed" ? "#3b82f6" : undefined;
             const markerEnd = {type: MarkerType.Arrow, ...(color ? {color} : {})};
             if (status && edge.data && status !== edge.data.status) {
                 return {

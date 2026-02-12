@@ -46,6 +46,19 @@ class VisualizedGraph:
                 }
             )
 
+    async def _emit_error(self, last_node: str) -> None:
+        target = last_node
+        edge_id = None
+        for (src, tgt), eid in self._edge_lookup.items():
+            if src == last_node:
+                target = tgt
+                edge_id = eid
+                break
+
+        await self._broadcast(
+            {"type": "error", "source": last_node, "target": target, "edge_id": edge_id}
+        )
+
     def shutdown(self) -> None:
         self._ws.shutdown()
         self._http_server.shutdown()
@@ -58,21 +71,27 @@ class VisualizedGraph:
         last_node = "__start__"
         result: Any = None
 
-        async for chunk in self._graph.astream(
-            input, config=config, stream_mode="updates", **kwargs
-        ):
-            if isinstance(chunk, dict):
-                for node_name in chunk:
-                    if node_name == "__metadata__":
-                        continue
-                    await self._emit_edge(last_node, node_name)
-                    last_node = node_name
-                    result = chunk[node_name]
+        try:
+            async for chunk in self._graph.astream(
+                input, config=config, stream_mode="updates", **kwargs
+            ):
+                if isinstance(chunk, dict):
+                    for node_name in chunk:
+                        if node_name == "__metadata__":
+                            continue
+                        await self._emit_edge(last_node, node_name)
+                        last_node = node_name
+                        result = chunk[node_name]
 
-        await self._emit_edge(last_node, "__end__")
-        await asyncio.sleep(1)
-        await self._broadcast({"type": "run_end", "run_id": run_id})
-        self.shutdown()
+            await self._emit_edge(last_node, "__end__")
+            await asyncio.sleep(1)
+            await self._broadcast({"type": "run_end", "run_id": run_id})
+        except Exception:
+            await self._emit_error(last_node)
+            raise
+        finally:
+            self.shutdown()
+
         return result
 
     async def astream(
@@ -84,19 +103,23 @@ class VisualizedGraph:
         last_node = "__start__"
         stream_mode = kwargs.get("stream_mode", "values")
 
-        async for chunk in self._graph.astream(input, config=config, **kwargs):
-            if isinstance(chunk, dict) and stream_mode == "updates":
-                for node_name in chunk:
-                    if node_name == "__metadata__":
-                        continue
-                    await self._emit_edge(last_node, node_name)
-                    last_node = node_name
-            yield chunk
+        try:
+            async for chunk in self._graph.astream(input, config=config, **kwargs):
+                if isinstance(chunk, dict) and stream_mode == "updates":
+                    for node_name in chunk:
+                        if node_name == "__metadata__":
+                            continue
+                        await self._emit_edge(last_node, node_name)
+                        last_node = node_name
+                yield chunk
 
-        if last_node != "__start__":
-            await self._emit_edge(last_node, "__end__")
+            if last_node != "__start__":
+                await self._emit_edge(last_node, "__end__")
 
-        await self._broadcast({"type": "run_end", "run_id": run_id})
+            await self._broadcast({"type": "run_end", "run_id": run_id})
+        except Exception:
+            await self._emit_error(last_node)
+            raise
 
     def invoke(self, input: Any, config: Any = None, **kwargs: Any) -> Any:
         return asyncio.run(self.ainvoke(input, config=config, **kwargs))
