@@ -10,6 +10,7 @@ class Broadcaster:
     def __init__(self, topology: dict[str, Any]) -> None:
         self.connections: set[Any] = set()
         self.topology_json = json.dumps(topology)
+        self.replay: list[str] = []
         self.loop: asyncio.AbstractEventLoop | None = None
         self.server: Server | None = None
 
@@ -17,6 +18,8 @@ class Broadcaster:
         self.connections.add(websocket)
         try:
             await websocket.send(self.topology_json)
+            for message in self.replay:
+                await websocket.send(message)
             async for _message in websocket:
                 pass
         except websockets.exceptions.ConnectionClosed:
@@ -25,6 +28,13 @@ class Broadcaster:
             self.connections.discard(websocket)
 
     async def broadcast(self, message: str) -> None:
+        msg_type = json.loads(message).get("type")
+        if msg_type == "run_start":
+            self.replay = [message]
+        elif msg_type in ("run_end", "error"):
+            self.replay = []
+        elif msg_type == "edge_active":
+            self.replay.append(message)
         if self.connections:
             await asyncio.gather(
                 *[c.send(message) for c in self.connections],

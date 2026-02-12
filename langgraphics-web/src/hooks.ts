@@ -64,7 +64,13 @@ export function useWebSocket(url: string) {
             wsRef.current = ws;
 
             timerRef.current = setTimeout(() => {
-                if (ws.readyState !== WebSocket.OPEN) ws.close();
+                if (ws.readyState !== WebSocket.OPEN) {
+                    ws.onopen = null;
+                    ws.onmessage = null;
+                    ws.onclose = null;
+                    ws.onerror = null;
+                    timerRef.current = setTimeout(connect, RECONNECT_INTERVAL);
+                }
             }, CONNECTION_TIMEOUT);
 
             ws.onopen = () => {

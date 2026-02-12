@@ -10,24 +10,7 @@ function Index() {
     const {topology, events} = useWebSocket(WS_URL);
     const {nodes, edges} = useGraphState(topology, events);
 
-    return (
-        <>
-            {topology ? (
-                <GraphCanvas nodes={nodes} edges={edges}/>
-            ) : (
-                <div style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: "100%",
-                    color: "#64748b",
-                    fontSize: 14
-                }}>
-                    Waiting for graph topology from WebSocket...
-                </div>
-            )}
-        </>
-    );
+    return <GraphCanvas nodes={nodes} edges={edges}/>;
 }
 
 createRoot(document.getElementById("root")!).render(<Index/>);
