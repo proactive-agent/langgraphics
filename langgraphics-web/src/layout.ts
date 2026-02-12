@@ -26,9 +26,11 @@ export function computeLayout(topology: GraphMessage): {
     for (const e of topology.edges) g.setEdge(e.source, e.target);
     dagre.layout(g);
 
+    const nodeX = new Map<string, number>(topology.nodes.map((n) => [n.id, g.node(n.id).x]));
     const nodeY = new Map<string, number>(topology.nodes.map((n) => [n.id, g.node(n.id).y]));
     const isBack = (e: { source: string; target: string }) => (nodeY.get(e.source) ?? 0) >= (nodeY.get(e.target) ?? 0);
 
+    const edgeNeighborX = new Map<string, number>();
     const buckets = new Map<string, Map<Position, string[]>>();
     const bucket = (nodeId: string, pos: Position) => {
         if (!buckets.has(nodeId)) buckets.set(nodeId, new Map());
@@ -41,6 +43,14 @@ export function computeLayout(topology: GraphMessage): {
         const back = isBack(e);
         bucket(e.source, back ? Position.Top : Position.Bottom).push(`src:${e.id}`);
         bucket(e.target, back ? Position.Bottom : Position.Top).push(`tgt:${e.id}`);
+        edgeNeighborX.set(`src:${e.id}`, nodeX.get(e.target) ?? 0);
+        edgeNeighborX.set(`tgt:${e.id}`, nodeX.get(e.source) ?? 0);
+    }
+
+    for (const positions of buckets.values()) {
+        for (const ids of positions.values()) {
+            ids.sort((a, b) => (edgeNeighborX.get(a) ?? 0) - (edgeNeighborX.get(b) ?? 0));
+        }
     }
 
     const nodes: Node<NodeData>[] = topology.nodes.map((n) => {
