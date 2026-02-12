@@ -7,7 +7,9 @@ from tests.lib.conftest import find_free_port, safe_ainvoke, ws_collect
 
 async def test_linear_message_sequence(simple_graph):
     ws_port = find_free_port()
-    viewport = watch(simple_graph, port=find_free_port(), ws_port=ws_port, open_browser=False)
+    viewport = watch(
+        simple_graph, port=find_free_port(), ws_port=ws_port, open_browser=False
+    )
 
     async with ws_collect(ws_port) as (messages, done):
         await safe_ainvoke(viewport, {"value": "test"})
@@ -35,7 +37,9 @@ async def test_linear_message_sequence(simple_graph):
 
 async def test_branching_message_sequence(branching_graph):
     ws_port = find_free_port()
-    viewport = watch(branching_graph, port=find_free_port(), ws_port=ws_port, open_browser=False)
+    viewport = watch(
+        branching_graph, port=find_free_port(), ws_port=ws_port, open_browser=False
+    )
 
     async with ws_collect(ws_port) as (messages, done):
         await safe_ainvoke(viewport, {"value": "test", "counter": 0})
@@ -61,7 +65,9 @@ async def test_branching_message_sequence(branching_graph):
 
 async def test_error_emits_error_message(error_graph):
     ws_port = find_free_port()
-    viewport = watch(error_graph, port=find_free_port(), ws_port=ws_port, open_browser=False)
+    viewport = watch(
+        error_graph, port=find_free_port(), ws_port=ws_port, open_browser=False
+    )
 
     async with ws_collect(ws_port) as (messages, done):
         with pytest.raises((ValueError, TimeoutError)):
@@ -79,7 +85,9 @@ async def test_error_emits_error_message(error_graph):
 
 async def test_topology_ws_matches_extract(simple_graph):
     ws_port = find_free_port()
-    viewport = watch(simple_graph, port=find_free_port(), ws_port=ws_port, open_browser=False)
+    viewport = watch(
+        simple_graph, port=find_free_port(), ws_port=ws_port, open_browser=False
+    )
 
     async with ws_collect(ws_port) as (messages, done):
         await safe_ainvoke(viewport, {"value": "test"})
@@ -89,7 +97,9 @@ async def test_topology_ws_matches_extract(simple_graph):
 
 async def test_all_edge_ids_exist_in_topology(simple_graph):
     ws_port = find_free_port()
-    viewport = watch(simple_graph, port=find_free_port(), ws_port=ws_port, open_browser=False)
+    viewport = watch(
+        simple_graph, port=find_free_port(), ws_port=ws_port, open_browser=False
+    )
 
     async with ws_collect(ws_port) as (messages, done):
         await safe_ainvoke(viewport, {"value": "test"})

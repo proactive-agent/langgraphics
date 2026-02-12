@@ -82,7 +82,7 @@ def error_graph() -> StateGraph:
 
 @asynccontextmanager
 async def ws_collect(
-        ws_port: int, timeout: float = 15.0
+    ws_port: int, timeout: float = 15.0
 ) -> AsyncIterator[tuple[list[dict], asyncio.Event]]:
     messages: list[dict] = []
     done = asyncio.Event()
