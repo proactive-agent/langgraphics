@@ -26,9 +26,15 @@ dev = [
     "langchain-ollama>=1.0.1",
     "langchain-openai>=1.1.7",
     "langgraph>=1.0.7",
+    "pytest>=9.0.2",
+    "pytest-asyncio>=1.3.0",
     "python-dotenv>=1.2.1",
     "ruff>=0.15.0",
 ]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests/lib"]
 
 [build-system]
 requires = ["hatchling"]
