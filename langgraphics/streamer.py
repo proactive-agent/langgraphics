@@ -6,7 +6,7 @@ from socketserver import TCPServer
 from typing import Any
 
 
-class VisualizedGraph:
+class Viewport:
     def __init__(
         self,
         graph: Any,
@@ -14,28 +14,28 @@ class VisualizedGraph:
         edge_lookup: dict[tuple[str, str], str],
         http_server: TCPServer,
     ) -> None:
-        self._graph = graph
-        self._ws = ws
-        self._edge_lookup = edge_lookup
-        self._http_server = http_server
+        self.graph = graph
+        self.ws = ws
+        self.edge_lookup = edge_lookup
+        self.http_server = http_server
 
     def __getattr__(self, name: str) -> Any:
-        return getattr(self._graph, name)
+        return getattr(self.graph, name)
 
     async def _broadcast(self, message: dict[str, Any]) -> None:
-        if self._ws._loop is None:
+        if self.ws.loop is None:
             return
         try:
             await asyncio.wrap_future(
                 asyncio.run_coroutine_threadsafe(
-                    self._ws.broadcast(json.dumps(message)), self._ws._loop
+                    self.ws.broadcast(json.dumps(message)), self.ws.loop
                 )
             )
         except Exception:
             pass
 
     async def _emit_edge(self, source: str, target: str) -> None:
-        edge_id = self._edge_lookup.get((source, target))
+        edge_id = self.edge_lookup.get((source, target))
         if edge_id:
             await self._broadcast(
                 {
@@ -49,7 +49,7 @@ class VisualizedGraph:
     async def _emit_error(self, last_node: str) -> None:
         target = last_node
         edge_id = None
-        for (src, tgt), eid in self._edge_lookup.items():
+        for (src, tgt), eid in self.edge_lookup.items():
             if src == last_node:
                 target = tgt
                 edge_id = eid
@@ -60,8 +60,8 @@ class VisualizedGraph:
         )
 
     def shutdown(self) -> None:
-        self._ws.shutdown()
-        self._http_server.shutdown()
+        self.ws.shutdown()
+        self.http_server.shutdown()
         print("[langgraphics] Servers stopped.")
 
     async def ainvoke(self, input: Any, config: Any = None, **kwargs: Any) -> Any:
@@ -72,7 +72,7 @@ class VisualizedGraph:
         result: Any = None
 
         try:
-            async for chunk in self._graph.astream(
+            async for chunk in self.graph.astream(
                 input, config=config, stream_mode="updates", **kwargs
             ):
                 if isinstance(chunk, dict):
@@ -104,7 +104,7 @@ class VisualizedGraph:
         stream_mode = kwargs.get("stream_mode", "values")
 
         try:
-            async for chunk in self._graph.astream(input, config=config, **kwargs):
+            async for chunk in self.graph.astream(input, config=config, **kwargs):
                 if isinstance(chunk, dict) and stream_mode == "updates":
                     for node_name in chunk:
                         if node_name == "__metadata__":

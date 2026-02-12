@@ -10,7 +10,7 @@ from langchain_openai import AzureChatOpenAI
 from langgraph.graph import END, StateGraph
 from langgraph.graph.message import add_messages
 
-from langgraphics import visualize
+from langgraphics import watch
 
 load_dotenv()
 
@@ -93,7 +93,7 @@ builder.add_conditional_edges(
 builder.add_edge(REFLECT, GENERATE)
 
 graph = builder.compile()
-graph = visualize(graph)
+graph = watch(graph)
 
 
 async def main():

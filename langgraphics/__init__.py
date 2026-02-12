@@ -1,3 +1,3 @@
-from .server import visualize
+from .watch import watch
 
-__all__ = ["visualize"]
+__all__ = ["watch"]

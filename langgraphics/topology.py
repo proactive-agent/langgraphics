@@ -1,7 +1,7 @@
 from typing import Any
 
 
-def extract_topology(graph: Any) -> dict[str, Any]:
+def extract(graph: Any) -> dict[str, Any]:
     raw = graph.get_graph()
 
     return {
