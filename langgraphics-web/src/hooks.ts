@@ -6,6 +6,48 @@ import {computeLayout} from "./layout";
 const RECONNECT_INTERVAL = 500;
 const CONNECTION_TIMEOUT = 500;
 
+export function computeStatuses(events: ExecutionEvent[]): {
+    nodeStatuses: Map<string, NodeStatus>;
+    edgeStatuses: Map<string, EdgeStatus>;
+} {
+    const nodeStatuses = new Map<string, NodeStatus>();
+    const edgeStatuses = new Map<string, EdgeStatus>();
+
+    for (const event of events) {
+        if (event.type === "run_start") {
+            nodeStatuses.clear();
+            edgeStatuses.clear();
+        } else if (event.type === "edge_active") {
+            for (const [id, status] of edgeStatuses) {
+                if (status === "active") edgeStatuses.set(id, "traversed");
+            }
+            for (const [id, status] of nodeStatuses) {
+                if (status === "active") nodeStatuses.set(id, "completed");
+            }
+            edgeStatuses.set(event.edge_id, "active");
+            nodeStatuses.set(event.target, "active");
+        } else if (event.type === "error") {
+            for (const [id, status] of edgeStatuses) {
+                if (status === "active") edgeStatuses.set(id, "traversed");
+            }
+            for (const [id, status] of nodeStatuses) {
+                if (status === "active") nodeStatuses.set(id, "completed");
+            }
+            if (event.edge_id) edgeStatuses.set(event.edge_id, "error");
+            nodeStatuses.set(event.target, "error");
+        } else if (event.type === "run_end") {
+            for (const [id, status] of nodeStatuses) {
+                if (status === "active") nodeStatuses.set(id, "completed");
+            }
+            for (const [id, status] of edgeStatuses) {
+                if (status === "active") edgeStatuses.set(id, "traversed");
+            }
+        }
+    }
+
+    return {nodeStatuses, edgeStatuses};
+}
+
 export function useWebSocket(url: string) {
     const [topology, setTopology] = useState<GraphMessage | null>(null);
     const [events, setEvents] = useState<ExecutionEvent[]>([]);
@@ -76,40 +118,7 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
     return useMemo(() => {
         if (events.length === 0) return base;
 
-        const nodeStatuses = new Map<string, NodeStatus>();
-        const edgeStatuses = new Map<string, EdgeStatus>();
-
-        for (const event of events) {
-            if (event.type === "run_start") {
-                nodeStatuses.clear();
-                edgeStatuses.clear();
-            } else if (event.type === "edge_active") {
-                for (const [id, status] of edgeStatuses) {
-                    if (status === "active") edgeStatuses.set(id, "traversed");
-                }
-                for (const [id, status] of nodeStatuses) {
-                    if (status === "active") nodeStatuses.set(id, "completed");
-                }
-                edgeStatuses.set(event.edge_id, "active");
-                nodeStatuses.set(event.target, "active");
-            } else if (event.type === "error") {
-                for (const [id, status] of edgeStatuses) {
-                    if (status === "active") edgeStatuses.set(id, "traversed");
-                }
-                for (const [id, status] of nodeStatuses) {
-                    if (status === "active") nodeStatuses.set(id, "completed");
-                }
-                if (event.edge_id) edgeStatuses.set(event.edge_id, "error");
-                nodeStatuses.set(event.target, "error");
-            } else if (event.type === "run_end") {
-                for (const [id, status] of nodeStatuses) {
-                    if (status === "active") nodeStatuses.set(id, "completed");
-                }
-                for (const [id, status] of edgeStatuses) {
-                    if (status === "active") edgeStatuses.set(id, "traversed");
-                }
-            }
-        }
+        const {nodeStatuses, edgeStatuses} = computeStatuses(events);
 
         const nodes = base.nodes.map((node) => ({
             ...node, className: nodeStatuses.get(node.id),
