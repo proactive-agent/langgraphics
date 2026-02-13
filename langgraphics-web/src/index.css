@@ -63,3 +63,29 @@ html, body, #root {
     border-color: #3b82f6;
     color: #3b82f6;
 }
+
+.mode-toggle {
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    display: flex;
+    overflow: hidden;
+    position: absolute;
+    border-radius: 2px;
+}
+
+.mode-toggle button {
+    color: #3b82f6;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 400;
+    padding: 4px 10px;
+    border: 1px solid #3b82f6;
+    background: var(--xy-node-background-color-default);
+    transition: opacity 0.15s, background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.mode-toggle button.active {
+    background: #3b82f6;
+    color: #fff;
+}

@@ -99,6 +99,10 @@ export function GraphCanvas({nodes, edges, activeNodeId}: GraphCanvasProps) {
                 panOnDrag={isManual} zoomOnScroll={isManual} zoomOnPinch={isManual}
             >
                 <ViewportController nodes={nodes} edges={edges} activeNodeId={activeNodeId} mode={mode}/>
+                <div className="mode-toggle">
+                    <button className={isManual ? "" : "active"} onClick={() => setMode("auto")}>Auto</button>
+                    <button className={isManual ? "active" : ""} onClick={() => setMode("manual")}>Manual</button>
+                </div>
                 <Background/>
             </ReactFlow>
         </ReactFlowProvider>
