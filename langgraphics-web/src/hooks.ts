@@ -122,13 +122,16 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
     }, [topology]);
 
     return useMemo(() => {
-        if (events.length === 0) return base;
+        if (events.length === 0) return {nodes: base.nodes, edges: base.edges, activeNodeId: null as string | null};
 
         const {nodeStatuses, edgeStatuses} = computeStatuses(events);
 
-        const nodes = base.nodes.map((node) => ({
-            ...node, className: nodeStatuses.get(node.id),
-        }));
+        let activeNodeId: string | null = null;
+        const nodes = base.nodes.map((node) => {
+            const status = nodeStatuses.get(node.id);
+            if (status === "active") activeNodeId = node.id;
+            return {...node, className: status};
+        });
 
         const edges = base.edges.map((edge) => {
             const status = edgeStatuses.get(edge.id);
@@ -148,6 +151,6 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
             return {...edge, className, animated: status === "active", markerEnd};
         });
 
-        return {nodes, edges};
+        return {nodes, edges, activeNodeId};
     }, [base, events]);
 }

@@ -8,9 +8,9 @@ const WS_URL = "ws://localhost:8765";
 
 function Index() {
     const {topology, events} = useWebSocket(WS_URL);
-    const {nodes, edges} = useGraphState(topology, events);
+    const {nodes, edges, activeNodeId} = useGraphState(topology, events);
 
-    return <GraphCanvas nodes={nodes} edges={edges}/>;
+    return <GraphCanvas nodes={nodes} edges={edges} activeNodeId={activeNodeId}/>;
 }
 
 createRoot(document.getElementById("root")!).render(<Index/>);
