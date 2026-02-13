@@ -11,13 +11,25 @@ interface UseFocusOptions {
 
 const FIT_VIEW_DURATION = 1500;
 
-function getNeighbourIds(nodeId: string, edges: Edge<EdgeData>[]): string[] {
-    const ids = new Set<string>();
+function getNeighbourIds(nodeId: string, nodes: Node<NodeData>[], edges: Edge<EdgeData>[]): any[] {
+    const nodeY = new Map<string, number>(nodes.map((n) => [n.id, n.position.y]));
+    const selfY = nodeY.get(nodeId) ?? 0;
+
+    let above: { id: string; y: number } | null = null;
+    let below: { id: string; y: number } | null = null;
+
     for (const e of edges) {
-        if (e.source === nodeId) ids.add(e.target);
-        if (e.target === nodeId) ids.add(e.source);
+        const nbrId = e.source === nodeId ? e.target : e.target === nodeId ? e.source : null;
+        if (!nbrId) continue;
+        const y = nodeY.get(nbrId) ?? 0;
+        if (y < selfY) {
+            if (above === null || y > above.y) above = {id: nbrId, y};
+        } else {
+            if (below === null || y < below.y) below = {id: nbrId, y};
+        }
     }
-    return [...ids];
+
+    return [above?.id, below?.id].filter((id): id is string => id !== undefined).map((id) => ({id}));
 }
 
 export function useFocus({nodes, edges, activeNodeId}: UseFocusOptions) {
@@ -45,9 +57,8 @@ export function useFocus({nodes, edges, activeNodeId}: UseFocusOptions) {
             initialDone.current = true;
             const startNode = nodes.find((n) => n.data.nodeType === "start");
             if (startNode) {
-                const neighbourIds = getNeighbourIds(startNode.id, edges);
                 fitView({
-                    nodes: [startNode, ...neighbourIds.map((id) => ({id}))],
+                    nodes: [startNode, ...getNeighbourIds(startNode.id, nodes, edges)],
                     duration: 0,
                 }).then();
             }
@@ -68,9 +79,8 @@ export function useFocus({nodes, edges, activeNodeId}: UseFocusOptions) {
             if (activeNode?.data.nodeType === "end") {
                 fitView({duration: FIT_VIEW_DURATION}).then();
             } else {
-                const neighbourIds = getNeighbourIds(activeNodeId, edges);
                 fitView({
-                    nodes: [{id: activeNodeId}, ...neighbourIds.map((id) => ({id}))],
+                    nodes: [{id: activeNodeId}, ...getNeighbourIds(activeNodeId, nodes, edges)],
                     duration: FIT_VIEW_DURATION,
                 }).then();
             }
