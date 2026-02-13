@@ -1,4 +1,6 @@
-import {Background, type Edge, type Node, type NodeTypes, ReactFlow} from "@xyflow/react";
+import {useState} from "react";
+import {Background, type ColorMode, type Edge, type Node, type NodeTypes, ReactFlow} from "@xyflow/react";
+import {Controls} from "./Controls";
 import {CustomNode} from "./CustomNode";
 import {useFocus} from "../hooks/useFocus";
 import type {EdgeData, NodeData} from "../types";
@@ -12,23 +14,27 @@ interface GraphCanvasProps {
 }
 
 export function GraphCanvas({nodes, edges, activeNodeId}: GraphCanvasProps) {
+    const [colorMode, setColorMode] = useState<ColorMode>("system");
     const {isManual, goAuto, goManual} = useFocus({nodes, edges, activeNodeId});
 
     return (
         <ReactFlow
             nodes={nodes}
             edges={edges}
-            colorMode="system"
+            colorMode={colorMode}
             nodeTypes={nodeTypes}
             proOptions={{hideAttribution: true}}
             zoomOnDoubleClick={false} nodesDraggable={false}
             nodesConnectable={false} elementsSelectable={false}
             panOnDrag={isManual} zoomOnScroll={isManual} zoomOnPinch={isManual}
         >
-            <div className="mode-toggle">
-                <button className={isManual ? "" : "active"} onClick={goAuto}>Auto</button>
-                <button className={isManual ? "active" : ""} onClick={goManual}>Manual</button>
-            </div>
+            <Controls
+                goAuto={goAuto}
+                goManual={goManual}
+                isManual={isManual}
+                colorMode={colorMode}
+                setColorMode={setColorMode}
+            />
             <Background/>
         </ReactFlow>
     );

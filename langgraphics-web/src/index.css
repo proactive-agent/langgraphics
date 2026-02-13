@@ -64,17 +64,24 @@ html, body, #root {
     color: #3b82f6;
 }
 
-.mode-toggle {
+.canvas-controls {
+    gap: 6px;
     top: 10px;
     right: 10px;
     z-index: 10;
     display: flex;
-    overflow: hidden;
     position: absolute;
+    flex-direction: column;
+}
+
+.mode-toggle {
+    display: flex;
+    overflow: hidden;
     border-radius: 2px;
 }
 
 .mode-toggle button {
+    flex: 1;
     color: #3b82f6;
     cursor: pointer;
     font-size: 11px;
@@ -86,6 +93,62 @@ html, body, #root {
 }
 
 .mode-toggle button.active {
+    background: #3b82f6;
+    color: #fff;
+}
+
+.theme-select {
+    width: 100%;
+    position: relative;
+}
+
+.theme-select-trigger {
+    width: 100%;
+    color: #3b82f6;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 400;
+    text-align: left;
+    padding: 4px 10px;
+    border-radius: 2px;
+    border: 1px solid #3b82f6;
+    background: var(--xy-node-background-color-default);
+    transition: opacity 0.15s, background 0.15s, color 0.15s, border-color 0.15s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%233b82f6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+}
+
+.theme-select-popup {
+    left: 0;
+    right: 0;
+    display: flex;
+    overflow: hidden;
+    position: absolute;
+    border-radius: 2px;
+    top: calc(100% + 4px);
+    flex-direction: column;
+    border: 1px solid #3b82f6;
+    background: var(--xy-node-background-color-default);
+}
+
+.theme-select-popup button {
+    border: none;
+    color: #3b82f6;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 400;
+    text-align: left;
+    padding: 4px 10px;
+    background: transparent;
+    transition: background 0.1s;
+}
+
+.theme-select-popup button:hover {
+    background: rgba(59, 130, 246, 0.25);
+}
+
+.theme-select-popup button.selected {
     background: #3b82f6;
     color: #fff;
 }
