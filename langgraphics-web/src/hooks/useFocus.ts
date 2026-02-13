@@ -31,7 +31,7 @@ export function useFocus({nodes, edges, activeNodeId}: UseFocusOptions) {
 
     const goAuto = useCallback(async () => {
         setMode("auto");
-        await fitView({duration: FIT_VIEW_DURATION, padding: 0.1, maxZoom: 1.5});
+        await fitView({duration: FIT_VIEW_DURATION});
     }, [fitView])
 
     const goManual = useCallback(() => {
@@ -48,9 +48,7 @@ export function useFocus({nodes, edges, activeNodeId}: UseFocusOptions) {
                 const neighbourIds = getNeighbourIds(startNode.id, edges);
                 fitView({
                     nodes: [startNode, ...neighbourIds.map((id) => ({id}))],
-                    duration: FIT_VIEW_DURATION,
-                    padding: 0.3,
-                    maxZoom: 1.5,
+                    duration: 0,
                 }).then();
             }
             prevFocusId.current = null;
@@ -68,14 +66,12 @@ export function useFocus({nodes, edges, activeNodeId}: UseFocusOptions) {
 
             const activeNode = nodes.find((n) => n.id === activeNodeId);
             if (activeNode?.data.nodeType === "end") {
-                fitView({duration: FIT_VIEW_DURATION, padding: 0.1, maxZoom: 1.5}).then();
+                fitView({duration: FIT_VIEW_DURATION}).then();
             } else {
                 const neighbourIds = getNeighbourIds(activeNodeId, edges);
                 fitView({
                     nodes: [{id: activeNodeId}, ...neighbourIds.map((id) => ({id}))],
                     duration: FIT_VIEW_DURATION,
-                    padding: 0.3,
-                    maxZoom: 1.5,
                 }).then();
             }
         }
