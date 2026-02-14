@@ -51,9 +51,6 @@ def watch(
     http_server = start_http_server(host, port)
     start_ws_server(manager, host, ws_port)
 
-    print(f"[langgraphics] UI:        http://{host}:{port}")
-    print(f"[langgraphics] WebSocket: ws://{host}:{ws_port}")
-
     if open_browser:
         webbrowser.open(f"http://{host}:{port}")
 

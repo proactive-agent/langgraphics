@@ -59,10 +59,9 @@ class Viewport:
             {"type": "error", "source": last_node, "target": target, "edge_id": edge_id}
         )
 
-    def shutdown(self) -> None:
-        self.ws.shutdown()
+    async def shutdown(self) -> None:
+        await self.ws.shutdown()
         self.http_server.shutdown()
-        print("[langgraphics] Servers stopped.")
 
     async def ainvoke(self, input: Any, config: Any = None, **kwargs: Any) -> Any:
         run_id = uuid.uuid4().hex[:8]
@@ -90,7 +89,7 @@ class Viewport:
             await self._emit_error(last_node)
             raise
         finally:
-            self.shutdown()
+            await self.shutdown()
 
         return result
 

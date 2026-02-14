@@ -41,7 +41,7 @@ class Broadcaster:
                 return_exceptions=True,
             )
 
-    def shutdown(self) -> None:
+    async def shutdown(self) -> None:
         loop = self.loop
         if loop is None:
             return
@@ -57,5 +57,5 @@ class Broadcaster:
                 self.server.close()
                 await self.server.wait_closed()
 
-        asyncio.run_coroutine_threadsafe(_shutdown(), loop).result(timeout=5)
+        await asyncio.wrap_future(asyncio.run_coroutine_threadsafe(_shutdown(), loop))
         self.loop = None
