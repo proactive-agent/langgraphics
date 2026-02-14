@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Visualize live LangGraph execution and see how your agent thinks as it runs."
 readme = { file = "README.md", content-type = "text/markdown" }
 license = "MIT"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 authors = [
     { name = "Artyom Vancyan" },
 ]
@@ -13,8 +13,12 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
     "websockets>=14.0",
@@ -30,6 +34,7 @@ dev = [
     "pytest-asyncio>=1.3.0",
     "python-dotenv>=1.2.1",
     "ruff>=0.15.0",
+    "tox-uv>=1.29.0",
 ]
 
 [tool.pytest.ini_options]
