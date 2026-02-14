@@ -1,6 +1,6 @@
 [project]
 name = "langgraphics"
-version = "0.1.0"
+version = "0.1.0-beta"
 description = "Visualize live LangGraph execution and see how your agent thinks as it runs."
 readme = { file = "README.md", content-type = "text/markdown" }
 license = "MIT"
@@ -11,6 +11,7 @@ authors = [
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
