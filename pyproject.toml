@@ -48,6 +48,7 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build]
 include = ["langgraphics/**/*"]
+ignore-vcs = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["langgraphics"]
