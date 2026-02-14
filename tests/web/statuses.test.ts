@@ -1,5 +1,5 @@
 import {describe, expect, it} from "vitest";
-import {computeStatuses} from "../../langgraphics-web/src/hooks";
+import {computeStatuses} from "../../langgraphics-web/src/hooks/useGraphState";
 import type {ExecutionEvent} from "../../langgraphics-web/src/types";
 
 describe("computeStatuses", () => {
