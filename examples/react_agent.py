@@ -63,7 +63,12 @@ builder.add_edge(UPDATE_SCRATCHPAD, CHECK_PROGRESS)
 builder.add_conditional_edges(
     CHECK_PROGRESS,
     decide_next,
-    path_map={SELECT_TOOL: SELECT_TOOL, REFLECT: REFLECT, ASK_CLARIFY: ASK_CLARIFY, INTEGRATE: INTEGRATE},
+    path_map={
+        SELECT_TOOL: SELECT_TOOL,
+        REFLECT: REFLECT,
+        ASK_CLARIFY: ASK_CLARIFY,
+        INTEGRATE: INTEGRATE,
+    },
 )
 builder.add_edge(REFLECT, REVISE_PLAN)
 builder.add_edge(REVISE_PLAN, CHECK_PROGRESS)

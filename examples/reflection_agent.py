@@ -30,7 +30,9 @@ def should_continue(state):
     return REFLECT
 
 
-builder.add_conditional_edges(GENERATE, should_continue, path_map={END: END, REFLECT: REFLECT})
+builder.add_conditional_edges(
+    GENERATE, should_continue, path_map={END: END, REFLECT: REFLECT}
+)
 builder.add_edge(REFLECT, GENERATE)
 
 graph = builder.compile()
