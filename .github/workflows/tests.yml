@@ -1,0 +1,81 @@
+name: tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-lib:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: "3.10"
+            env: py310-lg100
+          - python: "3.10"
+            env: py310-lg105
+          - python: "3.10"
+            env: py310-lg108
+          - python: "3.11"
+            env: py311-lg100
+          - python: "3.11"
+            env: py311-lg105
+          - python: "3.11"
+            env: py311-lg108
+          - python: "3.12"
+            env: py312-lg100
+          - python: "3.12"
+            env: py312-lg105
+          - python: "3.12"
+            env: py312-lg108
+          - python: "3.13"
+            env: py313-lg100
+          - python: "3.13"
+            env: py313-lg105
+          - python: "3.13"
+            env: py313-lg108
+          - python: "3.14"
+            env: py314-lg100
+          - python: "3.14"
+            env: py314-lg105
+          - python: "3.14"
+            env: py314-lg108
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install tox
+        run: uv tool install tox --with tox-uv
+
+      - name: Run tests
+        run: tox -e ${{ matrix.env }}
+
+  test-web:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        working-directory: langgraphics-web
+        run: yarn install --frozen-lockfile
+
+      - name: Run tests
+        working-directory: langgraphics-web
+        run: yarn test
