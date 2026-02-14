@@ -40,7 +40,7 @@ it in while you're actively building - it has no effect on how the agent behaves
 ## Contribute
 
 Any contribution is welcome. Feel free to open an issue or a discussion if you have any questions not covered here. If
-you have any ideas or suggestions, please open a pull request. Become a contributor and be proud of what you build!
+you have any ideas or suggestions, please open a pull request.
 
 ## License
 
