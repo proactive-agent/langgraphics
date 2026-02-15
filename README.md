@@ -10,6 +10,10 @@
 especially useful when working with large networks: graphs with many nodes, branching conditions, and cycles are hard to
 reason about from the logs alone.
 
+<p align="center">
+  <img alt="Demo" src="https://github.com/user-attachments/assets/1db519fb-0dd9-4fee-8bc8-f6b12cbf1342" width="80%">
+</p>
+
 ## Why it helps
 
 Seeing the execution path visually makes it immediately obvious which branches were taken, where loops occurred, and
