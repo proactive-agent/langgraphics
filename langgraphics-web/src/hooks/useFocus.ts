@@ -2,6 +2,7 @@ import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import type {Edge, Node} from "@xyflow/react";
 import {useReactFlow} from "@xyflow/react";
 import type {EdgeData, NodeData} from "../types";
+import {IS_HORIZONTAL} from "../layout";
 
 interface UseFocusOptions {
     nodes: Node<NodeData>[];
@@ -12,24 +13,26 @@ interface UseFocusOptions {
 const FIT_VIEW_DURATION = 1500;
 
 function getNeighbourIds(nodeId: string, nodes: Node<NodeData>[], edges: Edge<EdgeData>[]): any[] {
-    const nodeY = new Map<string, number>(nodes.map((n) => [n.id, n.position.y]));
-    const selfY = nodeY.get(nodeId) ?? 0;
+    const nodeRank = new Map<string, number>(
+        nodes.map((n) => [n.id, IS_HORIZONTAL ? n.position.x : n.position.y]),
+    );
+    const selfRank = nodeRank.get(nodeId) ?? 0;
 
-    let above: { id: string; y: number } | null = null;
-    let below: { id: string; y: number } | null = null;
+    let before: { id: string; rank: number } | null = null;
+    let after: { id: string; rank: number } | null = null;
 
     for (const e of edges) {
         const nbrId = e.source === nodeId ? e.target : e.target === nodeId ? e.source : null;
         if (!nbrId) continue;
-        const y = nodeY.get(nbrId) ?? 0;
-        if (y < selfY) {
-            if (above === null || y > above.y) above = {id: nbrId, y};
+        const rank = nodeRank.get(nbrId) ?? 0;
+        if (rank < selfRank) {
+            if (before === null || rank > before.rank) before = {id: nbrId, rank};
         } else {
-            if (below === null || y < below.y) below = {id: nbrId, y};
+            if (after === null || rank < after.rank) after = {id: nbrId, rank};
         }
     }
 
-    return [above?.id, below?.id].filter((id): id is string => id !== undefined).map((id) => ({id}));
+    return [before?.id, after?.id].filter((id): id is string => id !== undefined).map((id) => ({id}));
 }
 
 export function useFocus({nodes, edges, activeNodeId}: UseFocusOptions) {

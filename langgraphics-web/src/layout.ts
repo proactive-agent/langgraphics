@@ -14,7 +14,7 @@ const DIRECTIONS_MAP: any = {
 }
 const RANK_TO = DIRECTIONS_MAP[RANK_DIR[1]] as Position;
 const RANK_FROM = DIRECTIONS_MAP[RANK_DIR[0]] as Position;
-const IS_HORIZONTAL = ["LR", "RL"].includes(RANK_DIR);
+export const IS_HORIZONTAL = ["LR", "RL"].includes(RANK_DIR);
 
 export function computeLayout(topology: GraphMessage): {
     nodes: Node<NodeData>[];
