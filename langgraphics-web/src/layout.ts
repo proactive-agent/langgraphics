@@ -3,10 +3,17 @@ import {Position} from "@xyflow/react";
 import type {Edge, Node} from "@xyflow/react";
 import type {EdgeData, GraphMessage, NodeData} from "./types";
 
+const RANK_DIR = "TB";
 const NODE_WIDTH = 180;
 const NODE_HEIGHT = 60;
 const SMALL_NODE_WIDTH = 120;
 const SMALL_NODE_HEIGHT = 40;
+const DIRECTIONS_MAP: any = {
+    T: Position.Top, L: Position.Left,
+    R: Position.Right, B: Position.Bottom,
+}
+const RANK_TO = DIRECTIONS_MAP[RANK_DIR[1]] as Position;
+const RANK_FROM = DIRECTIONS_MAP[RANK_DIR[0]] as Position;
 
 export function computeLayout(topology: GraphMessage): {
     nodes: Node<NodeData>[];
@@ -14,7 +21,7 @@ export function computeLayout(topology: GraphMessage): {
 } {
     const g = new dagre.graphlib.Graph();
     g.setDefaultEdgeLabel(() => ({}));
-    g.setGraph({rankdir: "TB", ranksep: 80, nodesep: 60, marginx: 20, marginy: 20});
+    g.setGraph({rankdir: RANK_DIR, ranksep: 80, nodesep: 60, marginx: 20, marginy: 20});
 
     for (const n of topology.nodes) {
         const isTerminal = n.node_type === "start" || n.node_type === "end";
@@ -41,8 +48,8 @@ export function computeLayout(topology: GraphMessage): {
 
     for (const e of topology.edges) {
         const back = isBack(e);
-        bucket(e.source, back ? Position.Top : Position.Bottom).push(`src:${e.id}`);
-        bucket(e.target, back ? Position.Bottom : Position.Top).push(`tgt:${e.id}`);
+        bucket(e.source, back ? RANK_FROM : RANK_TO).push(`src:${e.id}`);
+        bucket(e.target, back ? RANK_TO : RANK_FROM).push(`tgt:${e.id}`);
         edgeNeighborX.set(`src:${e.id}`, nodeX.get(e.target) ?? 0);
         edgeNeighborX.set(`tgt:${e.id}`, nodeX.get(e.source) ?? 0);
     }
