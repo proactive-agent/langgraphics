@@ -48,6 +48,11 @@ html, body, #root {
     stroke: #3b82f6;
 }
 
+.react-flow__node .react-flow__node-default {
+    min-width: 150px;
+    width: unset;
+}
+
 .react-flow__node.error .react-flow__node-default {
     border-color: #ef4444;
     color: #ef4444;
