@@ -14,6 +14,7 @@ const DIRECTIONS_MAP: any = {
 }
 const RANK_TO = DIRECTIONS_MAP[RANK_DIR[1]] as Position;
 const RANK_FROM = DIRECTIONS_MAP[RANK_DIR[0]] as Position;
+const IS_HORIZONTAL = ["LR", "RL"].includes(RANK_DIR);
 
 export function computeLayout(topology: GraphMessage): {
     nodes: Node<NodeData>[];
@@ -35,9 +36,31 @@ export function computeLayout(topology: GraphMessage): {
 
     const nodeX = new Map<string, number>(topology.nodes.map((n) => [n.id, g.node(n.id).x]));
     const nodeY = new Map<string, number>(topology.nodes.map((n) => [n.id, g.node(n.id).y]));
-    const isBack = (e: { source: string; target: string }) => (nodeY.get(e.source) ?? 0) >= (nodeY.get(e.target) ?? 0);
 
-    const edgeNeighborX = new Map<string, number>();
+    const nodeRank = IS_HORIZONTAL ? nodeX : nodeY;
+    const nodeCross = IS_HORIZONTAL ? nodeY : nodeX;
+    const crossSize = IS_HORIZONTAL ? NODE_HEIGHT : NODE_WIDTH;
+
+    const isBack = (e: { source: string; target: string }) =>
+        (nodeRank.get(e.source) ?? 0) >= (nodeRank.get(e.target) ?? 0);
+
+    for (const be of topology.edges.filter(isBack)) {
+        const tRank = nodeRank.get(be.target) ?? 0;
+        const minRank = Math.min(nodeRank.get(be.source) ?? 0, tRank);
+        const maxRank = Math.max(nodeRank.get(be.source) ?? 0, tRank);
+        const corridor = ((nodeCross.get(be.source) ?? 0) + (nodeCross.get(be.target) ?? 0)) / 2;
+
+        for (const n of topology.nodes) {
+            if (n.id === be.source || n.id === be.target) continue;
+            const nRank = nodeRank.get(n.id) ?? 0;
+            const nCross = nodeCross.get(n.id) ?? 0;
+            if (nRank > minRank && nRank < maxRank && Math.abs(nCross - corridor) < crossSize / 2) {
+                nodeCross.set(n.id, nCross - crossSize * 0.5);
+            }
+        }
+    }
+
+    const edgeNeighborCross = new Map<string, number>();
     const buckets = new Map<string, Map<Position, string[]>>();
     const bucket = (nodeId: string, pos: Position) => {
         if (!buckets.has(nodeId)) buckets.set(nodeId, new Map());
@@ -50,13 +73,13 @@ export function computeLayout(topology: GraphMessage): {
         const back = isBack(e);
         bucket(e.source, back ? RANK_FROM : RANK_TO).push(`src:${e.id}`);
         bucket(e.target, back ? RANK_TO : RANK_FROM).push(`tgt:${e.id}`);
-        edgeNeighborX.set(`src:${e.id}`, nodeX.get(e.target) ?? 0);
-        edgeNeighborX.set(`tgt:${e.id}`, nodeX.get(e.source) ?? 0);
+        edgeNeighborCross.set(`src:${e.id}`, nodeCross.get(e.target) ?? 0);
+        edgeNeighborCross.set(`tgt:${e.id}`, nodeCross.get(e.source) ?? 0);
     }
 
     for (const positions of buckets.values()) {
         for (const ids of positions.values()) {
-            ids.sort((a, b) => (edgeNeighborX.get(a) ?? 0) - (edgeNeighborX.get(b) ?? 0));
+            ids.sort((a, b) => (edgeNeighborCross.get(a) ?? 0) - (edgeNeighborCross.get(b) ?? 0));
         }
     }
 
@@ -73,14 +96,19 @@ export function computeLayout(topology: GraphMessage): {
                 id,
                 position,
                 type: id.startsWith("src:") ? "source" : "target",
-                style: {left: `${step * (i + 1)}%`, transform: "translateX(-50%)"},
+                style: IS_HORIZONTAL
+                    ? {top: `${step * (i + 1)}%`, transform: "translateY(-50%)"}
+                    : {left: `${step * (i + 1)}%`, transform: "translateX(-50%)"},
             }));
         }
 
         return {
             id: n.id,
             type: "custom",
-            position: {x: pos.x - w / 2, y: pos.y - h / 2},
+            position: {
+                x: (nodeX.get(n.id) ?? pos.x) - w / 2,
+                y: (nodeY.get(n.id) ?? pos.y) - h / 2,
+            },
             data: {label: n.name, nodeType: n.node_type, status: "idle" as const, handles},
         };
     });
