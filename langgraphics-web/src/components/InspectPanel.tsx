@@ -27,7 +27,7 @@ function NodeDetail({entry, isStart, isEnd, stepStart, stepEnd}: {
     stepStart: NodeStepEntry | null;
     stepEnd: NodeStepEntry | null;
 }) {
-    if (!entry) return;
+    if (!entry) return null;
 
     if (stepStart !== null) {
         let input = stepStart.data;
