@@ -19,7 +19,7 @@ def classify_node(data: Any) -> str:
             classes = tuple(getattr(module, name) for name in class_names)
             if isinstance(data, classes):
                 return label
-        except ImportError:
+        except (ImportError, AttributeError):
             continue
 
     return "unknown"
