@@ -39,7 +39,7 @@ function NodeDetail({entry, isStart, isEnd, stepStart, stepEnd}: {
         }
         if (stepEnd !== null && typeof stepEnd.data === "object") {
             const messages = stepEnd.data.messages;
-            output = Array.isArray(messages) ? messages[messages.length - 1].content : stepStart.data;
+            output = Array.isArray(messages) ? messages[messages.length - 1].content : stepEnd.data;
         }
         return (
             <>
