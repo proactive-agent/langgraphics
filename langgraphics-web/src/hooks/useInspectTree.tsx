@@ -168,8 +168,8 @@ export function useInspectTree(
                 key, children,
                 title: (
                     <span className="inspect-node-label">
+                        {meta.kind && <img src={`/icons/${meta.kind}.svg`} alt={meta.kind}/>}
                         {label}
-                        {meta.kind && <span className="inspect-node-kind">({meta.kind})</span>}
                     </span>
                 ),
             };

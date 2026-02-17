@@ -256,8 +256,11 @@ html, body, #root {
 }
 
 .inspect-node-label {
+    gap: 5px;
+    display: flex;
     font-size: 12px;
     font-weight: 500;
+    align-items: center;
 }
 
 .ant-tree-node-selected {
@@ -272,12 +275,6 @@ html, body, #root {
     font-size: 11px;
     font-weight: 400;
     font-style: italic;
-}
-
-.inspect-node-kind {
-    opacity: 0.8;
-    font-size: 10px;
-    margin-left: 5px;
 }
 
 .inspect-detail-section {
