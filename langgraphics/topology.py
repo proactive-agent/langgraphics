@@ -1,70 +1,26 @@
 from typing import Any
 
 
-def _classify_node(data: Any) -> str:
-    try:
-        from langchain_core.tools import BaseTool
+def classify_node(data: Any) -> str:
+    checks = [
+        ("langchain_core.tools", ("BaseTool",), "tool"),
+        ("langchain_core.runnables", ("Runnable",), "runnable"),
+        ("langchain_core.embeddings", ("Embeddings",), "embedding"),
+        ("langchain_core.retrievers", ("BaseRetriever",), "retriever"),
+        ("langchain_core.language_models", ("BaseLanguageModel",), "llm"),
+        ("langgraph._internal._runnable", ("RunnableCallable",), "function"),
+        ("langchain_core.runnables.base", ("RunnableSequence", "RunnableParallel"), "chain"),
+        ("langchain_core.agents", ("BaseSingleActionAgent", "BaseMultiActionAgent"), "agent"),
+    ]
 
-        if isinstance(data, BaseTool):
-            return "tool"
-    except ImportError:
-        pass
-
-    try:
-        from langchain_core.language_models import BaseLanguageModel
-
-        if isinstance(data, BaseLanguageModel):
-            return "llm"
-    except ImportError:
-        pass
-
-    try:
-        from langchain_core.embeddings import Embeddings
-
-        if isinstance(data, Embeddings):
-            return "embedding"
-    except ImportError:
-        pass
-
-    try:
-        from langchain_core.retrievers import BaseRetriever
-
-        if isinstance(data, BaseRetriever):
-            return "retriever"
-    except ImportError:
-        pass
-
-    try:
-        from langchain_core.agents import BaseSingleActionAgent, BaseMultiActionAgent
-
-        if isinstance(data, (BaseSingleActionAgent, BaseMultiActionAgent)):
-            return "agent"
-    except ImportError:
-        pass
-
-    try:
-        from langchain_core.runnables.base import RunnableSequence, RunnableParallel
-
-        if isinstance(data, (RunnableSequence, RunnableParallel)):
-            return "chain"
-    except ImportError:
-        pass
-
-    try:
-        from langgraph._internal._runnable import RunnableCallable
-
-        if isinstance(data, RunnableCallable):
-            return "function"
-    except ImportError:
-        pass
-
-    try:
-        from langchain_core.runnables import Runnable
-
-        if isinstance(data, Runnable):
-            return "runnable"
-    except ImportError:
-        pass
+    for module_path, class_names, label in checks:
+        try:
+            module = __import__(module_path, fromlist=class_names)
+            classes = tuple(getattr(module, name) for name in class_names)
+            if isinstance(data, classes):
+                return label
+        except ImportError:
+            continue
 
     return "unknown"
 
@@ -82,7 +38,7 @@ def extract(graph: Any) -> dict[str, Any]:
                     "__end__": "end",
                     "__start__": "start",
                 }.get(node.name, "node"),
-                "node_kind": _classify_node(node.data)
+                "node_kind": classify_node(node.data)
                 if node.name not in ("__start__", "__end__")
                 else None,
             }
