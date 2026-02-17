@@ -13,6 +13,7 @@ export interface NodeHandle {
 export interface NodeData extends Record<string, unknown> {
     label: string;
     nodeType: "start" | "end" | "node";
+    nodeKind: NodeKind | null;
     status: NodeStatus;
     handles: NodeHandle[];
 }
@@ -23,9 +24,14 @@ export interface EdgeData extends Record<string, unknown> {
     status: EdgeStatus;
 }
 
+export type NodeKind =
+    | "tool" | "llm" | "embedding" | "retriever"
+    | "agent" | "chain" | "function" | "runnable" | "unknown";
+
 export interface ProtocolNode {
     id: string;
     name: string;
+    node_kind: NodeKind | null;
     node_type: "start" | "end" | "node";
 }
 
@@ -79,13 +85,50 @@ export interface ErrorMessage {
     edge_id: string | null;
 }
 
-export interface PongMessage {
-    type: "pong";
+export interface SerializedMessage {
+    content: string;
+    type: string;
+
+    [key: string]: unknown;
+}
+
+export interface NodeOutputMessage {
+    type: "node_output";
+    node: string;
+    data: { messages?: SerializedMessage[]; [key: string]: unknown };
+    input: { messages?: SerializedMessage[]; [key: string]: unknown } | null;
+    run_id: string | null;
+}
+
+export interface NodeOutputEntry {
+    nodeId: string;
+    data: NodeOutputMessage["data"];
+    input: NodeOutputMessage["input"];
+    runId: string | null;
+}
+
+export interface NodeStepMessage {
+    type: "node_step";
+    run_id: string;
+    parent_run_id: string;
+    name: string | null;
+    event: "start" | "end";
+    data: { [key: string]: unknown };
+}
+
+export interface NodeStepEntry {
+    runId: string;
+    parentRunId: string;
+    name: string | null;
+    event: "start" | "end";
+    data: NodeStepMessage["data"];
 }
 
 export type WsMessage =
     | GraphMessage | RunStartMessage | RunEndMessage
-    | NodeStartMessage | NodeEndMessage | EdgeActiveMessage | ErrorMessage | PongMessage;
+    | NodeStartMessage | NodeEndMessage | EdgeActiveMessage
+    | ErrorMessage | NodeOutputMessage | NodeStepMessage;
 
 export type ExecutionEvent =
-    | RunStartMessage | RunEndMessage | NodeStartMessage | NodeEndMessage | EdgeActiveMessage | ErrorMessage;
+    | RunStartMessage | RunEndMessage | NodeStartMessage
+    | NodeEndMessage | EdgeActiveMessage | ErrorMessage | NodeOutputMessage | NodeStepMessage;

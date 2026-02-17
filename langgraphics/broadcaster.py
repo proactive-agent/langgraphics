@@ -27,14 +27,16 @@ class Broadcaster:
         finally:
             self.connections.discard(websocket)
 
-    async def broadcast(self, message: str) -> None:
+    def record(self, message: str) -> None:
         msg_type = json.loads(message).get("type")
         if msg_type == "run_start":
             self.replay = [message]
         elif msg_type in ("run_end", "error"):
             self.replay = []
-        elif msg_type == "edge_active":
+        elif msg_type in ("edge_active", "node_output", "node_step"):
             self.replay.append(message)
+
+    async def broadcast(self, message: str) -> None:
         if self.connections:
             await asyncio.gather(
                 *[c.send(message) for c in self.connections],

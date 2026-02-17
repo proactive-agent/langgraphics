@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {type ReactNode, useState} from "react";
 import {Background, type ColorMode, type Edge, type Node, type NodeTypes, ReactFlow} from "@xyflow/react";
 import {Controls} from "./Controls";
 import {CustomNode} from "./CustomNode";
@@ -11,9 +11,10 @@ interface GraphCanvasProps {
     nodes: Node<NodeData>[];
     edges: Edge<EdgeData>[];
     activeNodeId: string | null;
+    inspect: ReactNode;
 }
 
-export function GraphCanvas({nodes, edges, activeNodeId}: GraphCanvasProps) {
+export function GraphCanvas({nodes, edges, activeNodeId, inspect}: GraphCanvasProps) {
     const [colorMode, setColorMode] = useState<ColorMode>("system");
     const {isManual, goAuto, goManual} = useFocus({nodes, edges, activeNodeId});
 
@@ -36,6 +37,7 @@ export function GraphCanvas({nodes, edges, activeNodeId}: GraphCanvasProps) {
                 setColorMode={setColorMode}
             />
             <Background/>
+            {inspect}
         </ReactFlow>
     );
 }
