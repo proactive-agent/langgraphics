@@ -109,7 +109,7 @@ export function computeLayout(topology: GraphMessage): {
                 x: (nodeX.get(n.id) ?? pos.x) - w / 2,
                 y: (nodeY.get(n.id) ?? pos.y) - h / 2,
             },
-            data: {label: n.name, nodeType: n.node_type, status: "idle" as const, handles},
+            data: {label: n.name, nodeType: n.node_type, nodeKind: n.node_kind ?? null, status: "idle" as const, handles},
         };
     });
 

@@ -13,6 +13,7 @@ export interface NodeHandle {
 export interface NodeData extends Record<string, unknown> {
     label: string;
     nodeType: "start" | "end" | "node";
+    nodeKind: NodeKind | null;
     status: NodeStatus;
     handles: NodeHandle[];
 }
@@ -26,6 +27,7 @@ export interface EdgeData extends Record<string, unknown> {
 export interface ProtocolNode {
     id: string;
     name: string;
+    node_kind: NodeKind | null;
     node_type: "start" | "end" | "node";
 }
 

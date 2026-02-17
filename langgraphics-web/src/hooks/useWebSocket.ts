@@ -1,11 +1,13 @@
 import {useEffect, useRef, useState} from "react";
-import type {ExecutionEvent, GraphMessage, WsMessage} from "../types";
+import type {ExecutionEvent, GraphMessage, NodeOutputEntry, NodeStepEntry, WsMessage} from "../types";
 
 const RECONNECT_INTERVAL = 500;
 const CONNECTION_TIMEOUT = 500;
 
 export function useWebSocket(url: string) {
     const [events, setEvents] = useState<ExecutionEvent[]>([]);
+    const [nodeStepLog, setNodeStepLog] = useState<NodeStepEntry[]>([]);
+    const [nodeOutputLog, setNodeOutputLog] = useState<NodeOutputEntry[]>([]);
     const [topology, setTopology] = useState<GraphMessage | null>(null);
     const wsRef = useRef<WebSocket | null>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -42,9 +44,17 @@ export function useWebSocket(url: string) {
                         runDone = false;
                         setTopology(msg);
                         setEvents([]);
+                        setNodeStepLog([]);
+                        setNodeOutputLog([]);
                     } else if (msg.type === "run_start") {
                         runDone = false;
                         setEvents([msg]);
+                        setNodeStepLog([]);
+                        setNodeOutputLog([]);
+                    } else if (msg.type === "node_output") {
+                        setNodeOutputLog((prev) => [...prev, {nodeId: msg.node, data: msg.data, input: msg.input ?? null, runId: msg.run_id ?? null}]);
+                    } else if (msg.type === "node_step") {
+                        setNodeStepLog((prev) => [...prev, {runId: msg.run_id, parentRunId: msg.parent_run_id, name: msg.name, event: msg.event, data: msg.data}]);
                     } else {
                         if (msg.type === "run_end" || msg.type === "error") runDone = true;
                         setEvents((prev) => [...prev, msg as ExecutionEvent]);
@@ -68,5 +78,5 @@ export function useWebSocket(url: string) {
         };
     }, [url]);
 
-    return {topology, events};
+    return {topology, events, nodeStepLog, nodeOutputLog};
 }
