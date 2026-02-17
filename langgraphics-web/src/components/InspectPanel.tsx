@@ -154,19 +154,28 @@ function DetailSection({title, children}: { title: string; children: ReactNode }
 }
 
 function NodeDetail({entry, isStart, isEnd, stepStart, stepEnd}: { entry: NodeOutputEntry | null; isStart: boolean; isEnd: boolean; stepStart: NodeStepEntry | null; stepEnd: NodeStepEntry | null; }) {
-    if (!entry) {
-        return;
-    }
+    if (!entry) return;
 
     if (stepStart !== null) {
+        let input = stepStart.data;
+        let output = stepEnd !== null ? stepEnd.data : stepEnd;
+        const toString = (d: any) => typeof d === "string" ? d : JSON.stringify(d, null, 2);
+        if (typeof stepStart.data === "object") {
+            const messages = stepStart.data.messages;
+            input = Array.isArray(messages) ? messages[messages.length - 1].content : stepStart.data;
+        }
+        if (stepEnd !== null && typeof stepEnd.data === "object") {
+            const messages = stepEnd.data.messages;
+            output = Array.isArray(messages) ? messages[messages.length - 1].content : stepStart.data;
+        }
         return (
             <>
                 <DetailSection title="Input">
-                    <pre className="inspect-detail-json">{JSON.stringify(stepStart.data, null, 2)}</pre>
+                    <pre className="inspect-detail-json">{toString(input)}</pre>
                 </DetailSection>
                 {stepEnd !== null && (
                     <DetailSection title="Output">
-                        <pre className="inspect-detail-json">{JSON.stringify(stepEnd.data, null, 2)}</pre>
+                        <pre className="inspect-detail-json">{toString(output)}</pre>
                     </DetailSection>
                 )}
             </>
