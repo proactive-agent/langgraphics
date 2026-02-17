@@ -98,10 +98,14 @@ function NodeDetail({entry, isStart, isEnd, stepStart, stepEnd}: {
             )}
             <DetailSection title="Output">
                 {outputMessages.length > 0
-                    ? outputMessages.map((msg, i) => <div key={i}
-                                                          className="inspect-detail-text">{msg.content as string}</div>)
+                    ? outputMessages.map((msg, i) => (
+                        <div key={i} className="inspect-detail-text">
+                            {msg.content as string}
+                        </div>
+                    ))
                     : Object.keys(entry.data).length > 0
-                    && <pre className="inspect-detail-json">{JSON.stringify(entry.data, null, 2)}</pre>
+                        ? <pre className="inspect-detail-json">{JSON.stringify(entry.data, null, 2)}</pre>
+                        : null
                 }
             </DetailSection>
         </>
