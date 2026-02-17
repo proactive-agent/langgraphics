@@ -10,7 +10,7 @@ export interface NodeMeta {
     isEnd?: boolean;
 }
 
-function computeDepthMap(topology: GraphMessage): Map<string, NodeMeta> {
+export function computeDepthMap(topology: GraphMessage): Map<string, NodeMeta> {
     const adj = new Map<string, string[]>();
     for (const n of topology.nodes) adj.set(n.id, []);
     for (const e of topology.edges) adj.get(e.source)?.push(e.target);
