@@ -26,120 +26,94 @@ export function buildDepthMap(topology: GraphMessage): Map<string, NodeMeta> {
     const startNode = topology.nodes.find((n) => n.node_type === "start");
     if (!startNode) return new Map();
 
-    const bfsRank = new Map<string, number>();
-    {
-        const queue: string[] = [startNode.id];
-        bfsRank.set(startNode.id, 0);
-        while (queue.length > 0) {
-            const cur = queue.shift()!;
-            const rank = bfsRank.get(cur)!;
-            for (const nxt of adj.get(cur) ?? []) {
-                if (!bfsRank.has(nxt)) {
-                    bfsRank.set(nxt, rank + 1);
-                    queue.push(nxt);
-                }
+    const rank = new Map<string, number>();
+    for (let q = [startNode.id], r = 0; q.length > 0; r++) {
+        const next: string[] = [];
+        for (const id of q)
+            if (!rank.has(id)) {
+                rank.set(id, r);
+                next.push(...(adj.get(id) ?? []));
             }
-        }
+        q = next;
     }
 
-    const onCyclePath = new Set<string>();
-    for (const [src, targets] of adj) {
-        const sr = bfsRank.get(src) ?? 0;
-        for (const tgt of targets) {
-            if ((bfsRank.get(tgt) ?? 0) <= sr) onCyclePath.add(src);
-        }
-    }
-    let changed = true;
-    while (changed) {
+    const onCycle = new Set<string>();
+    for (const [src, tgts] of adj)
+        for (const t of tgts)
+            if ((rank.get(t) ?? 0) <= (rank.get(src) ?? 0)) onCycle.add(src);
+    for (let changed = true; changed; ) {
         changed = false;
-        for (const [src, targets] of adj) {
-            if (!onCyclePath.has(src)) {
-                const sr = bfsRank.get(src) ?? 0;
-                for (const tgt of targets) {
-                    if ((bfsRank.get(tgt) ?? 0) > sr && onCyclePath.has(tgt)) {
-                        onCyclePath.add(src);
+        for (const [src, tgts] of adj)
+            if (!onCycle.has(src))
+                for (const t of tgts)
+                    if ((rank.get(t) ?? 0) > (rank.get(src) ?? 0) && onCycle.has(t)) {
+                        onCycle.add(src);
                         changed = true;
                         break;
                     }
-                }
-            }
-        }
     }
 
-    for (const [id, targets] of adj) {
-        const srcRank = bfsRank.get(id) ?? 0;
-        adj.set(id, [...targets].sort((a, b) => {
-            const ra = bfsRank.get(a) ?? 0, rb = bfsRank.get(b) ?? 0;
-            const aBack = ra <= srcRank ? 1 : 0, bBack = rb <= srcRank ? 1 : 0;
-            if (aBack !== bBack) return aBack - bBack;
-            const aCyc = onCyclePath.has(a) ? 0 : 1, bCyc = onCyclePath.has(b) ? 0 : 1;
-            if (aCyc !== bCyc) return aCyc - bCyc;
-            return ra - rb;
+    for (const [id, tgts] of adj) {
+        const sr = rank.get(id) ?? 0;
+        adj.set(id, [...tgts].sort((a, b) => {
+            const ra = rank.get(a) ?? 0, rb = rank.get(b) ?? 0;
+            const ba = ra <= sr ? 1 : 0, bb = rb <= sr ? 1 : 0;
+            return (ba - bb) || ((onCycle.has(a) ? 0 : 1) - (onCycle.has(b) ? 0 : 1)) || (ra - rb);
         }));
     }
 
-    const nodeTypeMap = new Map(topology.nodes.map((n) => [n.id, n.node_type]));
-    const nodeKindMap = new Map(topology.nodes.map((n) => [n.id, n.node_kind ?? null]));
+    const nodeInfo = new Map(topology.nodes.map((n) => [n.id, n]));
     const result = new Map<string, NodeMeta>();
-
     result.set(startNode.id, {depth: 0, kind: null, isStart: true});
-
     const endNode = topology.nodes.find((n) => n.node_type === "end");
     if (endNode) result.set(endNode.id, {depth: 0, kind: null, isEnd: true});
 
-    const stack: string[] = [];
-    const onStack = new Set<string>();
-    const outputDepth = new Map<string, number>();
-    const dfsParent = new Map<string, string | null>();
-    const visited = new Set<string>();
+    const path: string[] = [];
+    const pathSet = new Set<string>();
+    const outDepth = new Map<string, number>();
+    const parent = new Map<string, string | null>();
 
-    function dfs(nodeId: string, parentId: string | null, callDepth: number) {
-        if (visited.has(nodeId)) return;
-        visited.add(nodeId);
-        dfsParent.set(nodeId, parentId);
-        stack.push(nodeId);
-        onStack.add(nodeId);
+    (function dfs(id: string, par: string | null, d: number) {
+        if (outDepth.has(id)) return;
+        parent.set(id, par);
+        path.push(id);
+        pathSet.add(id);
 
-        let effective = callDepth;
-        for (const target of adj.get(nodeId) ?? []) {
-            if (onStack.has(target)) {
-                const tp = dfsParent.get(target) ?? null;
-                const pd = tp !== null ? (outputDepth.get(tp) ?? 0) : 0;
-                if (pd < effective) effective = Math.max(0, pd);
+        let eff = d;
+        for (const t of adj.get(id) ?? [])
+            if (pathSet.has(t)) {
+                const p = parent.get(t);
+                const pd = p !== null ? (outDepth.get(p!) ?? 0) : 0;
+                if (pd < eff) eff = Math.max(0, pd);
             }
-        }
-        outputDepth.set(nodeId, effective);
-        if (nodeTypeMap.get(nodeId) === "node") {
-            result.set(nodeId, {depth: effective, kind: nodeKindMap.get(nodeId) ?? null});
-        }
-        for (const target of adj.get(nodeId) ?? []) {
-            if (onStack.has(target)) {
-                const bodyDepth = effective + 1;
-                for (let i = stack.length - 2; i >= 0; i--) {
-                    const mid = stack[i];
-                    if (mid === target) break;
-                    if ((outputDepth.get(mid) ?? 0) > bodyDepth) {
-                        outputDepth.set(mid, bodyDepth);
-                        const m = result.get(mid);
-                        if (m) result.set(mid, {...m, depth: bodyDepth});
+        outDepth.set(id, eff);
+
+        const info = nodeInfo.get(id);
+        if (info?.node_type === "node")
+            result.set(id, {depth: eff, kind: info.node_kind ?? null});
+
+        for (const t of adj.get(id) ?? [])
+            if (pathSet.has(t)) {
+                const bd = eff + 1;
+                for (let i = path.length - 2; path[i] !== t; i--) {
+                    if ((outDepth.get(path[i]) ?? 0) > bd) {
+                        outDepth.set(path[i], bd);
+                        const m = result.get(path[i]);
+                        if (m) result.set(path[i], {...m, depth: bd});
                     }
                 }
             }
-        }
-        for (const target of adj.get(nodeId) ?? []) {
-            if (!onStack.has(target)) dfs(target, nodeId, effective + 1);
-        }
-        stack.pop();
-        onStack.delete(nodeId);
-    }
 
-    dfs(startNode.id, null, -1);
+        for (const t of adj.get(id) ?? [])
+            if (!pathSet.has(t)) dfs(t, id, eff + 1);
 
-    for (const [id, meta] of result) {
-        if (!onCyclePath.has(id) && meta.depth !== 0 && !meta.isStart) {
+        path.pop();
+        pathSet.delete(id);
+    })(startNode.id, null, -1);
+
+    for (const [id, meta] of result)
+        if (!onCycle.has(id) && meta.depth !== 0 && !meta.isStart)
             result.set(id, {...meta, depth: 0});
-        }
-    }
 
     return result;
 }
@@ -241,48 +215,34 @@ function buildTreeData(
     nodeDataMap: Map<string, NodeData>,
     stepsByParent: Map<string, NodeStepEntry[]>,
 ): TreeDataNode[] {
-    const flat: { key: string; depth: number; node: TreeDataNode; }[] = visibleLog.map((entry, idx) => {
-        const meta = depthMap.get(entry.nodeId)!;
-        const label = nodeDataMap.get(entry.nodeId)?.label ?? entry.nodeId;
-        const key = `log-${idx}`;
+    const root: TreeDataNode[] = [];
+    const stack: { d: number; c: TreeDataNode[] }[] = [{d: -1, c: root}];
 
+    for (let i = 0; i < visibleLog.length; i++) {
+        const entry = visibleLog[i];
+        const meta = depthMap.get(entry.nodeId)!;
+        const key = `log-${i}`;
+        const label = nodeDataMap.get(entry.nodeId)?.label ?? entry.nodeId;
         const steps = entry.runId ? (stepsByParent.get(entry.runId) ?? []) : [];
-        const stepChildren: TreeDataNode[] = steps.map((step, si) => ({
-            isLeaf: true,
-            selectable: true,
-            key: `${key}-step-${si}`,
+
+        const children: TreeDataNode[] = steps.map((step, si) => ({
+            key: `${key}-step-${si}`, isLeaf: true, selectable: true,
             title: <span className="inspect-step-label">{step.name ?? "step"}</span>,
         }));
 
-        return {
-            key,
-            depth: meta.depth,
-            node: {
-                key,
-                children: stepChildren,
-                title: (
-                    <span className="inspect-node-label">
-                        {label}
-                        {meta.kind && <span className="inspect-node-kind">({meta.kind})</span>}
-                    </span>
-                ),
-            },
+        const node: TreeDataNode = {
+            key, children,
+            title: (
+                <span className="inspect-node-label">
+                    {label}
+                    {meta.kind && <span className="inspect-node-kind">({meta.kind})</span>}
+                </span>
+            ),
         };
-    });
 
-    const root: TreeDataNode[] = [];
-    const stack: { depth: number; structChildren: TreeDataNode[] }[] = [
-        {depth: -1, structChildren: root},
-    ];
-
-    for (const entry of flat) {
-        while (stack.length > 1 && stack[stack.length - 1].depth >= entry.depth) {
-            stack.pop();
-        }
-        const parent = stack[stack.length - 1].structChildren;
-        parent.push(entry.node);
-        const ownChildren = entry.node.children as TreeDataNode[];
-        stack.push({depth: entry.depth, structChildren: ownChildren});
+        while (stack.length > 1 && stack[stack.length - 1].d >= meta.depth) stack.pop();
+        stack[stack.length - 1].c.push(node);
+        stack.push({d: meta.depth, c: children});
     }
 
     return root;
