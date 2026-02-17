@@ -74,7 +74,7 @@ def test_retriever_classified():
         def _get_relevant_documents(self, query: str) -> list[Document]:
             return []
 
-    assert classify_node(SimpleRetriever()) == "runnable"
+    assert classify_node(SimpleRetriever()) == "retriever"
 
 
 def test_llm_classified():
@@ -82,21 +82,21 @@ def test_llm_classified():
     from langchain_core.messages import AIMessage
 
     model = FakeMessagesListChatModel(responses=[AIMessage(content="")])
-    assert classify_node(model) == "runnable"
+    assert classify_node(model) == "llm"
 
 
 def test_function_classified():
     from langgraph._internal._runnable import RunnableCallable
 
     r = RunnableCallable(func=lambda x: x)
-    assert classify_node(r) == "runnable"
+    assert classify_node(r) == "function"
 
 
 def test_chain_classified():
     from langchain_core.runnables import RunnableLambda
 
     chain = RunnableLambda(lambda x: x) | RunnableLambda(lambda x: x)
-    assert classify_node(chain) == "runnable"
+    assert classify_node(chain) == "chain"
 
 
 def test_agent_legacy_classified():
@@ -125,14 +125,14 @@ def test_runnable_sequence_classified_as_runnable():
     from langchain_core.runnables import RunnableLambda
 
     chain = RunnableLambda(lambda x: x) | RunnableLambda(lambda x: x)
-    assert classify_node(chain) == "runnable"
+    assert classify_node(chain) == "chain"
 
 
 def test_runnable_parallel_classified_as_runnable():
     from langchain_core.runnables import RunnableLambda, RunnableParallel
 
     par = RunnableParallel(a=RunnableLambda(lambda x: x))
-    assert classify_node(par) == "runnable"
+    assert classify_node(par) == "chain"
 
 
 def test_runnable_lambda_classified_as_runnable():
