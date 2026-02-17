@@ -23,12 +23,14 @@ class Viewport:
         return getattr(self.graph, name)
 
     async def _broadcast(self, message: dict[str, Any]) -> None:
+        message_str = json.dumps(message)
+        self.ws.record(message_str)
         if self.ws.loop is None:
             return
         try:
             await asyncio.wrap_future(
                 asyncio.run_coroutine_threadsafe(
-                    self.ws.broadcast(json.dumps(message)), self.ws.loop
+                    self.ws.broadcast(message_str), self.ws.loop
                 )
             )
         except Exception:
