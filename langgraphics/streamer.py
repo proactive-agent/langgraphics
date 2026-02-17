@@ -34,51 +34,49 @@ def _merge_state(base: dict[str, Any], update: dict[str, Any]) -> dict[str, Any]
 
 class SubStepCallbackHandler(AsyncCallbackHandler):
     def __init__(self, broadcast: Any, node_names: set[str]) -> None:
-        self._broadcast = broadcast
-        self._node_names = node_names
-        self._id_to_name: dict[str, str] = {}
+        self.broadcast = broadcast
+        self.node_names = node_names
+        self.id_to_name: dict[str, str] = {}
         self.node_run_ids: dict[str, str] = {}
 
     def _register(self, run_id: Any, parent_run_id: Any, name: str) -> None:
         rid = str(run_id)
-        self._id_to_name[rid] = name
-        if name in self._node_names:
+        self.id_to_name[rid] = name
+        if name in self.node_names:
             parent_name = (
-                self._id_to_name.get(str(parent_run_id)) if parent_run_id else None
+                self.id_to_name.get(str(parent_run_id)) if parent_run_id else None
             )
-            if parent_name not in self._node_names:
+            if parent_name not in self.node_names:
                 self.node_run_ids[name] = rid
 
     def _parent_is_node(self, parent_run_id: Any) -> bool:
-        if not parent_run_id:
-            return False
-        return self._id_to_name.get(str(parent_run_id)) in self._node_names
+        return parent_run_id or self.id_to_name.get(str(parent_run_id)) in self.node_names
 
     async def _emit_start(
         self, run_id: Any, parent_run_id: Any, name: str, data: Any
     ) -> None:
         if self._parent_is_node(parent_run_id):
-            await self._broadcast(
+            await self.broadcast(
                 {
-                    "type": "node_step",
-                    "event": "start",
-                    "run_id": str(run_id),
-                    "parent_run_id": str(parent_run_id),
                     "name": name,
+                    "event": "start",
+                    "type": "node_step",
+                    "run_id": str(run_id),
                     "data": _serialize_state(data),
+                    "parent_run_id": str(parent_run_id),
                 }
             )
 
     async def _emit_end(self, run_id: Any, parent_run_id: Any, data: Any) -> None:
         if self._parent_is_node(parent_run_id):
-            await self._broadcast(
+            await self.broadcast(
                 {
-                    "type": "node_step",
-                    "event": "end",
-                    "run_id": str(run_id),
-                    "parent_run_id": str(parent_run_id),
                     "name": None,
+                    "event": "end",
+                    "type": "node_step",
+                    "run_id": str(run_id),
                     "data": _serialize_state(data),
+                    "parent_run_id": str(parent_run_id),
                 }
             )
 
@@ -258,13 +256,11 @@ class Viewport:
         serialized_input = _serialize_state(input)
         await self._broadcast(
             {
-                "type": "node_output",
                 "node": "__start__",
+                "type": "node_output",
                 "data": serialized_input
                 if isinstance(serialized_input, dict)
                 else {"input": serialized_input},
-                "input": None,
-                "run_id": None,
             }
         )
 
@@ -287,8 +283,8 @@ class Viewport:
                         node_output = chunk[node_name]
                         await self._broadcast(
                             {
-                                "type": "node_output",
                                 "node": node_name,
+                                "type": "node_output",
                                 "data": _serialize_state(node_output),
                                 "input": _serialize_state(accumulated_state),
                                 "run_id": handler.node_run_ids.get(node_name),
@@ -304,11 +300,10 @@ class Viewport:
             await self._emit_edge(last_node, "__end__")
             await self._broadcast(
                 {
-                    "type": "node_output",
                     "node": "__end__",
+                    "type": "node_output",
                     "data": _serialize_state(accumulated_state),
                     "input": _serialize_state(accumulated_state),
-                    "run_id": None,
                 }
             )
             await asyncio.sleep(1)
@@ -330,13 +325,11 @@ class Viewport:
         serialized_input = _serialize_state(input)
         await self._broadcast(
             {
-                "type": "node_output",
                 "node": "__start__",
+                "type": "node_output",
                 "data": serialized_input
                 if isinstance(serialized_input, dict)
                 else {"input": serialized_input},
-                "input": None,
-                "run_id": None,
             }
         )
 
@@ -359,8 +352,8 @@ class Viewport:
                         node_output = chunk[node_name]
                         await self._broadcast(
                             {
-                                "type": "node_output",
                                 "node": node_name,
+                                "type": "node_output",
                                 "data": _serialize_state(node_output),
                                 "input": _serialize_state(accumulated_state),
                                 "run_id": handler.node_run_ids.get(node_name),
@@ -377,11 +370,10 @@ class Viewport:
                 await self._emit_edge(last_node, "__end__")
                 await self._broadcast(
                     {
-                        "type": "node_output",
                         "node": "__end__",
+                        "type": "node_output",
                         "data": _serialize_state(accumulated_state),
                         "input": _serialize_state(accumulated_state),
-                        "run_id": None,
                     }
                 )
 
