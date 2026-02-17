@@ -50,7 +50,9 @@ class SubStepCallbackHandler(AsyncCallbackHandler):
                 self.node_run_ids[name] = rid
 
     def _parent_is_node(self, parent_run_id: Any) -> bool:
-        return parent_run_id or self.id_to_name.get(str(parent_run_id)) in self.node_names
+        if not parent_run_id:
+            return False
+        return self.id_to_name.get(str(parent_run_id)) in self.node_names
 
     async def _emit_start(
         self, run_id: Any, parent_run_id: Any, name: str, data: Any
