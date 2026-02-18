@@ -22,6 +22,8 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
+    "langchain-core>=1.0.0",
+    "langgraph>=1.0.0",
     "websockets>=14.0",
 ]
 
