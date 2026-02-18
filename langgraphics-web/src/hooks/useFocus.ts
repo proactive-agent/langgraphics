@@ -2,19 +2,20 @@ import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import type {Edge, Node} from "@xyflow/react";
 import {useReactFlow} from "@xyflow/react";
 import type {EdgeData, NodeData} from "../types";
-import {IS_HORIZONTAL} from "../layout";
+import type {RankDir} from "../layout";
 
 interface UseFocusOptions {
     nodes: Node<NodeData>[];
     edges: Edge<EdgeData>[];
     activeNodeId: string | null;
+    rankDir?: RankDir;
 }
 
 const FIT_VIEW_DURATION = 1500;
 
-function getNeighbourIds(nodeId: string, nodes: Node<NodeData>[], edges: Edge<EdgeData>[]): any[] {
+function getNeighbourIds(nodeId: string, nodes: Node<NodeData>[], edges: Edge<EdgeData>[], isHorizontal: boolean): any[] {
     const nodeRank = new Map<string, number>(
-        nodes.map((n) => [n.id, IS_HORIZONTAL ? n.position.x : n.position.y]),
+        nodes.map((n) => [n.id, isHorizontal ? n.position.x : n.position.y]),
     );
     const selfRank = nodeRank.get(nodeId) ?? 0;
 
@@ -35,7 +36,7 @@ function getNeighbourIds(nodeId: string, nodes: Node<NodeData>[], edges: Edge<Ed
     return [before?.id, after?.id].filter((id): id is string => id !== undefined).map((id) => ({id}));
 }
 
-export function useFocus({nodes, edges, activeNodeId}: UseFocusOptions) {
+export function useFocus({nodes, edges, activeNodeId, rankDir = "TB"}: UseFocusOptions) {
     const {fitView} = useReactFlow();
     const [mode, setMode] = useState<"auto" | "manual">("auto");
     const prevMode = useRef<"auto" | "manual">(mode);
@@ -43,11 +44,16 @@ export function useFocus({nodes, edges, activeNodeId}: UseFocusOptions) {
     const prevFocusId = useRef<string | null>(null);
 
     const isManual = useMemo(() => mode === "manual", [mode]);
+    const isHorizontal = useMemo(() => ["LR", "RL"].includes(rankDir), [rankDir]);
+
+    const fitContent = useCallback(async () => {
+        await fitView({duration: FIT_VIEW_DURATION});
+    }, [fitView])
 
     const goAuto = useCallback(async () => {
         setMode("auto");
-        await fitView({duration: FIT_VIEW_DURATION});
-    }, [fitView])
+        await fitContent();
+    }, [fitContent])
 
     const goManual = useCallback(() => {
         setMode("manual");
@@ -61,7 +67,7 @@ export function useFocus({nodes, edges, activeNodeId}: UseFocusOptions) {
             const startNode = nodes.find((n) => n.data.nodeType === "start");
             if (startNode) {
                 fitView({
-                    nodes: [startNode, ...getNeighbourIds(startNode.id, nodes, edges)],
+                    nodes: [startNode, ...getNeighbourIds(startNode.id, nodes, edges, isHorizontal)],
                     duration: 0,
                 }).then();
             }
@@ -83,12 +89,12 @@ export function useFocus({nodes, edges, activeNodeId}: UseFocusOptions) {
                 fitView({duration: FIT_VIEW_DURATION}).then();
             } else {
                 fitView({
-                    nodes: [{id: activeNodeId}, ...getNeighbourIds(activeNodeId, nodes, edges)],
+                    nodes: [{id: activeNodeId}, ...getNeighbourIds(activeNodeId, nodes, edges, isHorizontal)],
                     duration: FIT_VIEW_DURATION,
                 }).then();
             }
         }
-    }, [nodes, edges, activeNodeId, fitView, mode]);
+    }, [nodes, edges, activeNodeId, fitView, mode, isHorizontal]);
 
-    return {isManual, goAuto, goManual};
+    return {isManual, goAuto, goManual, fitContent};
 }

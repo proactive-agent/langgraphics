@@ -3,26 +3,28 @@ import {Position} from "@xyflow/react";
 import type {Edge, Node} from "@xyflow/react";
 import type {EdgeData, GraphMessage, NodeData} from "./types";
 
-const RANK_DIR = "TB";
+export type RankDir = "TB" | "LR";
+
 const NODE_WIDTH = 180;
 const NODE_HEIGHT = 60;
 const SMALL_NODE_WIDTH = 120;
 const SMALL_NODE_HEIGHT = 40;
-const DIRECTIONS_MAP: any = {
+const DIRECTIONS_MAP: Record<string, Position> = {
     T: Position.Top, L: Position.Left,
     R: Position.Right, B: Position.Bottom,
-}
-const RANK_TO = DIRECTIONS_MAP[RANK_DIR[1]] as Position;
-const RANK_FROM = DIRECTIONS_MAP[RANK_DIR[0]] as Position;
-export const IS_HORIZONTAL = ["LR", "RL"].includes(RANK_DIR);
+};
 
-export function computeLayout(topology: GraphMessage): {
+export function computeLayout(topology: GraphMessage, rankDir: RankDir = "TB"): {
     nodes: Node<NodeData>[];
     edges: Edge<EdgeData>[];
 } {
+    const RANK_TO = DIRECTIONS_MAP[rankDir[1]] as Position;
+    const RANK_FROM = DIRECTIONS_MAP[rankDir[0]] as Position;
+    const IS_HORIZONTAL = ["LR", "RL"].includes(rankDir);
+
     const g = new dagre.graphlib.Graph();
     g.setDefaultEdgeLabel(() => ({}));
-    g.setGraph({rankdir: RANK_DIR, ranksep: 80, nodesep: 60, marginx: 20, marginy: 20});
+    g.setGraph({rankdir: rankDir, ranksep: 80, nodesep: 60, marginx: 20, marginy: 20});
 
     for (const n of topology.nodes) {
         const isTerminal = n.node_type === "start" || n.node_type === "end";

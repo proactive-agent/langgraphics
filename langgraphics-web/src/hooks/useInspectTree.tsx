@@ -116,7 +116,7 @@ export function useInspectTree(
     nodeOutputLog: NodeOutputEntry[],
     nodeStepLog: NodeStepEntry[],
 ) {
-    const [selectedKey, setSelectedKey] = useState<string>("");
+    const [selectedKey, setSelectedKey] = useState<string>("log-0");
 
     const depthMap = useMemo(
         () => topology ? computeDepthMap(topology) : new Map<string, NodeMeta>(),

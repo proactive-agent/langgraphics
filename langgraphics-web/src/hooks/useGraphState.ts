@@ -1,7 +1,7 @@
 import {useMemo} from "react";
 import {type Edge, MarkerType, type Node} from "@xyflow/react";
 import type {EdgeData, EdgeStatus, ExecutionEvent, GraphMessage, NodeData, NodeStatus} from "../types";
-import {computeLayout} from "../layout";
+import {computeLayout, type RankDir} from "../layout";
 
 export function computeStatuses(events: ExecutionEvent[]): {
     nodeStatuses: Map<string, NodeStatus>;
@@ -45,11 +45,11 @@ export function computeStatuses(events: ExecutionEvent[]): {
     return {nodeStatuses, edgeStatuses};
 }
 
-export function useGraphState(topology: GraphMessage | null, events: ExecutionEvent[]) {
+export function useGraphState(topology: GraphMessage | null, events: ExecutionEvent[], rankDir: RankDir = "TB") {
     const base = useMemo(() => {
         if (!topology) return {nodes: [] as Node<NodeData>[], edges: [] as Edge<EdgeData>[]};
-        return computeLayout(topology);
-    }, [topology]);
+        return computeLayout(topology, rankDir);
+    }, [topology, rankDir]);
 
     return useMemo(() => {
         if (events.length === 0) return {nodes: base.nodes, edges: base.edges, activeNodeId: null as string | null};

@@ -1,9 +1,10 @@
-import {type ReactNode, useState} from "react";
+import {type ReactNode, useCallback, useState} from "react";
 import {Background, type ColorMode, type Edge, type Node, type NodeTypes, ReactFlow} from "@xyflow/react";
 import {Controls} from "./Controls";
 import {CustomNode} from "./CustomNode";
 import {useFocus} from "../hooks/useFocus";
 import type {EdgeData, NodeData} from "../types";
+import type {RankDir} from "../layout";
 
 const nodeTypes: NodeTypes = {custom: CustomNode as NodeTypes[string]};
 
@@ -12,11 +13,21 @@ interface GraphCanvasProps {
     edges: Edge<EdgeData>[];
     activeNodeId: string | null;
     inspect: ReactNode;
+    initialRankDir?: RankDir;
+    initialColorMode?: ColorMode;
+    onRankDirChange?: (v: RankDir) => void;
 }
 
-export function GraphCanvas({nodes, edges, activeNodeId, inspect}: GraphCanvasProps) {
-    const [colorMode, setColorMode] = useState<ColorMode>("system");
-    const {isManual, goAuto, goManual} = useFocus({nodes, edges, activeNodeId});
+export function GraphCanvas({nodes, edges, activeNodeId, inspect, initialColorMode = "system", initialRankDir = "TB", onRankDirChange}: GraphCanvasProps) {
+    const [rankDir, setRankDir] = useState<RankDir>(initialRankDir);
+    const [colorMode, setColorMode] = useState<ColorMode>(initialColorMode);
+    const {isManual, goAuto, goManual, fitContent} = useFocus({nodes, edges, activeNodeId, rankDir});
+
+    const handleRankDirChange = useCallback(async (v: RankDir) => {
+        setRankDir(v);
+        onRankDirChange?.(v);
+        await fitContent();
+    }, [onRankDirChange, fitContent])
 
     return (
         <ReactFlow
@@ -31,10 +42,12 @@ export function GraphCanvas({nodes, edges, activeNodeId, inspect}: GraphCanvasPr
         >
             <Controls
                 goAuto={goAuto}
+                rankDir={rankDir}
                 goManual={goManual}
                 isManual={isManual}
                 colorMode={colorMode}
                 setColorMode={setColorMode}
+                setRankDir={handleRankDirChange}
             />
             <Background/>
             {inspect}
