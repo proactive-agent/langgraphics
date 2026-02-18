@@ -41,6 +41,29 @@ await graph.ainvoke({"messages": [...]})
 Works with any LangGraph agent, no matter how simple or complex the graph is. Add it during a debugging session, or keep
 it in while you're actively building - it has no effect on how the agent behaves or what it returns.
 
+## Features
+
+| Feature                            | [LangGraphics](https://github.com/proactive-agent/langgraphics) | [LangFuse](https://github.com/langfuse/langfuse) | [LangSmith Studio](https://smith.langchain.com) |
+|------------------------------------|-----------------------------------------------------------------|--------------------------------------------------|-------------------------------------------------|
+| Open-source                        | ✅                                                               | ✅                                                | ❌                                               |
+| Unlimited free usage               | ✅                                                               | ✅                                                | ❌                                               |
+| Self-hosting supported             | ✅                                                               | ✅                                                | ❌                                               |
+| No vendor lock-in                  | ✅                                                               | ✅                                                | ❌                                               |
+| Works without external services    | ✅                                                               | ❌                                                | ❌                                               |
+| Simple setup                       | ✅                                                               | ❌                                                | ❌                                               |
+| One-line integration               | ✅                                                               | ❌                                                | ❌                                               |
+| No API key required                | ✅                                                               | ❌                                                | ❌                                               |
+| No instrumentation required        | ✅                                                               | ❌                                                | ❌                                               |
+| Runs fully locally                 | ✅                                                               | ❌                                                | ❌                                               |
+| Native LangGraph visualization     | ✅                                                               | ❌                                                | ❌                                               |
+| Real-time execution graph          | ✅                                                               | ❌                                                | ❌                                               |
+| Data stays local by default        | ✅                                                               | ❌                                                | ❌                                               |
+| Low learning curve                 | ✅                                                               | ❌                                                | ❌                                               |
+| Built-in prompt evaluation         | ❌                                                               | ❌                                                | ✅                                               |
+| Built-in observability dashboards  | ❌                                                               | ✅                                                | ✅                                               |
+| Built-in cost and latency tracking | ❌                                                               | ✅                                                | ✅                                               |
+| Production monitoring capabilities | ❌                                                               | ✅                                                | ✅                                               |
+
 ## Contribute
 
 Any contribution is welcome. Feel free to open an issue or a discussion if you have any questions not covered here. If
