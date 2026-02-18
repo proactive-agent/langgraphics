@@ -52,7 +52,9 @@ def test_agent_classified():
 
 def test_create_agent_classified():
     from langchain.agents import create_agent
-    from langchain_core.language_models.fake_chat_models import FakeMessagesListChatModel
+    from langchain_core.language_models.fake_chat_models import (
+        FakeMessagesListChatModel,
+    )
     from langchain_core.messages import AIMessage
 
     model = FakeMessagesListChatModel(responses=[AIMessage(content="")])
@@ -78,7 +80,9 @@ def test_retriever_classified():
 
 
 def test_llm_classified():
-    from langchain_core.language_models.fake_chat_models import FakeMessagesListChatModel
+    from langchain_core.language_models.fake_chat_models import (
+        FakeMessagesListChatModel,
+    )
     from langchain_core.messages import AIMessage
 
     model = FakeMessagesListChatModel(responses=[AIMessage(content="")])
