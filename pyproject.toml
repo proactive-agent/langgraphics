@@ -30,8 +30,6 @@ dependencies = [
 [dependency-groups]
 dev = [
     "langchain>=1.2.7",
-    "langchain-ollama>=1.0.1",
-    "langchain-openai>=1.1.7",
     "langgraph>=1.0.7",
     "pytest>=9.0.2",
     "pytest-asyncio>=1.3.0",
