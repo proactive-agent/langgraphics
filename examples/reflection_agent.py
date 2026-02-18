@@ -1,7 +1,11 @@
 import asyncio
 from functools import partial
+from typing import List
 
-from langchain_core.messages import AIMessage, HumanMessage
+from langchain_core.documents import Document
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+from langchain_core.retrievers import BaseRetriever
+from langchain_core.runnables import RunnableLambda
 from langgraph.graph import END, StateGraph
 from langgraph.graph import MessagesState
 
@@ -18,9 +22,21 @@ async def simulate_node(state, tag, *, human=False):
     return {"messages": [cls(content=f"[{tag}] processed: {last[:60]}")]}
 
 
+class SimulatedRetriever(BaseRetriever):
+    def _get_relevant_documents(self, query, **kwargs) -> List[Document]:
+        raise NotImplementedError
+
+    async def ainvoke(self, state, config=None, **kwargs):
+        return await simulate_node(state, tag=REFLECT, human=True)
+
+
 builder = StateGraph(MessagesState)
-builder.add_node(GENERATE, partial(simulate_node, tag=GENERATE))
-builder.add_node(REFLECT, partial(simulate_node, tag=REFLECT, human=True))
+builder.add_node(
+    GENERATE,
+    RunnableLambda(lambda state: state)
+    | RunnableLambda(partial(simulate_node, tag=GENERATE)),
+)
+builder.add_node(REFLECT, SimulatedRetriever())
 builder.set_entry_point(GENERATE)
 
 
@@ -39,8 +55,21 @@ graph = builder.compile()
 graph = watch(graph)
 
 
+SYSTEM_PROMPT = (
+    "You are a helpful writing assistant. "
+    "Generate a response, reflect on it to identify improvements, and iterate."
+)
+
+
 async def main():
-    await graph.ainvoke({"messages": [HumanMessage(content="seed")]})
+    await graph.ainvoke(
+        {
+            "messages": [
+                SystemMessage(content=SYSTEM_PROMPT),
+                HumanMessage(content="seed"),
+            ]
+        }
+    )
 
 
 if __name__ == "__main__":
