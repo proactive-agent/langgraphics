@@ -43,6 +43,8 @@ def watch(
     port: int = 8764,
     ws_port: int = 8765,
     open_browser: bool = True,
+    theme: str = "system",
+    direction: str = "TB",
 ) -> Viewport:
     topology = extract(graph)
     manager = Broadcaster(topology)
@@ -52,6 +54,6 @@ def watch(
     start_ws_server(manager, host, ws_port)
 
     if open_browser:
-        webbrowser.open(f"http://{host}:{port}")
+        webbrowser.open(f"http://{host}:{port}?theme={theme}&direction={direction}")
 
     return Viewport(graph, manager, edge_lookup, http_server)
