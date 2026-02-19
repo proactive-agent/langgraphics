@@ -87,23 +87,6 @@ def _input_preview(run: Run) -> str:
     return ""
 
 
-# Priority for inferring a node's display kind from its descendant run types.
-# Lower index = higher priority.
-_KIND_PRIORITY = ["llm", "chat_model", "tool", "retriever", "chain"]
-
-
-def _better_kind(current: str | None, candidate: str) -> str:
-    if candidate not in _KIND_PRIORITY:
-        return current or "chain"
-    if current not in _KIND_PRIORITY:
-        return candidate
-    return (
-        candidate
-        if _KIND_PRIORITY.index(candidate) < _KIND_PRIORITY.index(current)
-        else current
-    )
-
-
 class BroadcastingTracer(AsyncBaseTracer):
     def __init__(self, broadcast: Any, node_names: set[str]) -> None:
         super().__init__(_schema_format="original+chat")
@@ -115,7 +98,6 @@ class BroadcastingTracer(AsyncBaseTracer):
         pass
 
     def _find_ancestor_node(self, run: Run) -> str | None:
-        """Returns the run_id of the nearest ancestor that is a graph node."""
         parent_id = run.parent_run_id
         while parent_id is not None:
             parent = self.run_map.get(str(parent_id))
@@ -125,28 +107,6 @@ class BroadcastingTracer(AsyncBaseTracer):
                 return str(parent.id)
             parent_id = parent.parent_run_id
         return None
-
-    def _find_ancestor_node_name(self, run: Run) -> str | None:
-        """Returns the name of the nearest ancestor (or self) that is a graph node."""
-        if run.name in self.node_names:
-            return run.name
-        parent_id = run.parent_run_id
-        while parent_id is not None:
-            parent = self.run_map.get(str(parent_id))
-            if parent is None:
-                break
-            if parent.name in self.node_names:
-                return parent.name
-            parent_id = parent.parent_run_id
-        return None
-
-    def _record_kind(self, run: Run) -> None:
-        """Propagate this run's type up to its owning graph node."""
-        node_name = self._find_ancestor_node_name(run)
-        if node_name is not None:
-            self.node_kinds[node_name] = _better_kind(
-                self.node_kinds.get(node_name), run.run_type or ""
-            )
 
     async def _emit_start(self, run: Run) -> None:
         node_run_id = self._find_ancestor_node(run)
@@ -187,7 +147,7 @@ class BroadcastingTracer(AsyncBaseTracer):
             await self._emit_start(run)
 
     async def _on_chain_end(self, run: Run) -> None:
-        self._record_kind(run)
+        self.node_kinds[run.name] = run.run_type
         if run.name in self.node_names:
             parent = (
                 self.run_map.get(str(run.parent_run_id)) if run.parent_run_id else None
@@ -207,7 +167,7 @@ class BroadcastingTracer(AsyncBaseTracer):
             await self._emit_end(run)
 
     async def _on_chain_error(self, run: Run) -> None:
-        self._record_kind(run)
+        self.node_kinds[run.name] = run.run_type
         if run.name not in self.node_names:
             await self._emit_end(run)
 
@@ -218,33 +178,33 @@ class BroadcastingTracer(AsyncBaseTracer):
         await self._emit_start(run)
 
     async def _on_llm_end(self, run: Run) -> None:
-        self._record_kind(run)
+        self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
 
     async def _on_llm_error(self, run: Run) -> None:
-        self._record_kind(run)
+        self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
 
     async def _on_tool_start(self, run: Run) -> None:
         await self._emit_start(run)
 
     async def _on_tool_end(self, run: Run) -> None:
-        self._record_kind(run)
+        self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
 
     async def _on_tool_error(self, run: Run) -> None:
-        self._record_kind(run)
+        self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
 
     async def _on_retriever_start(self, run: Run) -> None:
         await self._emit_start(run)
 
     async def _on_retriever_end(self, run: Run) -> None:
-        self._record_kind(run)
+        self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
 
     async def _on_retriever_error(self, run: Run) -> None:
-        self._record_kind(run)
+        self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
 
 
