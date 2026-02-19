@@ -1,8 +1,8 @@
 import Tree from "antd/es/tree";
-import {type ReactNode} from "react";
+import type {TreeDataNode} from "antd";
 import type {Node} from "@xyflow/react";
+import {useMemo, useState, type ReactNode} from "react";
 import type {GraphMessage, NodeData, NodeOutputEntry, NodeStepEntry} from "../types";
-import {useInspectTree} from "../hooks/useInspectTree.tsx";
 
 interface InspectPanelProps {
     topology: GraphMessage | null;
@@ -20,105 +20,124 @@ function DetailSection({title, children}: { title: string; children: ReactNode }
     );
 }
 
-function NodeDetail({entry, isStart, isEnd, stepStart, stepEnd}: {
+function NodeDetail({entry, selectedStep}: {
     entry: NodeOutputEntry | null;
-    isStart: boolean;
-    isEnd: boolean;
-    stepStart: NodeStepEntry | null;
-    stepEnd: NodeStepEntry | null;
+    selectedStep: NodeStepEntry | null;
 }) {
     if (!entry) return null;
 
-    if (stepStart !== null) {
-        let input = stepStart.data;
-        let output = stepEnd !== null ? stepEnd.data : stepEnd;
-        const toString = (d: any) => typeof d === "string" ? d : JSON.stringify(d, null, 2);
-        if (typeof stepStart.data === "object") {
-            const messages = stepStart.data.messages;
-            input = Array.isArray(messages) ? messages[messages.length - 1].content : stepStart.data;
-        }
-        if (stepEnd !== null && typeof stepEnd.data === "object") {
-            const messages = stepEnd.data.messages;
-            output = Array.isArray(messages) ? messages[messages.length - 1].content : stepEnd.data;
-        }
+    if (selectedStep !== null) {
         return (
             <>
-                <DetailSection title="Input">
-                    <pre className="inspect-detail-json">{toString(input)}</pre>
-                </DetailSection>
-                {stepEnd !== null && (
+                {selectedStep.input_preview && (
+                    <DetailSection title="Input">
+                        <div className="inspect-detail-text">{selectedStep.input_preview}</div>
+                    </DetailSection>
+                )}
+                {selectedStep.output_preview && (
                     <DetailSection title="Output">
-                        <pre className="inspect-detail-json">{toString(output)}</pre>
+                        <div className="inspect-detail-text">{selectedStep.output_preview}</div>
                     </DetailSection>
                 )}
             </>
         );
     }
 
-    if (isStart) {
-        const allMessages = entry.data.messages ?? [];
-        const promptMsg = allMessages.find((m) => m.type === "system") ?? allMessages[0];
-        return (
-            <DetailSection title="System prompt">
-                {promptMsg
-                    ? <div className="inspect-detail-text">{promptMsg.content as string}</div>
-                    : <pre className="inspect-detail-json">{JSON.stringify(entry.data, null, 2)}</pre>
-                }
-            </DetailSection>
-        );
-    }
-
-    if (isEnd) {
-        const allMessages = entry.data.messages ?? [];
-        const lastMsg = allMessages.length > 0 ? allMessages[allMessages.length - 1] : null;
-        return (
-            <DetailSection title="Final answer">
-                {lastMsg
-                    ? <div className="inspect-detail-text">{lastMsg.content as string}</div>
-                    : <pre className="inspect-detail-json">{JSON.stringify(entry.data, null, 2)}</pre>
-                }
-            </DetailSection>
-        );
-    }
-
-    const outputMessages = entry.data.messages ?? [];
-    const inputMessages = entry.input?.messages ?? [];
-    const lastInput = inputMessages.length > 0 ? inputMessages.slice(-1) : null;
-
     return (
         <>
-            {entry.input !== null && (
+            {entry.input_display && (
                 <DetailSection title="Input">
-                    {lastInput
-                        ? lastInput.map((msg, i) => <div key={i}
-                                                         className="inspect-detail-text">{msg.content as string}</div>)
-                        : <pre className="inspect-detail-json">{JSON.stringify(entry.input, null, 2)}</pre>
-                    }
+                    <div className="inspect-detail-text">{entry.input_display}</div>
                 </DetailSection>
             )}
-            <DetailSection title="Output">
-                {outputMessages.length > 0
-                    ? outputMessages.map((msg, i) => (
-                        <div key={i} className="inspect-detail-text">
-                            {msg.content as string}
-                        </div>
-                    ))
-                    : Object.keys(entry.data).length > 0
-                        ? <pre className="inspect-detail-json">{JSON.stringify(entry.data, null, 2)}</pre>
-                        : null
-                }
-            </DetailSection>
+            {entry.display && (
+                <DetailSection title="Output">
+                    <div className="inspect-detail-text">{entry.display}</div>
+                </DetailSection>
+            )}
         </>
     );
 }
 
 export function InspectPanel({topology, nodes, nodeOutputLog, nodeStepLog}: InspectPanelProps) {
-    const {
-        treeData, expandedKeys, visibleLog,
-        selectedKey, setSelectedKey,
-        selectedEntry, selectedMeta,
-        stepStart, stepEnd,
-    } = useInspectTree(topology, nodes, nodeOutputLog, nodeStepLog);
+    const [selectedKey, setSelectedKey] = useState<string>("log-0");
+
+    const nodeMap = useMemo(() => {
+        if (!topology) return new Map<string, {kind: string | null; isStart: boolean; isEnd: boolean}>();
+        return new Map(topology.nodes.map((n) => [n.id, {
+            kind: n.node_kind,
+            isStart: n.node_type === "start",
+            isEnd: n.node_type === "end",
+        }]));
+    }, [topology]);
+
+    const nodeDataMap = useMemo(
+        () => new Map(nodes.map((n) => [n.id, n.data])),
+        [nodes]);
+
+    const visibleLog = useMemo(
+        () => nodeOutputLog.filter((e) => {
+            const info = nodeMap.get(e.node_id);
+            return info !== undefined && !info.isStart && !info.isEnd;
+        }),
+        [nodeOutputLog, nodeMap]);
+
+    const stepsByParent = useMemo(() => {
+        const map = new Map<string, NodeStepEntry[]>();
+        for (const s of nodeStepLog) {
+            const arr = map.get(s.parent_run_id) ?? [];
+            arr.push(s);
+            map.set(s.parent_run_id, arr);
+        }
+        return map;
+    }, [nodeStepLog]);
+
+    const treeData = useMemo((): TreeDataNode[] =>
+        visibleLog.map((entry, i) => {
+            const label = nodeDataMap.get(entry.node_id)?.label ?? entry.node_id;
+            const steps = entry.run_id ? (stepsByParent.get(entry.run_id) ?? []) : [];
+
+            const children: TreeDataNode[] = steps.map((step, si) => ({
+                key: `log-${i}-step-${si}`, isLeaf: true, selectable: true,
+                title: (
+                    <span className="inspect-step-label">
+                        {step.step_kind
+                            ? <img className="inspect-step-icon" src={`/icons/${step.step_kind}.svg`} alt={step.step_kind}/>
+                            : <span className={`inspect-step-status${step.status === "error" ? " error" : ""}`}/>
+                        }
+                        <span className="inspect-step-name">{step.name ?? "step"}</span>
+                        {step.elapsed_ms != null && (
+                            <span className="inspect-step-elapsed">{step.elapsed_ms.toFixed(1)}ms</span>
+                        )}
+                    </span>
+                ),
+            }));
+
+            return {
+                key: `log-${i}`, children,
+                title: (
+                    <span className="inspect-node-label">
+                        {entry.node_kind && <img src={`/icons/${entry.node_kind}.svg`} alt={entry.node_kind}/>}
+                        {label}
+                    </span>
+                ),
+            };
+        }),
+        [visibleLog, nodeMap, nodeDataMap, stepsByParent]);
+
+    const expandedKeys = useMemo(
+        () => visibleLog.map((_, i) => `log-${i}`),
+        [visibleLog]);
+
+    const selectedParts = selectedKey?.split("-") ?? [];
+    const logIdx = selectedKey ? parseInt(selectedParts[1], 10) : null;
+    const selectedEntry = logIdx !== null ? (visibleLog[logIdx] ?? null) : null;
+
+    let selectedStep: NodeStepEntry | null = null;
+    if (selectedParts.length === 4 && selectedParts[2] === "step" && selectedEntry?.run_id) {
+        const steps = stepsByParent.get(selectedEntry.run_id) ?? [];
+        selectedStep = steps[parseInt(selectedParts[3], 10)] ?? null;
+    }
 
     return (
         <div className="inspect-panel">
@@ -139,11 +158,8 @@ export function InspectPanel({topology, nodes, nodeOutputLog, nodeStepLog}: Insp
                 </div>
                 <div className="inspect-detail-pane">
                     <NodeDetail
-                        isStart={selectedMeta?.isStart ?? false}
-                        isEnd={selectedMeta?.isEnd ?? false}
                         entry={selectedEntry}
-                        stepStart={stepStart}
-                        stepEnd={stepEnd}
+                        selectedStep={selectedStep}
                     />
                 </div>
             </div>

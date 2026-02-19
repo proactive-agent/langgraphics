@@ -10,6 +10,8 @@ export interface NodeHandle {
     style: { top?: string; left?: string; transform: string };
 }
 
+export type NodeKind = "llm" | "tool" | "retriever" | "chain";
+
 export interface NodeData extends Record<string, unknown> {
     label: string;
     nodeType: "start" | "end" | "node";
@@ -23,10 +25,6 @@ export interface EdgeData extends Record<string, unknown> {
     label: string | null;
     status: EdgeStatus;
 }
-
-export type NodeKind =
-    | "tool" | "llm" | "embedding" | "retriever"
-    | "agent" | "chain" | "function" | "runnable" | "unknown";
 
 export interface ProtocolNode {
     id: string;
@@ -85,27 +83,16 @@ export interface ErrorMessage {
     edge_id: string | null;
 }
 
-export interface SerializedMessage {
-    content: string;
-    type: string;
-
-    [key: string]: unknown;
-}
-
 export interface NodeOutputMessage {
     type: "node_output";
-    node: string;
-    data: { messages?: SerializedMessage[]; [key: string]: unknown };
-    input: { messages?: SerializedMessage[]; [key: string]: unknown } | null;
-    run_id: string | null;
+    node_id: string;
+    node_kind: NodeKind | null;
+    display: string | null;
+    input_display?: string | null;
+    run_id?: string | null;
 }
 
-export interface NodeOutputEntry {
-    nodeId: string;
-    data: NodeOutputMessage["data"];
-    input: NodeOutputMessage["input"];
-    runId: string | null;
-}
+export type NodeOutputEntry = Omit<NodeOutputMessage, "type">;
 
 export interface NodeStepMessage {
     type: "node_step";
@@ -113,16 +100,14 @@ export interface NodeStepMessage {
     parent_run_id: string;
     name: string | null;
     event: "start" | "end";
-    data: { [key: string]: unknown };
+    step_kind: NodeKind | null;
+    input_preview?: string;
+    elapsed_ms?: number | null;
+    status?: "ok" | "error";
+    output_preview?: string;
 }
 
-export interface NodeStepEntry {
-    runId: string;
-    parentRunId: string;
-    name: string | null;
-    event: "start" | "end";
-    data: NodeStepMessage["data"];
-}
+export type NodeStepEntry = Omit<NodeStepMessage, "type" | "event">;
 
 export type WsMessage =
     | GraphMessage | RunStartMessage | RunEndMessage

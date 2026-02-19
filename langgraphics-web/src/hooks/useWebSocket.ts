@@ -52,9 +52,21 @@ export function useWebSocket(url: string) {
                         setNodeStepLog([]);
                         setNodeOutputLog([]);
                     } else if (msg.type === "node_output") {
-                        setNodeOutputLog((prev) => [...prev, {nodeId: msg.node, data: msg.data, input: msg.input ?? null, runId: msg.run_id ?? null}]);
+                        const {type: _, ...entry} = msg;
+                        setNodeOutputLog((prev) => [...prev, entry]);
                     } else if (msg.type === "node_step") {
-                        setNodeStepLog((prev) => [...prev, {runId: msg.run_id, parentRunId: msg.parent_run_id, name: msg.name, event: msg.event, data: msg.data}]);
+                        const {type: _, event, ...fields} = msg;
+                        if (event === "start") {
+                            setNodeStepLog((prev) => [...prev, fields]);
+                        } else {
+                            setNodeStepLog((prev) => {
+                                const idx = prev.findLastIndex((e) => e.run_id === msg.run_id);
+                                if (idx === -1) return prev;
+                                const updated = [...prev];
+                                updated[idx] = {...updated[idx], ...fields};
+                                return updated;
+                            });
+                        }
                     } else {
                         if (msg.type === "run_end" || msg.type === "error") runDone = true;
                         setEvents((prev) => [...prev, msg as ExecutionEvent]);
