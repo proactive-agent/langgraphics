@@ -2,10 +2,9 @@ import Tree from "antd/es/tree";
 import type {TreeDataNode} from "antd";
 import type {Node} from "@xyflow/react";
 import {useMemo, useState, type ReactNode} from "react";
-import type {GraphMessage, NodeData, NodeOutputEntry, NodeStepEntry} from "../types";
+import type {NodeData, NodeOutputEntry, NodeStepEntry} from "../types";
 
 interface InspectPanelProps {
-    topology: GraphMessage | null;
     nodes: Node<NodeData>[];
     nodeOutputLog: NodeOutputEntry[];
     nodeStepLog: NodeStepEntry[];
@@ -59,28 +58,14 @@ function NodeDetail({entry, selectedStep}: {
     );
 }
 
-export function InspectPanel({topology, nodes, nodeOutputLog, nodeStepLog}: InspectPanelProps) {
+export function InspectPanel({nodes, nodeOutputLog, nodeStepLog}: InspectPanelProps) {
     const [selectedKey, setSelectedKey] = useState<string>("log-0");
-
-    const nodeMap = useMemo(() => {
-        if (!topology) return new Map<string, {kind: string | null; isStart: boolean; isEnd: boolean}>();
-        return new Map(topology.nodes.map((n) => [n.id, {
-            kind: n.node_kind,
-            isStart: n.node_type === "start",
-            isEnd: n.node_type === "end",
-        }]));
-    }, [topology]);
 
     const nodeDataMap = useMemo(
         () => new Map(nodes.map((n) => [n.id, n.data])),
         [nodes]);
 
-    const visibleLog = useMemo(
-        () => nodeOutputLog.filter((e) => {
-            const info = nodeMap.get(e.node_id);
-            return info !== undefined && !info.isStart && !info.isEnd;
-        }),
-        [nodeOutputLog, nodeMap]);
+    const visibleLog = nodeOutputLog;
 
     const stepsByParent = useMemo(() => {
         const map = new Map<string, NodeStepEntry[]>();
@@ -123,7 +108,7 @@ export function InspectPanel({topology, nodes, nodeOutputLog, nodeStepLog}: Insp
                 ),
             };
         }),
-        [visibleLog, nodeMap, nodeDataMap, stepsByParent]);
+        [visibleLog, nodeDataMap, stepsByParent]);
 
     const expandedKeys = useMemo(
         () => visibleLog.map((_, i) => `log-${i}`),

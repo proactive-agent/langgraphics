@@ -23,16 +23,6 @@ def _serialize_state(state: Any) -> Any:
         return str(state)
 
 
-def _merge_state(base: dict[str, Any], update: dict[str, Any]) -> dict[str, Any]:
-    merged = dict(base)
-    for k, v in update.items():
-        if isinstance(v, list) and isinstance(merged.get(k), list):
-            merged[k] = merged[k] + v
-        else:
-            merged[k] = v
-    return merged
-
-
 def _elapsed_ms(run: Run) -> float | None:
     if run.end_time is None or run.start_time is None:
         return None
@@ -97,83 +87,80 @@ def _input_preview(run: Run) -> str:
     return ""
 
 
-_STEP_KIND_MAP: dict[str, str] = {
-    "llm": "llm",
-    "chat_model": "llm",
-    "tool": "tool",
-    "retriever": "retriever",
-    "chain": "chain",
-}
-
-_KIND_PRIORITY: list[str] = ["llm", "tool", "retriever", "chain"]
+# Priority for inferring a node's display kind from its descendant run types.
+# Lower index = higher priority.
+_KIND_PRIORITY = ["llm", "chat_model", "tool", "retriever", "chain"]
 
 
-def _step_kind(run: Run) -> str | None:
-    return _STEP_KIND_MAP.get(run.run_type or "")
-
-
-def _best_kind(current: str, candidate: str) -> str:
+def _better_kind(current: str | None, candidate: str) -> str:
     if candidate not in _KIND_PRIORITY:
-        return current
-    if _KIND_PRIORITY.index(candidate) < _KIND_PRIORITY.index(current):
+        return current or "chain"
+    if current not in _KIND_PRIORITY:
         return candidate
-    return current
-
-
-def _display_text(data: Any) -> str | None:
-    if not isinstance(data, dict):
-        return None
-    messages = data.get("messages", [])
-    if isinstance(messages, list) and messages:
-        last = messages[-1]
-        if isinstance(last, dict):
-            content = last.get("content") or last.get("kwargs", {}).get("content", "")
-            if content:
-                return str(content)
-        text = getattr(last, "content", None)
-        if text:
-            return str(text)
-    for key in ("output", "summary", "answer", "result", "input", "query"):
-        if key in data and data[key]:
-            return str(data[key])
-    return None
+    return (
+        candidate
+        if _KIND_PRIORITY.index(candidate) < _KIND_PRIORITY.index(current)
+        else current
+    )
 
 
 class BroadcastingTracer(AsyncBaseTracer):
     def __init__(self, broadcast: Any, node_names: set[str]) -> None:
         super().__init__(_schema_format="original+chat")
-        self._broadcast_fn = broadcast
-        self._node_names = node_names
-        self.node_run_ids: dict[str, str] = {}
+        self.broadcast = broadcast
+        self.node_names = node_names
         self.node_kinds: dict[str, str] = {}
 
     async def _persist_run(self, run: Run) -> None:
         pass
 
     def _find_ancestor_node(self, run: Run) -> str | None:
+        """Returns the run_id of the nearest ancestor that is a graph node."""
         parent_id = run.parent_run_id
         while parent_id is not None:
             parent = self.run_map.get(str(parent_id))
             if parent is None:
                 break
-            if parent.name in self._node_names:
+            if parent.name in self.node_names:
                 return str(parent.id)
             parent_id = parent.parent_run_id
         return None
+
+    def _find_ancestor_node_name(self, run: Run) -> str | None:
+        """Returns the name of the nearest ancestor (or self) that is a graph node."""
+        if run.name in self.node_names:
+            return run.name
+        parent_id = run.parent_run_id
+        while parent_id is not None:
+            parent = self.run_map.get(str(parent_id))
+            if parent is None:
+                break
+            if parent.name in self.node_names:
+                return parent.name
+            parent_id = parent.parent_run_id
+        return None
+
+    def _record_kind(self, run: Run) -> None:
+        """Propagate this run's type up to its owning graph node."""
+        node_name = self._find_ancestor_node_name(run)
+        if node_name is not None:
+            self.node_kinds[node_name] = _better_kind(
+                self.node_kinds.get(node_name), run.run_type or ""
+            )
 
     async def _emit_start(self, run: Run) -> None:
         node_run_id = self._find_ancestor_node(run)
         if node_run_id is None:
             return
-        await self._broadcast_fn(
+        await self.broadcast(
             {
-                "name": run.name,
-                "event": "start",
                 "type": "node_step",
+                "event": "start",
                 "run_id": str(run.id),
-                "step_kind": _step_kind(run),
-                "input_preview": _input_preview(run),
                 "parent_run_id": node_run_id,
+                "name": run.name,
+                "step_kind": run.run_type,
+                "input_preview": _input_preview(run),
             }
         )
 
@@ -181,61 +168,47 @@ class BroadcastingTracer(AsyncBaseTracer):
         node_run_id = self._find_ancestor_node(run)
         if node_run_id is None:
             return
-        await self._broadcast_fn(
+        await self.broadcast(
             {
-                "name": run.name,
-                "event": "end",
                 "type": "node_step",
+                "event": "end",
                 "run_id": str(run.id),
-                "step_kind": _step_kind(run),
+                "parent_run_id": node_run_id,
+                "name": run.name,
+                "step_kind": run.run_type,
                 "elapsed_ms": _elapsed_ms(run),
                 "status": "error" if run.error else "ok",
                 "output_preview": _output_preview(run),
-                "parent_run_id": node_run_id,
             }
         )
 
     async def _on_chain_start(self, run: Run) -> None:
-        if run.name in self._node_names:
-            parent = (
-                self.run_map.get(str(run.parent_run_id)) if run.parent_run_id else None
-            )
-            if parent is None or parent.name not in self._node_names:
-                self.node_run_ids[run.name] = str(run.id)
-        else:
+        if run.name not in self.node_names:
             await self._emit_start(run)
-
-    def _record_kind(self, run: Run) -> None:
-        kind = _step_kind(run)
-        if kind is None:
-            return
-        node_name = self._find_ancestor_node_name(run)
-        if node_name is not None:
-            self.node_kinds[node_name] = _best_kind(
-                self.node_kinds.get(node_name, "chain"), kind
-            )
-
-    def _find_ancestor_node_name(self, run: Run) -> str | None:
-        if run.name in self._node_names:
-            return run.name
-        parent_id = run.parent_run_id
-        while parent_id is not None:
-            parent = self.run_map.get(str(parent_id))
-            if parent is None:
-                break
-            if parent.name in self._node_names:
-                return parent.name
-            parent_id = parent.parent_run_id
-        return None
 
     async def _on_chain_end(self, run: Run) -> None:
         self._record_kind(run)
-        if run.name not in self._node_names:
+        if run.name in self.node_names:
+            parent = (
+                self.run_map.get(str(run.parent_run_id)) if run.parent_run_id else None
+            )
+            if parent is None or parent.name not in self.node_names:
+                await self.broadcast(
+                    {
+                        "type": "node_output",
+                        "node_id": run.name,
+                        "run_id": str(run.id),
+                        "node_kind": self.node_kinds.get(run.name),
+                        "display": _output_preview(run),
+                        "input_display": _input_preview(run),
+                    }
+                )
+        else:
             await self._emit_end(run)
 
     async def _on_chain_error(self, run: Run) -> None:
         self._record_kind(run)
-        if run.name not in self._node_names:
+        if run.name not in self.node_names:
             await self._emit_end(run)
 
     async def _on_llm_start(self, run: Run) -> None:
@@ -345,48 +318,13 @@ class Viewport:
         await self.ws.shutdown()
         self.http_server.shutdown()
 
-    async def _emit_node_output(
-        self,
-        node: str,
-        data: Any,
-        input_data: Any = None,
-        run_id: str | None = None,
-        node_kind: str | None = None,
-    ) -> None:
-        serialized_data = _serialize_state(data)
-        serialized_input = (
-            _serialize_state(input_data) if input_data is not None else None
-        )
-        msg: dict[str, Any] = {
-            "node_id": node,
-            "type": "node_output",
-            "display": _display_text(serialized_data),
-            "node_kind": node_kind,
-        }
-        if serialized_input is not None:
-            msg["input_display"] = _display_text(serialized_input)
-        if run_id is not None:
-            msg["run_id"] = run_id
-        await self._broadcast(msg)
-
     async def ainvoke(self, input: Any, config: Any = None, **kwargs: Any) -> Any:
         run_id = uuid.uuid4().hex[:8]
         await self._broadcast({"type": "run_start", "run_id": run_id})
 
-        serialized_input = _serialize_state(input)
-        start_data = (
-            serialized_input
-            if isinstance(serialized_input, dict)
-            else {"input": serialized_input}
-        )
-        await self._emit_node_output("__start__", start_data)
-
         result: Any = None
         last_node = "__start__"
-        merged_config, handler = self._make_config(config)
-        accumulated_state: dict[str, Any] = (
-            dict(input) if isinstance(input, dict) else {}
-        )
+        merged_config, _ = self._make_config(config)
 
         try:
             async for chunk in self.graph.astream(
@@ -397,25 +335,10 @@ class Viewport:
                         if node_name == "__metadata__":
                             continue
                         await self._emit_edge(last_node, node_name)
-                        node_output = chunk[node_name]
-                        await self._emit_node_output(
-                            node_name,
-                            node_output,
-                            input_data=accumulated_state,
-                            run_id=handler.node_run_ids.get(node_name),
-                            node_kind=handler.node_kinds.get(node_name),
-                        )
-                        if isinstance(node_output, dict):
-                            accumulated_state = _merge_state(
-                                accumulated_state, node_output
-                            )
                         last_node = node_name
-                        result = node_output
+                        result = chunk[node_name]
 
             await self._emit_edge(last_node, "__end__")
-            await self._emit_node_output(
-                "__end__", accumulated_state, input_data=accumulated_state
-            )
             await asyncio.sleep(1)
             await self._broadcast({"type": "run_end", "run_id": run_id})
         except Exception:
@@ -432,20 +355,9 @@ class Viewport:
         run_id = uuid.uuid4().hex[:8]
         await self._broadcast({"type": "run_start", "run_id": run_id})
 
-        serialized_input = _serialize_state(input)
-        start_data = (
-            serialized_input
-            if isinstance(serialized_input, dict)
-            else {"input": serialized_input}
-        )
-        await self._emit_node_output("__start__", start_data)
-
         last_node = "__start__"
-        merged_config, handler = self._make_config(config)
+        merged_config, _ = self._make_config(config)
         stream_mode = kwargs.get("stream_mode", "values")
-        accumulated_state: dict[str, Any] = (
-            dict(input) if isinstance(input, dict) else {}
-        )
 
         try:
             async for chunk in self.graph.astream(
@@ -456,26 +368,11 @@ class Viewport:
                         if node_name == "__metadata__":
                             continue
                         await self._emit_edge(last_node, node_name)
-                        node_output = chunk[node_name]
-                        await self._emit_node_output(
-                            node_name,
-                            node_output,
-                            input_data=accumulated_state,
-                            run_id=handler.node_run_ids.get(node_name),
-                            node_kind=handler.node_kinds.get(node_name),
-                        )
-                        if isinstance(node_output, dict):
-                            accumulated_state = _merge_state(
-                                accumulated_state, node_output
-                            )
                         last_node = node_name
                 yield chunk
 
             if last_node != "__start__":
                 await self._emit_edge(last_node, "__end__")
-                await self._emit_node_output(
-                    "__end__", accumulated_state, input_data=accumulated_state
-                )
 
             await self._broadcast({"type": "run_end", "run_id": run_id})
         except Exception:

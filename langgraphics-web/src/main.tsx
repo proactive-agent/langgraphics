@@ -41,7 +41,6 @@ function Index() {
                 inspect={
                     <InspectPanel
                         nodes={nodes}
-                        topology={topology}
                         nodeStepLog={nodeStepLog}
                         nodeOutputLog={nodeOutputLog}
                     />
