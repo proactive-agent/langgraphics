@@ -14,10 +14,9 @@ export type NodeKind = "llm" | "tool" | "retriever" | "chain" | "chat_model";
 
 export interface NodeData extends Record<string, unknown> {
     label: string;
-    nodeType: "start" | "end" | "node";
-    nodeKind: NodeKind | null;
     status: NodeStatus;
     handles: NodeHandle[];
+    nodeType: "start" | "end" | "node";
 }
 
 export interface EdgeData extends Record<string, unknown> {
