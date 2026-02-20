@@ -29,11 +29,11 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "deepagents>=0.3.3",
     "langchain>=1.2.7",
     "langgraph>=1.0.7",
     "pytest>=9.0.2",
     "pytest-asyncio>=1.3.0",
-    "python-dotenv>=1.2.1",
     "ruff>=0.15.0",
     "tox-uv>=1.29.0",
 ]
