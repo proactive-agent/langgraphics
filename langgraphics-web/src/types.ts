@@ -10,7 +10,7 @@ export interface NodeHandle {
     style: { top?: string; left?: string; transform: string };
 }
 
-export type NodeKind = "llm" | "chain" | "tool" | "retriever" | "embedding" | "prompt" | "parser";
+export type NodeKind = "llm" | "chain" | "tool" | "retriever" | "embedding" | "prompt" | "parser" | "chat_model";
 
 export interface NodeData extends Record<string, unknown> {
     label: string;
