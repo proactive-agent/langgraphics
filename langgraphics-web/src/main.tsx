@@ -34,6 +34,7 @@ function Index() {
             <GraphCanvas
                 nodes={nodes}
                 edges={edges}
+                events={events}
                 activeNodeId={activeNodeId}
                 onRankDirChange={setRankDir}
                 initialRankDir={initialRankDir}

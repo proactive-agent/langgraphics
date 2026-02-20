@@ -1,9 +1,9 @@
-import {type ReactNode, useCallback, useState} from "react";
+import {type ReactNode, useCallback, useEffect, useState} from "react";
 import {Background, type ColorMode, type Edge, type Node, type NodeTypes, ReactFlow} from "@xyflow/react";
 import {Controls} from "./Controls";
 import {CustomNode} from "./CustomNode";
 import {useFocus} from "../hooks/useFocus";
-import type {EdgeData, NodeData} from "../types";
+import type {EdgeData, ExecutionEvent, NodeData} from "../types";
 import type {RankDir} from "../layout";
 
 const nodeTypes: NodeTypes = {custom: CustomNode as NodeTypes[string]};
@@ -11,6 +11,7 @@ const nodeTypes: NodeTypes = {custom: CustomNode as NodeTypes[string]};
 interface GraphCanvasProps {
     nodes: Node<NodeData>[];
     edges: Edge<EdgeData>[];
+    events: ExecutionEvent[];
     activeNodeId: string | null;
     inspect: ReactNode;
     initialRankDir?: RankDir;
@@ -18,7 +19,7 @@ interface GraphCanvasProps {
     onRankDirChange?: (v: RankDir) => void;
 }
 
-export function GraphCanvas({nodes, edges, activeNodeId, inspect, initialColorMode = "system", initialRankDir = "TB", onRankDirChange}: GraphCanvasProps) {
+export function GraphCanvas({nodes, edges, events, activeNodeId, inspect, initialColorMode = "system", initialRankDir = "TB", onRankDirChange}: GraphCanvasProps) {
     const [rankDir, setRankDir] = useState<RankDir>(initialRankDir);
     const [colorMode, setColorMode] = useState<ColorMode>(initialColorMode);
     const {isManual, goAuto, goManual, fitContent} = useFocus({nodes, edges, activeNodeId, rankDir});
@@ -28,6 +29,12 @@ export function GraphCanvas({nodes, edges, activeNodeId, inspect, initialColorMo
         onRankDirChange?.(v);
         await fitContent();
     }, [onRankDirChange, fitContent])
+
+    useEffect(() => {
+        if (events.find(({type}) => ["error", "run_end"].includes(type))) {
+            fitContent().then();
+        }
+    }, [events, fitContent]);
 
     return (
         <ReactFlow
