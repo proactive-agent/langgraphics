@@ -223,9 +223,8 @@ html, body, #root {
 }
 
 .inspect-tree-pane {
-    width: 220px;
-    flex: 0 0 220px;
-    overflow-y: auto;
+    flex: 0 0 auto;
+    min-width: 220px;
     border-right: var(--xy-node-border-default);
 }
 
