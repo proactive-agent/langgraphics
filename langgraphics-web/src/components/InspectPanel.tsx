@@ -3,27 +3,6 @@ import type {TreeDataNode} from "antd";
 import {useEffect, useMemo, useState} from "react";
 import type {NodeEntry} from "../types";
 
-function NodeDetail({entry}: { entry?: NodeEntry }) {
-    if (!entry) return null;
-
-    return (
-        <>
-            {entry.input && (
-                <div className="inspect-detail-section">
-                    <span className="inspect-section-label">Input</span>
-                    <div className="inspect-detail-text">{entry.input}</div>
-                </div>
-            )}
-            {entry.output && (
-                <div className="inspect-detail-section">
-                    <span className="inspect-section-label">Output</span>
-                    <div className="inspect-detail-text">{entry.output}</div>
-                </div>
-            )}
-        </>
-    );
-}
-
 export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
     const [selectedKey, setSelectedKey] = useState<string>("");
 
@@ -89,7 +68,22 @@ export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
                     )}
                 </div>
                 <div className="inspect-detail-pane">
-                    <NodeDetail entry={selectedEntry}/>
+                    {selectedEntry && (
+                        <>
+                            {selectedEntry.input && (
+                                <div className="inspect-detail-section">
+                                    <span className="inspect-section-label">Input</span>
+                                    <div className="inspect-detail-text">{selectedEntry.input}</div>
+                                </div>
+                            )}
+                            {selectedEntry.output && (
+                                <div className="inspect-detail-section">
+                                    <span className="inspect-section-label">Output</span>
+                                    <div className="inspect-detail-text">{selectedEntry.output}</div>
+                                </div>
+                            )}
+                        </>
+                    )}
                 </div>
             </div>
         </div>
