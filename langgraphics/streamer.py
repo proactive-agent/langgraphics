@@ -61,11 +61,10 @@ def preview(inputs: Any) -> str:
 
 
 class BroadcastingTracer(AsyncBaseTracer):
-    def __init__(self, broadcast: Any, node_names: set[str]) -> None:
+    def __init__(self, viewport: "Viewport") -> None:
         super().__init__(_schema_format="original+chat")
-        self.broadcast = broadcast
-        self.node_names = node_names
         self.node_kinds: dict[str, str] = {}
+        self.viewport = viewport
 
     async def _persist_run(self, run: Run) -> None:
         pass
@@ -74,7 +73,7 @@ class BroadcastingTracer(AsyncBaseTracer):
         node_run_id = str(run.parent_run_id) if run.parent_run_id else None
         if node_run_id is None:
             return
-        await self.broadcast(
+        await self.viewport.broadcast(
             {
                 "type": "node_output",
                 "run_id": str(run.id),
@@ -87,19 +86,24 @@ class BroadcastingTracer(AsyncBaseTracer):
             }
         )
 
+    async def _on_chain_start(self, run: Run) -> None:
+        if run.name in self.viewport.node_names:
+            self.viewport.node_current = run.name
+
     async def _on_chain_end(self, run: Run) -> None:
         self.node_kinds[run.name] = run.run_type
-        if run.name in self.node_names:
+        if run.name in self.viewport.node_names:
             parent = (
                 self.run_map.get(str(run.parent_run_id)) if run.parent_run_id else None
             )
-            if parent is None or parent.name not in self.node_names:
-                await self.broadcast(
+            if parent is None or parent.name not in self.viewport.node_names:
+                await self.viewport.broadcast(
                     {
                         "type": "node_output",
                         "node_id": run.name,
                         "run_id": str(run.id),
                         "node_kind": self.node_kinds.get(run.name),
+                        "status": "error" if run.error else "ok",
                         "input": preview(run.inputs),
                         "output": preview(run.outputs),
                     }
@@ -108,9 +112,7 @@ class BroadcastingTracer(AsyncBaseTracer):
             await self._emit_end(run)
 
     async def _on_chain_error(self, run: Run) -> None:
-        self.node_kinds[run.name] = run.run_type
-        if run.name not in self.node_names:
-            await self._emit_end(run)
+        await self._on_chain_end(run)
 
     async def _on_llm_end(self, run: Run) -> None:
         self.node_kinds[run.name] = run.run_type
@@ -147,19 +149,16 @@ class Viewport:
     ) -> None:
         self.ws = ws
         self.graph = graph
+        self.node_current = None
         self.edge_lookup = edge_lookup
         self.http_server = http_server
-        node_names: set[str] = set()
+        self.node_names: set[str] = set()
         for src, tgt in edge_lookup:
-            node_names.add(src)
-            node_names.add(tgt)
-        node_names -= {"__start__", "__end__"}
-        self._node_names = node_names
+            self.node_names.add(src)
+            self.node_names.add(tgt)
+        self.node_names -= {"__start__", "__end__"}
 
-    def __getattr__(self, name: str) -> Any:
-        return getattr(self.graph, name)
-
-    async def _broadcast(self, message: dict[str, Any]) -> None:
+    async def broadcast(self, message: dict[str, Any]) -> None:
         message_str = json.dumps(message)
         self.ws.record(message_str)
         if self.ws.loop is None:
@@ -176,7 +175,7 @@ class Viewport:
     async def _emit_edge(self, source: str, target: str) -> None:
         edge_id = self.edge_lookup.get((source, target))
         if edge_id:
-            await self._broadcast(
+            await self.broadcast(
                 {
                     "type": "edge_active",
                     "source": source,
@@ -186,22 +185,23 @@ class Viewport:
             )
 
     async def _emit_error(self, last_node: str) -> None:
-        target = last_node
-        edge_id = None
         for (src, tgt), eid in self.edge_lookup.items():
-            if src == last_node:
-                target = tgt
-                edge_id = eid
+            if src == last_node and tgt == self.node_current:
+                await self.broadcast(
+                    {
+                        "type": "error",
+                        "edge_id": eid,
+                        "source": last_node,
+                        "target": self.node_current,
+                    }
+                )
                 break
-        await self._broadcast(
-            {"type": "error", "source": last_node, "target": target, "edge_id": edge_id}
-        )
 
-    def _make_config(self, config: Any) -> tuple[dict[str, Any], BroadcastingTracer]:
-        tracer = BroadcastingTracer(self._broadcast, self._node_names)
+    def _make_config(self, config: Any) -> dict[str, Any]:
+        tracer = BroadcastingTracer(self)
         merged: dict[str, Any] = dict(config or {})
         merged["callbacks"] = list(merged.get("callbacks") or []) + [tracer]
-        return merged, tracer
+        return merged
 
     async def shutdown(self) -> None:
         await self.ws.shutdown()
@@ -209,11 +209,11 @@ class Viewport:
 
     async def ainvoke(self, input: Any, config: Any = None, **kwargs: Any) -> Any:
         run_id = uuid.uuid4().hex[:8]
-        await self._broadcast({"type": "run_start", "run_id": run_id})
+        await self.broadcast({"type": "run_start", "run_id": run_id})
 
         result: Any = None
         last_node = "__start__"
-        merged_config, _ = self._make_config(config)
+        merged_config = self._make_config(config)
 
         try:
             async for chunk in self.graph.astream(
@@ -229,7 +229,7 @@ class Viewport:
 
             await self._emit_edge(last_node, "__end__")
             await asyncio.sleep(1)
-            await self._broadcast({"type": "run_end", "run_id": run_id})
+            await self.broadcast({"type": "run_end", "run_id": run_id})
         except Exception:
             await self._emit_error(last_node)
             raise
@@ -242,10 +242,10 @@ class Viewport:
         self, input: Any, config: Any = None, **kwargs: Any
     ) -> AsyncIterator:
         run_id = uuid.uuid4().hex[:8]
-        await self._broadcast({"type": "run_start", "run_id": run_id})
+        await self.broadcast({"type": "run_start", "run_id": run_id})
 
         last_node = "__start__"
-        merged_config, _ = self._make_config(config)
+        merged_config = self._make_config(config)
         stream_mode = kwargs.get("stream_mode", "values")
 
         try:
@@ -263,7 +263,7 @@ class Viewport:
             if last_node != "__start__":
                 await self._emit_edge(last_node, "__end__")
 
-            await self._broadcast({"type": "run_end", "run_id": run_id})
+            await self.broadcast({"type": "run_end", "run_id": run_id})
         except Exception:
             await self._emit_error(last_node)
             raise
