@@ -58,6 +58,7 @@ builder.add_node(CALL_TOOL, SimulatedTool())
 builder.add_node(
     REFLECT,
     RunnableLambda(lambda state: state)
+    | RunnableLambda(lambda state: state["test"])
     | RunnableLambda(partial(simulate_node, tag=REFLECT)),
 )
 builder.add_node(REVISE_PLAN, partial(simulate_node, tag=REVISE_PLAN))
