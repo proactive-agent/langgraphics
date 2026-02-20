@@ -5,59 +5,74 @@ from collections.abc import AsyncIterator, Iterator
 from socketserver import TCPServer
 from typing import Any
 
+from langchain_core.messages import AIMessage, BaseMessage
 from langchain_core.tracers.base import AsyncBaseTracer
 from langchain_core.tracers.schemas import Run
 
 
-def parse_message(msg: Any) -> dict | list:
-    msg = dict(msg)
-    msg = msg.get("kwargs", msg)
-    if tool_calls := msg.get("tool_calls", []):
-        tool_call = tool_calls[0]
+def _format_message(msg: Any) -> dict:
+    """Convert a single message to {"content": ..., "type": ...} format."""
+    if isinstance(msg, AIMessage) and msg.tool_calls:
+        tc = msg.tool_calls[0]
         return {
-            "content": tool_call.get("name", "")
-            + "("
-            + str(tool_call.get("args", {}))
-            + ")",
-            "type": tool_call.get("type", ""),
+            "content": f"{tc['name']}({tc['args']})",
+            "type": "tool_use",
         }
-    for k in ("input", "output", "summary", "answer", "result"):
-        if res := msg.get(k):
-            if isinstance(res, list) and res:
-                try:
-                    return parse_message(res[0].update)
-                except AttributeError:
-                    return parse_message(res[0])
-            elif isinstance(res, dict):
-                return res
-            elif res.__class__.__module__ != "builtins":
-                return parse_message(res)
-            else:
-                return {k: res}
-    return {
-        k: msg[k]
-        for k in ("content", "question", "prompt", "query", "type")
-        if k in msg
-    }
+    if isinstance(msg, BaseMessage):
+        content = msg.content
+        if isinstance(content, list):
+            content = " ".join(
+                block.get("text", "") if isinstance(block, dict) else str(block)
+                for block in content
+            )
+        return {"content": content, "type": msg.type}
+    # Fallback for plain dicts (e.g., tool run inputs/outputs)
+    d = msg if isinstance(msg, dict) else dict(msg)
+    d = d.get("kwargs", d)
+    if tool_calls := d.get("tool_calls", []):
+        tc = tool_calls[0]
+        return {
+            "content": f"{tc.get('name', '')}({tc.get('args', {})})",
+            "type": tc.get("type", "tool_use"),
+        }
+    for key in ("input", "output", "summary", "answer", "result"):
+        if res := d.get(key):
+            if isinstance(res, (BaseMessage, dict)):
+                return _format_message(res)
+            return {"content": str(res), "type": key}
+    return {k: d[k] for k in ("content", "question", "prompt", "query", "type") if k in d}
+
+
+def _extract_messages(data: Any) -> list:
+    """Extract a flat list of messages from run inputs or outputs."""
+    if not data:
+        return []
+    # LLM output format: {"generations": [[{"message": BaseMessage, ...}]]}
+    if isinstance(data, dict) and "generations" in data:
+        gens = data["generations"]
+        if gens and gens[-1]:
+            gen = gens[-1][-1]
+            msg = gen.get("message") if isinstance(gen, dict) else getattr(gen, "message", None)
+            return [msg] if msg is not None else []
+        return []
+    # Unwrap state wrapper if present, then extract messages list
+    if isinstance(data, dict):
+        data = data.get("state", data)
+        msgs = data.get("messages", data)
+        if isinstance(msgs, dict):
+            return [msgs]
+        data = msgs
+    # Flatten batched list format [[msg1, msg2], ...]
+    if isinstance(data, list):
+        if data and isinstance(data[0], list):
+            return data[0]
+        return data
+    return [data]
 
 
 def preview(inputs: Any) -> str:
-    messages = []
-    inputs = inputs or {}
-    if "generations" in inputs:
-        inputs = inputs["generations"][-1][-1]["message"]
-    inputs = inputs.get("messages", inputs)
-    if isinstance(inputs, list):
-        if inputs:
-            messages = inputs
-            if isinstance(inputs[0], list):
-                messages = inputs[0]
-    elif isinstance(inputs, dict):
-        inputs = inputs.get("state", inputs)
-        messages = inputs.get("messages", inputs)
-        if isinstance(messages, dict):
-            messages = [messages]
-    return json.dumps(list(map(parse_message, messages)), indent=4)
+    messages = _extract_messages(inputs or {})
+    return json.dumps([_format_message(m) for m in messages], indent=4)
 
 
 def error_output(error: str) -> str:
