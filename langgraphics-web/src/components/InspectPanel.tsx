@@ -1,131 +1,69 @@
 import Tree from "antd/es/tree";
-import {type ReactNode} from "react";
-import type {Node} from "@xyflow/react";
-import type {GraphMessage, NodeData, NodeOutputEntry, NodeStepEntry} from "../types";
-import {useInspectTree} from "../hooks/useInspectTree.tsx";
+import type {TreeDataNode} from "antd";
+import {useCallback, useEffect, useMemo, useState} from "react";
+import type {NodeEntry} from "../types";
 
-interface InspectPanelProps {
-    topology: GraphMessage | null;
-    nodes: Node<NodeData>[];
-    nodeOutputLog: NodeOutputEntry[];
-    nodeStepLog: NodeStepEntry[];
-}
+export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
+    const [selectedKey, setSelectedKey] = useState<string>("");
 
-function DetailSection({title, children}: { title: string; children: ReactNode }) {
-    return (
-        <div className="inspect-detail-section">
-            <span className="inspect-section-label">{title}</span>
-            {children}
-        </div>
-    );
-}
+    const expandedKeys = useMemo(() => {
+        return nodeEntries.map(({run_id}) => run_id);
+    }, [nodeEntries]);
 
-function NodeDetail({entry, isStart, isEnd, stepStart, stepEnd}: {
-    entry: NodeOutputEntry | null;
-    isStart: boolean;
-    isEnd: boolean;
-    stepStart: NodeStepEntry | null;
-    stepEnd: NodeStepEntry | null;
-}) {
-    if (!entry) return null;
+    const selectedEntry = useMemo(() => {
+        return nodeEntries.find(({run_id}) => run_id === selectedKey);
+    }, [nodeEntries, selectedKey]);
 
-    if (stepStart !== null) {
-        let input = stepStart.data;
-        let output = stepEnd !== null ? stepEnd.data : stepEnd;
-        const toString = (d: any) => typeof d === "string" ? d : JSON.stringify(d, null, 2);
-        if (typeof stepStart.data === "object") {
-            const messages = stepStart.data.messages;
-            input = Array.isArray(messages) ? messages[messages.length - 1].content : stepStart.data;
+    const getChildren = useCallback((parent: NodeEntry) => {
+        return nodeEntries.filter(({parent_run_id}) => parent_run_id === parent.run_id).map(child => {
+            const children: TreeDataNode[] = getChildren(child);
+            return {
+                children,
+                selectable: true,
+                key: child.run_id,
+                isLeaf: children.length === 0,
+                title: (
+                    <span className="inspect-step-label">
+                        {child.node_kind
+                            ? <img
+                                alt={child.node_kind}
+                                className="inspect-step-icon"
+                                src={`/icons/${child.node_kind}.svg`}
+                            />
+                            : <span className={`inspect-step-status${child.status === "error" ? " error" : ""}`}/>
+                        }
+                        <span className="inspect-step-name">{child.node_id ?? "step"}</span>
+                    </span>
+                ),
+            }
+        })
+    }, [nodeEntries])
+
+    const treeData = useMemo((): TreeDataNode[] => {
+        return nodeEntries.filter(({parent_run_id}) => !parent_run_id).map(entry => ({
+            key: entry.run_id,
+            children: getChildren(entry),
+            title: (
+                <span className="inspect-node-label">
+                    {entry.node_kind && <img src={`/icons/${entry.node_kind}.svg`} alt={entry.node_kind}/>}
+                    {entry.node_id}
+                </span>
+            ),
+        }))
+    }, [nodeEntries, getChildren]);
+
+    useEffect(() => {
+        if (nodeEntries.length > 0 && !selectedKey) {
+            setSelectedKey(nodeEntries.find(e => !e.parent_run_id)?.run_id ?? nodeEntries[0].run_id);
         }
-        if (stepEnd !== null && typeof stepEnd.data === "object") {
-            const messages = stepEnd.data.messages;
-            output = Array.isArray(messages) ? messages[messages.length - 1].content : stepEnd.data;
-        }
-        return (
-            <>
-                <DetailSection title="Input">
-                    <pre className="inspect-detail-json">{toString(input)}</pre>
-                </DetailSection>
-                {stepEnd !== null && (
-                    <DetailSection title="Output">
-                        <pre className="inspect-detail-json">{toString(output)}</pre>
-                    </DetailSection>
-                )}
-            </>
-        );
-    }
-
-    if (isStart) {
-        const allMessages = entry.data.messages ?? [];
-        const promptMsg = allMessages.find((m) => m.type === "system") ?? allMessages[0];
-        return (
-            <DetailSection title="System prompt">
-                {promptMsg
-                    ? <div className="inspect-detail-text">{promptMsg.content as string}</div>
-                    : <pre className="inspect-detail-json">{JSON.stringify(entry.data, null, 2)}</pre>
-                }
-            </DetailSection>
-        );
-    }
-
-    if (isEnd) {
-        const allMessages = entry.data.messages ?? [];
-        const lastMsg = allMessages.length > 0 ? allMessages[allMessages.length - 1] : null;
-        return (
-            <DetailSection title="Final answer">
-                {lastMsg
-                    ? <div className="inspect-detail-text">{lastMsg.content as string}</div>
-                    : <pre className="inspect-detail-json">{JSON.stringify(entry.data, null, 2)}</pre>
-                }
-            </DetailSection>
-        );
-    }
-
-    const outputMessages = entry.data.messages ?? [];
-    const inputMessages = entry.input?.messages ?? [];
-    const lastInput = inputMessages.length > 0 ? inputMessages.slice(-1) : null;
-
-    return (
-        <>
-            {entry.input !== null && (
-                <DetailSection title="Input">
-                    {lastInput
-                        ? lastInput.map((msg, i) => <div key={i}
-                                                         className="inspect-detail-text">{msg.content as string}</div>)
-                        : <pre className="inspect-detail-json">{JSON.stringify(entry.input, null, 2)}</pre>
-                    }
-                </DetailSection>
-            )}
-            <DetailSection title="Output">
-                {outputMessages.length > 0
-                    ? outputMessages.map((msg, i) => (
-                        <div key={i} className="inspect-detail-text">
-                            {msg.content as string}
-                        </div>
-                    ))
-                    : Object.keys(entry.data).length > 0
-                        ? <pre className="inspect-detail-json">{JSON.stringify(entry.data, null, 2)}</pre>
-                        : null
-                }
-            </DetailSection>
-        </>
-    );
-}
-
-export function InspectPanel({topology, nodes, nodeOutputLog, nodeStepLog}: InspectPanelProps) {
-    const {
-        treeData, expandedKeys, visibleLog,
-        selectedKey, setSelectedKey,
-        selectedEntry, selectedMeta,
-        stepStart, stepEnd,
-    } = useInspectTree(topology, nodes, nodeOutputLog, nodeStepLog);
+    }, [nodeEntries, selectedKey]);
 
     return (
         <div className="inspect-panel">
             <div className="inspect-panel-header">Trace Inspector</div>
             <div className="inspect-panel-body">
                 <div className="inspect-tree-pane">
-                    {visibleLog.length !== 0 && (
+                    {nodeEntries.length !== 0 && (
                         <Tree
                             switcherIcon={<span className="ant-tree-switcher-leaf-line"/>}
                             onSelect={([key]) => key && setSelectedKey(key as string)}
@@ -138,13 +76,22 @@ export function InspectPanel({topology, nodes, nodeOutputLog, nodeStepLog}: Insp
                     )}
                 </div>
                 <div className="inspect-detail-pane">
-                    <NodeDetail
-                        isStart={selectedMeta?.isStart ?? false}
-                        isEnd={selectedMeta?.isEnd ?? false}
-                        entry={selectedEntry}
-                        stepStart={stepStart}
-                        stepEnd={stepEnd}
-                    />
+                    {selectedEntry && (
+                        <>
+                            {selectedEntry.input && (
+                                <div className="inspect-detail-section">
+                                    <span className="inspect-section-label">Input</span>
+                                    <div className="inspect-detail-text">{selectedEntry.input}</div>
+                                </div>
+                            )}
+                            {selectedEntry.output && (
+                                <div className="inspect-detail-section">
+                                    <span className="inspect-section-label">Output</span>
+                                    <div className="inspect-detail-text">{selectedEntry.output}</div>
+                                </div>
+                            )}
+                        </>
+                    )}
                 </div>
             </div>
         </div>

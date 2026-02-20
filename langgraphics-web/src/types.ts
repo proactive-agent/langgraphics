@@ -10,12 +10,13 @@ export interface NodeHandle {
     style: { top?: string; left?: string; transform: string };
 }
 
+export type NodeKind = "llm" | "chain" | "tool" | "retriever" | "embedding" | "prompt" | "parser" | "chat_model";
+
 export interface NodeData extends Record<string, unknown> {
     label: string;
-    nodeType: "start" | "end" | "node";
-    nodeKind: NodeKind | null;
     status: NodeStatus;
     handles: NodeHandle[];
+    nodeType: "start" | "end" | "node";
 }
 
 export interface EdgeData extends Record<string, unknown> {
@@ -24,14 +25,9 @@ export interface EdgeData extends Record<string, unknown> {
     status: EdgeStatus;
 }
 
-export type NodeKind =
-    | "tool" | "llm" | "embedding" | "retriever"
-    | "agent" | "chain" | "function" | "runnable" | "unknown";
-
 export interface ProtocolNode {
     id: string;
     name: string;
-    node_kind: NodeKind | null;
     node_type: "start" | "end" | "node";
 }
 
@@ -85,50 +81,23 @@ export interface ErrorMessage {
     edge_id: string | null;
 }
 
-export interface SerializedMessage {
-    content: string;
-    type: string;
-
-    [key: string]: unknown;
-}
-
-export interface NodeOutputMessage {
+export interface NodeMessage {
     type: "node_output";
-    node: string;
-    data: { messages?: SerializedMessage[]; [key: string]: unknown };
-    input: { messages?: SerializedMessage[]; [key: string]: unknown } | null;
-    run_id: string | null;
-}
-
-export interface NodeOutputEntry {
-    nodeId: string;
-    data: NodeOutputMessage["data"];
-    input: NodeOutputMessage["input"];
-    runId: string | null;
-}
-
-export interface NodeStepMessage {
-    type: "node_step";
     run_id: string;
-    parent_run_id: string;
-    name: string | null;
-    event: "start" | "end";
-    data: { [key: string]: unknown };
+    node_id: string;
+    node_kind: NodeKind | null;
+    parent_run_id?: string | null;
+    status?: "ok" | "error";
+    input?: string | null;
+    output?: string | null;
 }
 
-export interface NodeStepEntry {
-    runId: string;
-    parentRunId: string;
-    name: string | null;
-    event: "start" | "end";
-    data: NodeStepMessage["data"];
-}
+export type NodeEntry = Omit<NodeMessage, "type">;
 
 export type WsMessage =
-    | GraphMessage | RunStartMessage | RunEndMessage
-    | NodeStartMessage | NodeEndMessage | EdgeActiveMessage
-    | ErrorMessage | NodeOutputMessage | NodeStepMessage;
+    | GraphMessage | RunStartMessage | RunEndMessage | NodeStartMessage
+    | NodeEndMessage | EdgeActiveMessage | ErrorMessage | NodeMessage;
 
 export type ExecutionEvent =
-    | RunStartMessage | RunEndMessage | NodeStartMessage
-    | NodeEndMessage | EdgeActiveMessage | ErrorMessage | NodeOutputMessage | NodeStepMessage;
+    | RunStartMessage | RunEndMessage | NodeStartMessage | NodeEndMessage
+    | EdgeActiveMessage | ErrorMessage | NodeMessage;

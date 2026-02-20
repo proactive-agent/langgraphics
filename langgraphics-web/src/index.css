@@ -223,10 +223,10 @@ html, body, #root {
 }
 
 .inspect-tree-pane {
-    width: 220px;
-    flex: 0 0 220px;
-    overflow-y: auto;
+    flex: 0 0 auto;
+    min-width: 220px;
     border-right: var(--xy-node-border-default);
+    overflow-y: auto;
 }
 
 .inspect-detail-pane {
@@ -272,9 +272,42 @@ html, body, #root {
 }
 
 .inspect-step-label {
+    gap: 5px;
+    display: flex;
     font-size: 11px;
     font-weight: 400;
     font-style: italic;
+    align-items: center;
+}
+
+.inspect-step-status {
+    width: 6px;
+    height: 6px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #c8c8c8;
+}
+
+.inspect-step-status.error {
+    background: #ef4444;
+}
+
+.ant-tree-node-content-wrapper:not(.ant-tree-node-selected) .inspect-step-status:not(.error) {
+    background: #3b82f6;
+}
+
+.inspect-step-name {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.inspect-step-icon {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
 }
 
 .inspect-detail-section {

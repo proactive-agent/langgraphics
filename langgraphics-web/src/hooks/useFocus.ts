@@ -81,7 +81,9 @@ export function useFocus({nodes, edges, activeNodeId, rankDir = "TB"}: UseFocusO
 
         if (mode !== "auto") return;
 
-        if (activeNodeId && activeNodeId !== prevFocusId.current) {
+        if (nodes.some((n) => n.className === "error")) {
+            fitView({duration: FIT_VIEW_DURATION}).then();
+        } else if (activeNodeId && activeNodeId !== prevFocusId.current) {
             prevFocusId.current = activeNodeId;
 
             const activeNode = nodes.find((n) => n.id === activeNodeId);
