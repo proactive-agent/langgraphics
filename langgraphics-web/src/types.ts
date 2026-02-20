@@ -10,7 +10,7 @@ export interface NodeHandle {
     style: { top?: string; left?: string; transform: string };
 }
 
-export type NodeKind = "llm" | "tool" | "retriever" | "chain";
+export type NodeKind = "llm" | "tool" | "retriever" | "chain" | "chat_model";
 
 export interface NodeData extends Record<string, unknown> {
     label: string;
@@ -82,37 +82,23 @@ export interface ErrorMessage {
     edge_id: string | null;
 }
 
-export interface NodeOutputMessage {
+export interface NodeMessage {
     type: "node_output";
+    run_id: string;
     node_id: string;
     node_kind: NodeKind | null;
-    display: string | null;
-    input_display?: string | null;
-    run_id?: string | null;
-}
-
-export type NodeOutputEntry = Omit<NodeOutputMessage, "type">;
-
-export interface NodeStepMessage {
-    type: "node_step";
-    run_id: string;
-    parent_run_id: string;
-    name: string | null;
-    event: "start" | "end";
-    step_kind: NodeKind | null;
-    input_preview?: string;
-    elapsed_ms?: number | null;
+    parent_run_id?: string | null;
     status?: "ok" | "error";
-    output_preview?: string;
+    input?: string | null;
+    output?: string | null;
 }
 
-export type NodeStepEntry = Omit<NodeStepMessage, "type" | "event">;
+export type NodeEntry = Omit<NodeMessage, "type">;
 
 export type WsMessage =
-    | GraphMessage | RunStartMessage | RunEndMessage
-    | NodeStartMessage | NodeEndMessage | EdgeActiveMessage
-    | ErrorMessage | NodeOutputMessage | NodeStepMessage;
+    | GraphMessage | RunStartMessage | RunEndMessage | NodeStartMessage
+    | NodeEndMessage | EdgeActiveMessage | ErrorMessage | NodeMessage;
 
 export type ExecutionEvent =
-    | RunStartMessage | RunEndMessage | NodeStartMessage
-    | NodeEndMessage | EdgeActiveMessage | ErrorMessage | NodeOutputMessage | NodeStepMessage;
+    | RunStartMessage | RunEndMessage | NodeStartMessage | NodeEndMessage
+    | EdgeActiveMessage | ErrorMessage | NodeMessage;

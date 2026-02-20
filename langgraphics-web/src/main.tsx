@@ -26,7 +26,7 @@ const {colorMode: initialColorMode, rankDir: initialRankDir} = parseParams();
 
 function Index() {
     const [rankDir, setRankDir] = useState<RankDir>(initialRankDir);
-    const {topology, events, nodeOutputLog, nodeStepLog} = useWebSocket(WS_URL);
+    const {topology, events, nodeEntries} = useWebSocket(WS_URL);
     const {nodes, edges, activeNodeId} = useGraphState(topology, events, rankDir);
 
     return (
@@ -35,16 +35,10 @@ function Index() {
                 nodes={nodes}
                 edges={edges}
                 activeNodeId={activeNodeId}
-                initialColorMode={initialColorMode}
-                initialRankDir={initialRankDir}
                 onRankDirChange={setRankDir}
-                inspect={
-                    <InspectPanel
-                        nodes={nodes}
-                        nodeStepLog={nodeStepLog}
-                        nodeOutputLog={nodeOutputLog}
-                    />
-                }
+                initialRankDir={initialRankDir}
+                initialColorMode={initialColorMode}
+                inspect={<InspectPanel nodeEntries={nodeEntries}/>}
             />
         </ReactFlowProvider>
     );

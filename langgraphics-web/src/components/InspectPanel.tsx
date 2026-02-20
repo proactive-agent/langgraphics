@@ -1,135 +1,82 @@
 import Tree from "antd/es/tree";
 import type {TreeDataNode} from "antd";
-import type {Node} from "@xyflow/react";
-import {useMemo, useState, type ReactNode} from "react";
-import type {NodeData, NodeOutputEntry, NodeStepEntry} from "../types";
+import {useEffect, useMemo, useState} from "react";
+import type {NodeEntry} from "../types";
 
-interface InspectPanelProps {
-    nodes: Node<NodeData>[];
-    nodeOutputLog: NodeOutputEntry[];
-    nodeStepLog: NodeStepEntry[];
-}
-
-function DetailSection({title, children}: { title: string; children: ReactNode }) {
-    return (
-        <div className="inspect-detail-section">
-            <span className="inspect-section-label">{title}</span>
-            {children}
-        </div>
-    );
-}
-
-function NodeDetail({entry, selectedStep}: {
-    entry: NodeOutputEntry | null;
-    selectedStep: NodeStepEntry | null;
-}) {
+function NodeDetail({entry}: { entry?: NodeEntry }) {
     if (!entry) return null;
-
-    if (selectedStep !== null) {
-        return (
-            <>
-                {selectedStep.input_preview && (
-                    <DetailSection title="Input">
-                        <div className="inspect-detail-text">{selectedStep.input_preview}</div>
-                    </DetailSection>
-                )}
-                {selectedStep.output_preview && (
-                    <DetailSection title="Output">
-                        <div className="inspect-detail-text">{selectedStep.output_preview}</div>
-                    </DetailSection>
-                )}
-            </>
-        );
-    }
 
     return (
         <>
-            {entry.input_display && (
-                <DetailSection title="Input">
-                    <div className="inspect-detail-text">{entry.input_display}</div>
-                </DetailSection>
+            {entry.input && (
+                <div className="inspect-detail-section">
+                    <span className="inspect-section-label">Input</span>
+                    <div className="inspect-detail-text">{entry.input}</div>
+                </div>
             )}
-            {entry.display && (
-                <DetailSection title="Output">
-                    <div className="inspect-detail-text">{entry.display}</div>
-                </DetailSection>
+            {entry.output && (
+                <div className="inspect-detail-section">
+                    <span className="inspect-section-label">Output</span>
+                    <div className="inspect-detail-text">{entry.output}</div>
+                </div>
             )}
         </>
     );
 }
 
-export function InspectPanel({nodes, nodeOutputLog, nodeStepLog}: InspectPanelProps) {
-    const [selectedKey, setSelectedKey] = useState<string>("log-0");
+export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
+    const [selectedKey, setSelectedKey] = useState<string>("");
 
-    const nodeDataMap = useMemo(
-        () => new Map(nodes.map((n) => [n.id, n.data])),
-        [nodes]);
+    const expandedKeys = useMemo(() => {
+        return nodeEntries.map(({run_id}) => run_id);
+    }, [nodeEntries]);
 
-    const visibleLog = nodeOutputLog;
+    const selectedEntry = useMemo(() => {
+        return nodeEntries.find(({run_id}) => run_id === selectedKey);
+    }, [nodeEntries, selectedKey]);
 
-    const stepsByParent = useMemo(() => {
-        const map = new Map<string, NodeStepEntry[]>();
-        for (const s of nodeStepLog) {
-            const arr = map.get(s.parent_run_id) ?? [];
-            arr.push(s);
-            map.set(s.parent_run_id, arr);
-        }
-        return map;
-    }, [nodeStepLog]);
-
-    const treeData = useMemo((): TreeDataNode[] =>
-        visibleLog.map((entry, i) => {
-            const label = nodeDataMap.get(entry.node_id)?.label ?? entry.node_id;
-            const steps = entry.run_id ? (stepsByParent.get(entry.run_id) ?? []) : [];
-
-            const children: TreeDataNode[] = steps.map((step, si) => ({
-                key: `log-${i}-step-${si}`, isLeaf: true, selectable: true,
+    const treeData = useMemo((): TreeDataNode[] => {
+        return nodeEntries.filter(({parent_run_id}) => !parent_run_id).map(entry => ({
+            key: entry.run_id,
+            title: (
+                <span className="inspect-node-label">
+                    {entry.node_kind && <img src={`/icons/${entry.node_kind}.svg`} alt={entry.node_kind}/>}
+                    {entry.node_id}
+                </span>
+            ),
+            children: nodeEntries.filter(({parent_run_id}) => parent_run_id === entry.run_id).map(child => ({
+                isLeaf: true,
+                selectable: true,
+                key: child.run_id,
                 title: (
                     <span className="inspect-step-label">
-                        {step.step_kind
-                            ? <img className="inspect-step-icon" src={`/icons/${step.step_kind}.svg`} alt={step.step_kind}/>
-                            : <span className={`inspect-step-status${step.status === "error" ? " error" : ""}`}/>
+                        {child.node_kind
+                            ? <img
+                                alt={child.node_kind}
+                                className="inspect-step-icon"
+                                src={`/icons/${child.node_kind}.svg`}
+                            />
+                            : <span className={`inspect-step-status${child.status === "error" ? " error" : ""}`}/>
                         }
-                        <span className="inspect-step-name">{step.name ?? "step"}</span>
-                        {step.elapsed_ms != null && (
-                            <span className="inspect-step-elapsed">{step.elapsed_ms.toFixed(1)}ms</span>
-                        )}
+                        <span className="inspect-step-name">{child.node_id ?? "step"}</span>
                     </span>
                 ),
-            }));
+            })),
+        }))
+    }, [nodeEntries]);
 
-            return {
-                key: `log-${i}`, children,
-                title: (
-                    <span className="inspect-node-label">
-                        {entry.node_kind && <img src={`/icons/${entry.node_kind}.svg`} alt={entry.node_kind}/>}
-                        {label}
-                    </span>
-                ),
-            };
-        }),
-        [visibleLog, nodeDataMap, stepsByParent]);
-
-    const expandedKeys = useMemo(
-        () => visibleLog.map((_, i) => `log-${i}`),
-        [visibleLog]);
-
-    const selectedParts = selectedKey?.split("-") ?? [];
-    const logIdx = selectedKey ? parseInt(selectedParts[1], 10) : null;
-    const selectedEntry = logIdx !== null ? (visibleLog[logIdx] ?? null) : null;
-
-    let selectedStep: NodeStepEntry | null = null;
-    if (selectedParts.length === 4 && selectedParts[2] === "step" && selectedEntry?.run_id) {
-        const steps = stepsByParent.get(selectedEntry.run_id) ?? [];
-        selectedStep = steps[parseInt(selectedParts[3], 10)] ?? null;
-    }
+    useEffect(() => {
+        if (nodeEntries.length > 0 && !selectedKey) {
+            setSelectedKey(nodeEntries[0].run_id);
+        }
+    }, [nodeEntries, selectedKey]);
 
     return (
         <div className="inspect-panel">
             <div className="inspect-panel-header">Trace Inspector</div>
             <div className="inspect-panel-body">
                 <div className="inspect-tree-pane">
-                    {visibleLog.length !== 0 && (
+                    {nodeEntries.length !== 0 && (
                         <Tree
                             switcherIcon={<span className="ant-tree-switcher-leaf-line"/>}
                             onSelect={([key]) => key && setSelectedKey(key as string)}
@@ -142,10 +89,7 @@ export function InspectPanel({nodes, nodeOutputLog, nodeStepLog}: InspectPanelPr
                     )}
                 </div>
                 <div className="inspect-detail-pane">
-                    <NodeDetail
-                        entry={selectedEntry}
-                        selectedStep={selectedStep}
-                    />
+                    <NodeDetail entry={selectedEntry}/>
                 </div>
             </div>
         </div>
