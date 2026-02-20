@@ -1,7 +1,7 @@
 import asyncio
 import json
 import uuid
-from collections.abc import AsyncIterator
+from collections.abc import AsyncIterator, Iterator
 from socketserver import TCPServer
 from typing import Any
 
@@ -158,6 +158,9 @@ class Viewport:
             self.node_names.add(tgt)
         self.node_names -= {"__start__", "__end__"}
 
+    def __getattr__(self, name: str) -> Any:
+        return getattr(self.graph, name)
+
     async def broadcast(self, message: dict[str, Any]) -> None:
         message_str = json.dumps(message)
         self.ws.record(message_str)
@@ -208,35 +211,21 @@ class Viewport:
         self.http_server.shutdown()
 
     async def ainvoke(self, input: Any, config: Any = None, **kwargs: Any) -> Any:
-        run_id = uuid.uuid4().hex[:8]
-        await self.broadcast({"type": "run_start", "run_id": run_id})
-
         result: Any = None
-        last_node = "__start__"
-        merged_config = self._make_config(config)
-
         try:
-            async for chunk in self.graph.astream(
-                input, config=merged_config, stream_mode="updates", **kwargs
+            async for chunk in self.astream(
+                input, config=config, stream_mode="updates", **kwargs
             ):
                 if isinstance(chunk, dict):
-                    for node_name in chunk:
-                        if node_name == "__metadata__":
-                            continue
-                        await self._emit_edge(last_node, node_name)
-                        last_node = node_name
-                        result = chunk[node_name]
-
-            await self._emit_edge(last_node, "__end__")
-            await asyncio.sleep(1)
-            await self.broadcast({"type": "run_end", "run_id": run_id})
-        except Exception:
-            await self._emit_error(last_node)
-            raise
+                    for node_name, node_result in chunk.items():
+                        if node_name != "__metadata__":
+                            result = node_result
         finally:
             await self.shutdown()
-
         return result
+
+    def invoke(self, input: Any, config: Any = None, **kwargs: Any) -> Any:
+        return asyncio.run(self.ainvoke(input, config=config, **kwargs))
 
     async def astream(
         self, input: Any, config: Any = None, **kwargs: Any
@@ -268,5 +257,14 @@ class Viewport:
             await self._emit_error(last_node)
             raise
 
-    def invoke(self, input: Any, config: Any = None, **kwargs: Any) -> Any:
-        return asyncio.run(self.ainvoke(input, config=config, **kwargs))
+    def stream(self, input: Any, config: Any = None, **kwargs: Any) -> Iterator:
+        loop = asyncio.new_event_loop()
+        ait = self.astream(input, config=config, **kwargs).__aiter__()
+        try:
+            while True:
+                try:
+                    yield loop.run_until_complete(ait.__anext__())
+                except StopAsyncIteration:
+                    break
+        finally:
+            loop.close()
