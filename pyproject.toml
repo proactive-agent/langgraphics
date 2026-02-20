@@ -29,7 +29,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "deepagents>=0.3.3",
+    "deepagents>=0.3.3; python_version >= '3.11'",
     "langchain>=1.2.7",
     "langgraph>=1.0.7",
     "pytest>=9.0.2",
