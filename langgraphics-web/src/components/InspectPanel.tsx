@@ -1,39 +1,7 @@
 import Tree from "antd/es/tree";
 import type {TreeDataNode} from "antd";
-import {useEffect, useMemo, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import type {NodeEntry} from "../types";
-
-function buildTree(entries: NodeEntry[], parentRunId: string | null | undefined): TreeDataNode[] {
-    return entries
-        .filter(e => (e.parent_run_id ?? null) === (parentRunId ?? null))
-        .map(entry => {
-            const children = buildTree(entries, entry.run_id);
-            const isLeaf = children.length === 0;
-            return {
-                key: entry.run_id,
-                isLeaf,
-                title: isLeaf ? (
-                    <span className="inspect-step-label">
-                        {entry.node_kind
-                            ? <img
-                                alt={entry.node_kind}
-                                className="inspect-step-icon"
-                                src={`/icons/${entry.node_kind}.svg`}
-                            />
-                            : <span className={`inspect-step-status${entry.status === "error" ? " error" : ""}`}/>
-                        }
-                        <span className="inspect-step-name">{entry.node_id ?? "step"}</span>
-                    </span>
-                ) : (
-                    <span className="inspect-node-label">
-                        {entry.node_kind && <img src={`/icons/${entry.node_kind}.svg`} alt={entry.node_kind}/>}
-                        {entry.node_id}
-                    </span>
-                ),
-                children: isLeaf ? undefined : children,
-            };
-        });
-}
 
 export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
     const [selectedKey, setSelectedKey] = useState<string>("");
@@ -46,9 +14,43 @@ export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
         return nodeEntries.find(({run_id}) => run_id === selectedKey);
     }, [nodeEntries, selectedKey]);
 
+    const getChildren = useCallback((parent: NodeEntry) => {
+        return nodeEntries.filter(({parent_run_id}) => parent_run_id === parent.run_id).map(child => {
+            const children: TreeDataNode[] = getChildren(child);
+            return {
+                children,
+                selectable: true,
+                key: child.run_id,
+                isLeaf: children.length === 0,
+                title: (
+                    <span className="inspect-step-label">
+                        {child.node_kind
+                            ? <img
+                                alt={child.node_kind}
+                                className="inspect-step-icon"
+                                src={`/icons/${child.node_kind}.svg`}
+                            />
+                            : <span className={`inspect-step-status${child.status === "error" ? " error" : ""}`}/>
+                        }
+                        <span className="inspect-step-name">{child.node_id ?? "step"}</span>
+                    </span>
+                ),
+            }
+        })
+    }, [nodeEntries])
+
     const treeData = useMemo((): TreeDataNode[] => {
-        return buildTree(nodeEntries, null);
-    }, [nodeEntries]);
+        return nodeEntries.filter(({parent_run_id}) => !parent_run_id).map(entry => ({
+            key: entry.run_id,
+            children: getChildren(entry),
+            title: (
+                <span className="inspect-node-label">
+                    {entry.node_kind && <img src={`/icons/${entry.node_kind}.svg`} alt={entry.node_kind}/>}
+                    {entry.node_id}
+                </span>
+            ),
+        }))
+    }, [nodeEntries, getChildren]);
 
     useEffect(() => {
         if (nodeEntries.length > 0 && !selectedKey) {
