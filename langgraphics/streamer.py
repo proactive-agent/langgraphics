@@ -60,6 +60,10 @@ def preview(inputs: Any) -> str:
     return json.dumps(list(map(parse_message, messages)), indent=4)
 
 
+def error_output(error: str) -> str:
+    return json.dumps([{"content": error, "type": "error"}], indent=4)
+
+
 class BroadcastingTracer(AsyncBaseTracer):
     def __init__(self, viewport: "Viewport") -> None:
         super().__init__(_schema_format="original+chat")
@@ -82,7 +86,7 @@ class BroadcastingTracer(AsyncBaseTracer):
                 "node_kind": run.run_type,
                 "status": "error" if run.error else "ok",
                 "input": preview(run.inputs),
-                "output": preview(run.outputs),
+                "output": error_output(run.error) if run.error else preview(run.outputs),
             }
         )
 
@@ -105,7 +109,7 @@ class BroadcastingTracer(AsyncBaseTracer):
                         "node_kind": self.node_kinds.get(run.name),
                         "status": "error" if run.error else "ok",
                         "input": preview(run.inputs),
-                        "output": preview(run.outputs),
+                        "output": error_output(run.error) if run.error else preview(run.outputs),
                     }
                 )
         else:
