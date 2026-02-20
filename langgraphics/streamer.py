@@ -67,7 +67,6 @@ def error_output(error: str) -> str:
 class BroadcastingTracer(AsyncBaseTracer):
     def __init__(self, viewport: "Viewport") -> None:
         super().__init__(_schema_format="original+chat")
-        self.node_kinds: dict[str, str] = {}
         self.viewport = viewport
 
     async def _persist_run(self, run: Run) -> None:
@@ -95,7 +94,6 @@ class BroadcastingTracer(AsyncBaseTracer):
             self.viewport.node_current = run.name
 
     async def _on_chain_end(self, run: Run) -> None:
-        self.node_kinds[run.name] = run.run_type
         if run.name in self.viewport.node_names:
             parent = (
                 self.run_map.get(str(run.parent_run_id)) if run.parent_run_id else None
@@ -106,7 +104,7 @@ class BroadcastingTracer(AsyncBaseTracer):
                         "type": "node_output",
                         "node_id": run.name,
                         "run_id": str(run.id),
-                        "node_kind": self.node_kinds.get(run.name),
+                        "node_kind": run.run_type,
                         "status": "error" if run.error else "ok",
                         "input": preview(run.inputs),
                         "output": error_output(run.error) if run.error else preview(run.outputs),
@@ -119,27 +117,21 @@ class BroadcastingTracer(AsyncBaseTracer):
         await self._on_chain_end(run)
 
     async def _on_llm_end(self, run: Run) -> None:
-        self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
 
     async def _on_llm_error(self, run: Run) -> None:
-        self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
 
     async def _on_tool_end(self, run: Run) -> None:
-        self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
 
     async def _on_tool_error(self, run: Run) -> None:
-        self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
 
     async def _on_retriever_end(self, run: Run) -> None:
-        self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
 
     async def _on_retriever_error(self, run: Run) -> None:
-        self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
 
 
