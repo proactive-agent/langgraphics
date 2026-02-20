@@ -85,7 +85,9 @@ class BroadcastingTracer(AsyncBaseTracer):
                 "node_kind": run.run_type,
                 "status": "error" if run.error else "ok",
                 "input": preview(run.inputs),
-                "output": error_output(run.error) if run.error else preview(run.outputs),
+                "output": error_output(run.error)
+                if run.error
+                else preview(run.outputs),
             }
         )
 
@@ -107,7 +109,9 @@ class BroadcastingTracer(AsyncBaseTracer):
                         "node_kind": run.run_type,
                         "status": "error" if run.error else "ok",
                         "input": preview(run.inputs),
-                        "output": error_output(run.error) if run.error else preview(run.outputs),
+                        "output": error_output(run.error)
+                        if run.error
+                        else preview(run.outputs),
                     }
                 )
         else:
