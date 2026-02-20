@@ -64,6 +64,6 @@ agent = create_deep_agent(
     tools=[get_weather],
     system_prompt="You are a helpful assistant",
 )
-agent = watch(agent, open_browser=False)
+agent = watch(agent)
 
 agent.invoke({"messages": [{"role": "user", "content": "What is the weather in SF?"}]})

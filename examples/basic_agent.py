@@ -138,7 +138,7 @@ def main() -> None:
     builder.add_edge("tools", "responder")
 
     graph = builder.compile()
-    graph = watch(graph, open_browser=False)
+    graph = watch(graph)
 
     graph.invoke({"messages": [HumanMessage(content="What is the meaning of life?")]})
 
