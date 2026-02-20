@@ -9,82 +9,55 @@ from langchain_core.tracers.base import AsyncBaseTracer
 from langchain_core.tracers.schemas import Run
 
 
-def _serialize_state(state: Any) -> Any:
-    if isinstance(state, dict):
-        return {k: _serialize_state(v) for k, v in state.items()}
-    if isinstance(state, (list, tuple)):
-        return [_serialize_state(item) for item in state]
-    if hasattr(state, "model_dump"):
-        return state.model_dump()
-    try:
-        json.dumps(state)
-        return state
-    except (TypeError, ValueError):
-        return str(state)
+def parse_message(msg: Any) -> dict | list:
+    msg = dict(msg)
+    msg = msg.get("kwargs", msg)
+    if tool_calls := msg.get("tool_calls", []):
+        tool_call = tool_calls[0]
+        return {
+            "content": tool_call.get("name", "")
+            + "("
+            + str(tool_call.get("args", {}))
+            + ")",
+            "type": tool_call.get("type", ""),
+        }
+    for k in ("input", "output", "summary", "answer", "result"):
+        if res := msg.get(k):
+            if isinstance(res, list) and res:
+                try:
+                    return parse_message(res[0].update)
+                except AttributeError:
+                    parse_message(res[0])
+            elif isinstance(res, dict):
+                return res
+            elif res.__class__.__module__ != "builtins":
+                return parse_message(res)
+            else:
+                return {k: res}
+    return {
+        k: msg[k]
+        for k in ("content", "question", "prompt", "query", "type")
+        if k in msg
+    }
 
 
-def _elapsed_ms(run: Run) -> float | None:
-    if run.end_time is None or run.start_time is None:
-        return None
-    return (run.end_time - run.start_time).total_seconds() * 1000
-
-
-def _extract_message_content(msg: Any) -> str:
-    if isinstance(msg, dict):
-        tool_calls = msg.get("kwargs", {}).get("tool_calls")
-        if tool_calls:
-            names = [tc.get("name", "?") for tc in tool_calls]
-            return f"tool_calls={names}"
-        return msg.get("kwargs", {}).get("content", "") or msg.get("content", "")
-    return getattr(msg, "content", str(msg))
-
-
-def _output_preview(run: Run) -> str:
-    if not run.outputs:
-        return ""
-    out = run.outputs
-    if run.run_type in ("llm", "chat_model"):
-        gens = out.get("generations", [[]])[0]
-        if gens:
-            msg = gens[0].get("message") or gens[0].get("text", "")
-            text = _extract_message_content(msg)
-            if text:
-                return text
-    if run.run_type == "tool":
-        result = out.get("output", "")
-        return getattr(result, "content", None) or str(result)
-    for key in ("output", "summary", "answer", "result"):
-        if key in out:
-            return str(out[key])
-    messages = out.get("messages", [])
-    if isinstance(messages, list) and messages:
-        content = _extract_message_content(messages[-1])
-        if content:
-            return str(content)
-    return ""
-
-
-def _input_preview(run: Run) -> str:
-    if not run.inputs:
-        return ""
-    inp = run.inputs
-    messages = inp.get("messages", [])
-    if isinstance(messages, list) and messages:
-        flat = (
-            messages[-1]
-            if not isinstance(messages[-1], list)
-            else messages[-1][-1]
-            if messages[-1]
-            else None
-        )
-        if flat is not None:
-            content = _extract_message_content(flat)
-            if content:
-                return str(content)
-    for key in ("input", "query", "question", "prompt"):
-        if key in inp:
-            return str(inp[key])
-    return ""
+def preview(inputs: Any) -> str:
+    messages = []
+    inputs = inputs or {}
+    if "generations" in inputs:
+        inputs = inputs["generations"][-1][-1]["message"]
+    inputs = inputs.get("messages", inputs)
+    if isinstance(inputs, list):
+        if inputs:
+            messages = inputs
+            if isinstance(inputs[0], list):
+                messages = inputs[0]
+    elif isinstance(inputs, dict):
+        inputs = inputs.get("state", inputs)
+        messages = inputs.get("messages", inputs)
+        if isinstance(messages, dict):
+            messages = [messages]
+    return json.dumps(list(map(parse_message, messages)), indent=4)
 
 
 class BroadcastingTracer(AsyncBaseTracer):
@@ -97,54 +70,22 @@ class BroadcastingTracer(AsyncBaseTracer):
     async def _persist_run(self, run: Run) -> None:
         pass
 
-    def _find_ancestor_node(self, run: Run) -> str | None:
-        parent_id = run.parent_run_id
-        while parent_id is not None:
-            parent = self.run_map.get(str(parent_id))
-            if parent is None:
-                break
-            if parent.name in self.node_names:
-                return str(parent.id)
-            parent_id = parent.parent_run_id
-        return None
-
-    async def _emit_start(self, run: Run) -> None:
-        node_run_id = self._find_ancestor_node(run)
-        if node_run_id is None:
-            return
-        await self.broadcast(
-            {
-                "type": "node_step",
-                "event": "start",
-                "run_id": str(run.id),
-                "parent_run_id": node_run_id,
-                "name": run.name,
-                "step_kind": run.run_type,
-                "input_preview": _input_preview(run),
-            }
-        )
-
     async def _emit_end(self, run: Run) -> None:
-        node_run_id = self._find_ancestor_node(run)
+        node_run_id = str(run.parent_run_id) if run.parent_run_id else None
         if node_run_id is None:
             return
         await self.broadcast(
             {
-                "type": "node_step",
-                "event": "end",
+                "type": "node_output",
                 "run_id": str(run.id),
                 "parent_run_id": node_run_id,
-                "name": run.name,
-                "step_kind": run.run_type,
-                "elapsed_ms": _elapsed_ms(run),
+                "node_id": run.name,
+                "node_kind": run.run_type,
                 "status": "error" if run.error else "ok",
-                "output_preview": _output_preview(run),
+                "input": preview(run.inputs),
+                "output": preview(run.outputs),
             }
         )
-
-    async def _on_chain_start(self, run: Run) -> None:
-        if run.name not in self.node_names:
-            await self._emit_start(run)
 
     async def _on_chain_end(self, run: Run) -> None:
         self.node_kinds[run.name] = run.run_type
@@ -159,8 +100,8 @@ class BroadcastingTracer(AsyncBaseTracer):
                         "node_id": run.name,
                         "run_id": str(run.id),
                         "node_kind": self.node_kinds.get(run.name),
-                        "display": _output_preview(run),
-                        "input_display": _input_preview(run),
+                        "input": preview(run.inputs),
+                        "output": preview(run.outputs),
                     }
                 )
         else:
@@ -171,12 +112,6 @@ class BroadcastingTracer(AsyncBaseTracer):
         if run.name not in self.node_names:
             await self._emit_end(run)
 
-    async def _on_llm_start(self, run: Run) -> None:
-        await self._emit_start(run)
-
-    async def _on_chat_model_start(self, run: Run) -> None:
-        await self._emit_start(run)
-
     async def _on_llm_end(self, run: Run) -> None:
         self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
@@ -185,9 +120,6 @@ class BroadcastingTracer(AsyncBaseTracer):
         self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
 
-    async def _on_tool_start(self, run: Run) -> None:
-        await self._emit_start(run)
-
     async def _on_tool_end(self, run: Run) -> None:
         self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
@@ -195,9 +127,6 @@ class BroadcastingTracer(AsyncBaseTracer):
     async def _on_tool_error(self, run: Run) -> None:
         self.node_kinds[run.name] = run.run_type
         await self._emit_end(run)
-
-    async def _on_retriever_start(self, run: Run) -> None:
-        await self._emit_start(run)
 
     async def _on_retriever_end(self, run: Run) -> None:
         self.node_kinds[run.name] = run.run_type

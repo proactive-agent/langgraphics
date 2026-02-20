@@ -1,13 +1,12 @@
 import {useEffect, useRef, useState} from "react";
-import type {ExecutionEvent, GraphMessage, NodeOutputEntry, NodeStepEntry, WsMessage} from "../types";
+import type {ExecutionEvent, GraphMessage, NodeEntry, WsMessage} from "../types";
 
 const RECONNECT_INTERVAL = 500;
 const CONNECTION_TIMEOUT = 500;
 
 export function useWebSocket(url: string) {
     const [events, setEvents] = useState<ExecutionEvent[]>([]);
-    const [nodeStepLog, setNodeStepLog] = useState<NodeStepEntry[]>([]);
-    const [nodeOutputLog, setNodeOutputLog] = useState<NodeOutputEntry[]>([]);
+    const [nodeEntries, setNodeEntries] = useState<NodeEntry[]>([]);
     const [topology, setTopology] = useState<GraphMessage | null>(null);
     const wsRef = useRef<WebSocket | null>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -42,31 +41,16 @@ export function useWebSocket(url: string) {
                     const msg: WsMessage = JSON.parse(event.data);
                     if (msg.type === "graph") {
                         runDone = false;
-                        setTopology(msg);
                         setEvents([]);
-                        setNodeStepLog([]);
-                        setNodeOutputLog([]);
+                        setTopology(msg);
+                        setNodeEntries([]);
                     } else if (msg.type === "run_start") {
                         runDone = false;
                         setEvents([msg]);
-                        setNodeStepLog([]);
-                        setNodeOutputLog([]);
+                        setNodeEntries([]);
                     } else if (msg.type === "node_output") {
                         const {type: _, ...entry} = msg;
-                        setNodeOutputLog((prev) => [...prev, entry]);
-                    } else if (msg.type === "node_step") {
-                        const {type: _, event, ...fields} = msg;
-                        if (event === "start") {
-                            setNodeStepLog((prev) => [...prev, fields]);
-                        } else {
-                            setNodeStepLog((prev) => {
-                                const idx = prev.findLastIndex((e) => e.run_id === msg.run_id);
-                                if (idx === -1) return prev;
-                                const updated = [...prev];
-                                updated[idx] = {...updated[idx], ...fields};
-                                return updated;
-                            });
-                        }
+                        setNodeEntries((prev) => [...prev, entry]);
                     } else {
                         if (msg.type === "run_end" || msg.type === "error") runDone = true;
                         setEvents((prev) => [...prev, msg as ExecutionEvent]);
@@ -90,5 +74,5 @@ export function useWebSocket(url: string) {
         };
     }, [url]);
 
-    return {topology, events, nodeStepLog, nodeOutputLog};
+    return {topology, events, nodeEntries};
 }
