@@ -207,17 +207,33 @@ class Viewport:
         self.http_server.shutdown()
 
     async def ainvoke(self, input: Any, config: Any = None, **kwargs: Any) -> Any:
+        run_id = uuid.uuid4().hex[:8]
+        await self.broadcast({"type": "run_start", "run_id": run_id})
+
         result: Any = None
+        last_node = "__start__"
+        merged_config = self._make_config(config)
+
         try:
-            async for chunk in self.astream(
-                input, config=config, stream_mode="updates", **kwargs
+            async for chunk in self.graph.astream(
+                input, config=merged_config, stream_mode="updates", **kwargs
             ):
                 if isinstance(chunk, dict):
-                    for node_name, node_result in chunk.items():
-                        if node_name != "__metadata__":
-                            result = node_result
+                    for node_name in chunk:
+                        if node_name == "__metadata__":
+                            continue
+                        await self._emit_edge(last_node, node_name)
+                        last_node = node_name
+                        result = chunk[node_name]
+
+            await self._emit_edge(last_node, "__end__")
+            await self.broadcast({"type": "run_end", "run_id": run_id})
+        except Exception:
+            await self._emit_error(last_node)
+            raise
         finally:
             await self.shutdown()
+
         return result
 
     def invoke(self, input: Any, config: Any = None, **kwargs: Any) -> Any:
