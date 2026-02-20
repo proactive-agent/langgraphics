@@ -226,6 +226,7 @@ html, body, #root {
     flex: 0 0 auto;
     min-width: 220px;
     border-right: var(--xy-node-border-default);
+    overflow-y: auto;
 }
 
 .inspect-detail-pane {

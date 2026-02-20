@@ -27,7 +27,7 @@ def parse_message(msg: Any) -> dict | list:
                 try:
                     return parse_message(res[0].update)
                 except AttributeError:
-                    parse_message(res[0])
+                    return parse_message(res[0])
             elif isinstance(res, dict):
                 return res
             elif res.__class__.__module__ != "builtins":
