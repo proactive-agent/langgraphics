@@ -8,60 +8,7 @@ from typing import Any
 from langchain_core.tracers.base import AsyncBaseTracer
 from langchain_core.tracers.schemas import Run
 
-
-def parse_message(msg: Any) -> dict | list:
-    msg = dict(msg)
-    msg = msg.get("kwargs", msg)
-    if tool_calls := msg.get("tool_calls", []):
-        tool_call = tool_calls[0]
-        return {
-            "content": tool_call.get("name", "")
-            + "("
-            + str(tool_call.get("args", {}))
-            + ")",
-            "type": tool_call.get("type", ""),
-        }
-    for k in ("input", "output", "summary", "answer", "result"):
-        if res := msg.get(k):
-            if isinstance(res, list) and res:
-                try:
-                    return parse_message(res[0].update)
-                except AttributeError:
-                    return parse_message(res[0])
-            elif isinstance(res, dict):
-                return res
-            elif res.__class__.__module__ != "builtins":
-                return parse_message(res)
-            else:
-                return {k: res}
-    return {
-        k: msg[k]
-        for k in ("content", "question", "prompt", "query", "type")
-        if k in msg
-    }
-
-
-def preview(inputs: Any) -> str:
-    messages = []
-    inputs = inputs or {}
-    if "generations" in inputs:
-        inputs = inputs["generations"][-1][-1]["message"]
-    inputs = inputs.get("messages", inputs)
-    if isinstance(inputs, list):
-        if inputs:
-            messages = inputs
-            if isinstance(inputs[0], list):
-                messages = inputs[0]
-    elif isinstance(inputs, dict):
-        inputs = inputs.get("state", inputs)
-        messages = inputs.get("messages", inputs)
-        if isinstance(messages, dict):
-            messages = [messages]
-    return json.dumps(list(map(parse_message, messages)), indent=4)
-
-
-def error_output(error: str) -> str:
-    return json.dumps([{"content": error, "type": "error"}], indent=4)
+from .formatter import Formatter
 
 
 class BroadcastingTracer(AsyncBaseTracer):
@@ -84,10 +31,8 @@ class BroadcastingTracer(AsyncBaseTracer):
                 "node_id": run.name,
                 "node_kind": run.run_type,
                 "status": "error" if run.error else "ok",
-                "input": preview(run.inputs),
-                "output": error_output(run.error)
-                if run.error
-                else preview(run.outputs),
+                "input": Formatter.inputs(run),
+                "output": Formatter.outputs(run),
             }
         )
 
@@ -108,10 +53,8 @@ class BroadcastingTracer(AsyncBaseTracer):
                         "run_id": str(run.id),
                         "node_kind": run.run_type,
                         "status": "error" if run.error else "ok",
-                        "input": preview(run.inputs),
-                        "output": error_output(run.error)
-                        if run.error
-                        else preview(run.outputs),
+                        "input": Formatter.inputs(run),
+                        "output": Formatter.outputs(run),
                     }
                 )
         else:
