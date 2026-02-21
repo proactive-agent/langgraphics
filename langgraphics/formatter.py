@@ -16,8 +16,11 @@ class Formatter:
     @staticmethod
     def serialise(func):
         def wrapper(*args, **kwargs):
-            data = func(*args, **kwargs)
-            return json.dumps(data, indent=4, ensure_ascii=False)
+            return json.dumps(
+                ensure_ascii=False,
+                obj=func(*args, **kwargs),
+                default=lambda x: x.__dict__,
+            )
 
         return wrapper
 
@@ -30,10 +33,11 @@ class Formatter:
                 "role": msg.get("type", "unknown"),
                 "content": ", ".join(map(fmt_tool, tool_calls)),
             }
-        return {
-            "role": msg.get("type", "unknown"),
-            "content": str(data.get("content", "")),
-        }
+        role = msg.get("type", "unknown")
+        content = data.get("content", "")
+        if content and isinstance(content, list):
+            content = content[-1].get("text", "")
+        return {"role": role, "content": str(content)}
 
     @classmethod
     @serialise
