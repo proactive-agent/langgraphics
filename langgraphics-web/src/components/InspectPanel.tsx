@@ -15,21 +15,29 @@ export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
         return nodeEntries.find(({run_id}) => run_id === selectedKey);
     }, [nodeEntries, selectedKey]);
 
+    const safeParseJSON = useCallback((str: any) => {
+        try {
+            return JSON.parse(str ?? "[]");
+        } catch {
+            return [];
+        }
+    }, [])
+
     const system = useMemo(() => {
-        const inputs = JSON.parse(selectedEntry?.input ?? "[]");
+        const inputs = safeParseJSON(selectedEntry?.input);
         const system = inputs[0] || {};
         return system.role === "system" && inputs.length < 3 ? system : null;
-    }, [selectedEntry])
+    }, [selectedEntry, safeParseJSON])
 
     const input = useMemo(() => {
-        const input = JSON.parse(selectedEntry?.input ?? "[]");
+        const input = safeParseJSON(selectedEntry?.input);
         return input[input.length - 1] || null;
-    }, [selectedEntry])
+    }, [selectedEntry, safeParseJSON])
 
     const output = useMemo(() => {
-        const output = JSON.parse(selectedEntry?.output ?? "[]");
+        const output = safeParseJSON(selectedEntry?.output);
         return output[output.length - 1] || null;
-    }, [selectedEntry])
+    }, [selectedEntry, safeParseJSON])
 
     const getChildren = useCallback((parent: NodeEntry) => {
         return nodeEntries.filter(({parent_run_id}) => parent_run_id === parent.run_id).map(child => {
