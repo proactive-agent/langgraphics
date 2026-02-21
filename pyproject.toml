@@ -1,6 +1,6 @@
 [project]
 name = "langgraphics"
-version = "0.1.0-beta.1"
+version = "0.1.0-beta.2"
 description = "Visualize live LangGraph execution and see how your agent thinks as it runs."
 readme = { file = "README.md", content-type = "text/markdown" }
 license = "MIT"
