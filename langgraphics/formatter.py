@@ -14,7 +14,7 @@ from langsmith.utils import (
 
 class Formatter:
     @staticmethod
-    def serialise(func):
+    def serialize(func):
         def wrapper(*args, **kwargs):
             return json.dumps(
                 ensure_ascii=False,
@@ -40,7 +40,7 @@ class Formatter:
         return {"role": role, "content": str(content)}
 
     @classmethod
-    @serialise
+    @serialize
     def inputs(cls, run: Run) -> list[dict[str, Any]]:
         data: dict[str, Any] = run.inputs or {}
         if run.run_type == "chat_model":
@@ -63,7 +63,7 @@ class Formatter:
         return []
 
     @classmethod
-    @serialise
+    @serialize
     def outputs(cls, run: Run) -> list[dict[str, Any]]:
         if run.error:
             return [{"role": "error", "content": str(run.error)}]
