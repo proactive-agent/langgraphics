@@ -23,16 +23,13 @@ export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
                 key: child.run_id,
                 isLeaf: children.length === 0,
                 title: (
-                    <span className="inspect-step-label">
-                        {child.node_kind
-                            ? <img
-                                alt={child.node_kind}
-                                className="inspect-step-icon"
-                                src={`/icons/${child.node_kind}.svg`}
-                            />
-                            : <span className={`inspect-step-status${child.status === "error" ? " error" : ""}`}/>
-                        }
-                        <span className="inspect-step-name">{child.node_id ?? "step"}</span>
+                    <span className={`inspect-step-label ${child.status ?? ""}`}>
+                        <img
+                            alt={child.node_kind ?? ""}
+                            className="inspect-step-icon"
+                            src={`/icons/${child.node_kind}.svg`}
+                        />
+                        {child.node_id ?? "step"}
                     </span>
                 ),
             }
@@ -44,7 +41,7 @@ export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
             key: entry.run_id,
             children: getChildren(entry),
             title: (
-                <span className="inspect-node-label">
+                <span className={`inspect-node-label ${entry.status ?? ""}`}>
                     {entry.node_kind && <img src={`/icons/${entry.node_kind}.svg`} alt={entry.node_kind}/>}
                     {entry.node_id}
                 </span>

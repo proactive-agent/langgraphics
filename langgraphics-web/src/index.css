@@ -274,34 +274,19 @@ html, body, #root {
 .inspect-step-label {
     gap: 5px;
     display: flex;
+    flex: 1 1 auto;
     font-size: 11px;
+    overflow: hidden;
     font-weight: 400;
     font-style: italic;
     align-items: center;
-}
-
-.inspect-step-status {
-    width: 6px;
-    height: 6px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    background: #c8c8c8;
-}
-
-.inspect-step-status.error {
-    background: #ef4444;
-}
-
-.ant-tree-node-content-wrapper:not(.ant-tree-node-selected) .inspect-step-status:not(.error) {
-    background: #3b82f6;
-}
-
-.inspect-step-name {
-    min-width: 0;
-    flex: 1 1 auto;
-    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.inspect-node-label.error,
+.inspect-step-label.error {
+    color: #ef4444;
 }
 
 .inspect-step-icon {
