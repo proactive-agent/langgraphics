@@ -14,6 +14,22 @@ export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
         return nodeEntries.find(({run_id}) => run_id === selectedKey);
     }, [nodeEntries, selectedKey]);
 
+    const system = useMemo(() => {
+        const inputs = JSON.parse(selectedEntry?.input ?? "[]");
+        const system = inputs[0] || {};
+        return system.role === "system" && inputs.length < 3 ? system : null;
+    }, [selectedEntry])
+
+    const input = useMemo(() => {
+        const input = JSON.parse(selectedEntry?.input ?? "[]");
+        return input[input.length - 1] || null;
+    }, [selectedEntry])
+
+    const output = useMemo(() => {
+        const output = JSON.parse(selectedEntry?.output ?? "[]");
+        return output[output.length - 1] || null;
+    }, [selectedEntry])
+
     const getChildren = useCallback((parent: NodeEntry) => {
         return nodeEntries.filter(({parent_run_id}) => parent_run_id === parent.run_id).map(child => {
             const children: TreeDataNode[] = getChildren(child);
@@ -75,16 +91,37 @@ export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
                 <div className="inspect-detail-pane">
                     {selectedEntry && (
                         <>
-                            {selectedEntry.input && (
+                            {system && (
                                 <div className="inspect-detail-section">
-                                    <span className="inspect-section-label">Input</span>
-                                    <div className="inspect-detail-text">{selectedEntry.input}</div>
+                                    <span className={`inspect-section-label ${system.role ?? ""}`}>
+                                        <span>System</span>
+                                        <span className="tag">{system.role ?? "unknown"}</span>
+                                    </span>
+                                    <div className="inspect-detail-text">
+                                        {system.role ? system.content : JSON.stringify(system, null, 4)}
+                                    </div>
                                 </div>
                             )}
-                            {selectedEntry.output && (
+                            {input && (
                                 <div className="inspect-detail-section">
-                                    <span className="inspect-section-label">Output</span>
-                                    <div className="inspect-detail-text">{selectedEntry.output}</div>
+                                    <span className={`inspect-section-label ${input.role ?? ""}`}>
+                                        <span>Input</span>
+                                        <span className="tag">{input.role ?? "unknown"}</span>
+                                    </span>
+                                    <div className="inspect-detail-text">
+                                        {input.role ? input.content : JSON.stringify(input, null, 4)}
+                                    </div>
+                                </div>
+                            )}
+                            {output && (
+                                <div className={`inspect-detail-section ${selectedEntry.node_kind ?? ""}`}>
+                                    <span className={`inspect-section-label ${output.role ?? ""}`}>
+                                        <span>Output</span>
+                                        <span className="tag">{output.role ?? "unknown"}</span>
+                                    </span>
+                                    <div className={`inspect-detail-text ${selectedEntry.status ?? ""}`}>
+                                        {output.role ? output.content : JSON.stringify(output, null, 4)}
+                                    </div>
                                 </div>
                             )}
                         </>
