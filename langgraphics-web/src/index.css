@@ -1,10 +1,10 @@
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
 
 html, body, #root {
+    margin: 0;
+    padding: 0;
     width: 100%;
     height: 100%;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -330,15 +330,14 @@ html, body, #root {
 }
 
 .inspect-detail-text {
-    gap: 3px;
     width: 100%;
-    display: flex;
     font-size: 12px;
-    line-height: 1.5;
     overflow-y: auto;
-    white-space: pre-wrap;
-    flex-direction: column;
-    word-break: break-word;
+}
+
+.inspect-detail-text > *:last-child,
+.inspect-detail-text > *:first-child {
+    margin: 0;
 }
 
 .inspect-section-label .tag {

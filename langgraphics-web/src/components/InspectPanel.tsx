@@ -1,5 +1,6 @@
 import Tree from "antd/es/tree";
 import type {TreeDataNode} from "antd";
+import ReactMarkdown from "react-markdown";
 import {useCallback, useEffect, useMemo, useState} from "react";
 import type {NodeEntry} from "../types";
 
@@ -98,7 +99,9 @@ export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
                                         <span className="tag">{system.role ?? "unknown"}</span>
                                     </span>
                                     <div className="inspect-detail-text">
-                                        {system.role ? system.content : JSON.stringify(system, null, 4)}
+                                        {system.role
+                                            ? <ReactMarkdown children={system.content.trim()}/>
+                                            : <pre>{JSON.stringify(system, null, 4)}</pre>}
                                     </div>
                                 </div>
                             )}
@@ -109,7 +112,9 @@ export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
                                         <span className="tag">{input.role ?? "unknown"}</span>
                                     </span>
                                     <div className="inspect-detail-text">
-                                        {input.role ? input.content : JSON.stringify(input, null, 4)}
+                                        {input.role
+                                            ? <ReactMarkdown children={input.content.trim()}/>
+                                            : <pre>{JSON.stringify(input, null, 4)}</pre>}
                                     </div>
                                 </div>
                             )}
@@ -120,7 +125,9 @@ export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
                                         <span className="tag">{output.role ?? "unknown"}</span>
                                     </span>
                                     <div className={`inspect-detail-text ${selectedEntry.status ?? ""}`}>
-                                        {output.role ? output.content : JSON.stringify(output, null, 4)}
+                                        {output.role
+                                            ? <ReactMarkdown children={output.content.trim()}/>
+                                            : <pre>{JSON.stringify(output, null, 4)}</pre>}
                                     </div>
                                 </div>
                             )}
