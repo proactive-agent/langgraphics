@@ -3,7 +3,7 @@ import {Background, type ColorMode, type Edge, type Node, type NodeTypes, ReactF
 import {Controls} from "./Controls";
 import {CustomNode} from "./CustomNode";
 import {useFocus} from "../hooks/useFocus";
-import type {EdgeData, ExecutionEvent, NodeData} from "../types";
+import type {EdgeData, ExecutionEvent, InspectorMode, NodeData} from "../types";
 import type {RankDir} from "../layout";
 
 const nodeTypes: NodeTypes = {custom: CustomNode as NodeTypes[string]};
@@ -22,6 +22,7 @@ interface GraphCanvasProps {
 export function GraphCanvas({nodes, edges, events, activeNodeId, inspect, initialColorMode = "system", initialRankDir = "TB", onRankDirChange}: GraphCanvasProps) {
     const [rankDir, setRankDir] = useState<RankDir>(initialRankDir);
     const [colorMode, setColorMode] = useState<ColorMode>(initialColorMode);
+    const [inspectorMode, setInspectorMode] = useState<InspectorMode>("off");
     const {isManual, goAuto, goManual, fitContent} = useFocus({nodes, edges, activeNodeId, rankDir});
 
     const handleRankDirChange = useCallback(async (v: RankDir) => {
@@ -43,6 +44,7 @@ export function GraphCanvas({nodes, edges, events, activeNodeId, inspect, initia
             colorMode={colorMode}
             nodeTypes={nodeTypes}
             proOptions={{hideAttribution: true}}
+            className={`inspector-${inspectorMode}`}
             zoomOnDoubleClick={false} nodesDraggable={false}
             nodesConnectable={false} elementsSelectable={false}
             panOnDrag={isManual} zoomOnScroll={isManual} zoomOnPinch={isManual}
@@ -54,10 +56,14 @@ export function GraphCanvas({nodes, edges, events, activeNodeId, inspect, initia
                 isManual={isManual}
                 colorMode={colorMode}
                 setColorMode={setColorMode}
+                inspectorMode={inspectorMode}
                 setRankDir={handleRankDirChange}
+                setInspectorMode={setInspectorMode}
             />
             <Background/>
-            {inspect}
+            <div className={`inspect-wrapper-${inspectorMode}`}>
+                {inspect}
+            </div>
         </ReactFlow>
     );
 }
