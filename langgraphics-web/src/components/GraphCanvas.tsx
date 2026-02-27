@@ -3,7 +3,7 @@ import {Background, type ColorMode, type Edge, type Node, type NodeTypes, ReactF
 import {Controls} from "./Controls";
 import {CustomNode} from "./CustomNode";
 import {useFocus} from "../hooks/useFocus";
-import type {EdgeData, ExecutionEvent, InspectorMode, NodeData} from "../types";
+import type {EdgeData, ExecutionEvent, InspectorMode, NodeData, ViewMode} from "../types";
 import type {RankDir} from "../layout";
 
 const nodeTypes: NodeTypes = {custom: CustomNode as NodeTypes[string]};
@@ -14,16 +14,18 @@ interface GraphCanvasProps {
     events: ExecutionEvent[];
     activeNodeId: string | null;
     inspect: ReactNode;
+    initialMode: ViewMode;
     initialRankDir?: RankDir;
     initialColorMode?: ColorMode;
+    initialInspect?: InspectorMode;
     onRankDirChange?: (v: RankDir) => void;
 }
 
-export function GraphCanvas({nodes, edges, events, activeNodeId, inspect, initialColorMode = "system", initialRankDir = "TB", onRankDirChange}: GraphCanvasProps) {
+export function GraphCanvas({nodes, edges, events, activeNodeId, inspect, initialMode = "auto", initialInspect = "off", initialColorMode = "system", initialRankDir = "TB", onRankDirChange}: GraphCanvasProps) {
     const [rankDir, setRankDir] = useState<RankDir>(initialRankDir);
     const [colorMode, setColorMode] = useState<ColorMode>(initialColorMode);
-    const [inspectorMode, setInspectorMode] = useState<InspectorMode>("off");
-    const {isManual, goAuto, goManual, fitContent} = useFocus({nodes, edges, activeNodeId, rankDir});
+    const [inspectorMode, setInspectorMode] = useState<InspectorMode>(initialInspect);
+    const {isManual, goAuto, goManual, fitContent} = useFocus({nodes, edges, activeNodeId, rankDir, initialMode});
 
     const handleRankDirChange = useCallback(async (v: RankDir) => {
         setRankDir(v);

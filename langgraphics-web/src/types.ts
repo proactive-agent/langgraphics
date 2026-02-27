@@ -1,5 +1,6 @@
 import {Position} from "@xyflow/react";
 
+export type ViewMode = "auto" | "manual";
 export type InspectorMode = "off" | "tree" | "full";
 
 export type NodeStatus = "idle" | "active" | "completed" | "error";
