@@ -9,6 +9,7 @@ interface ControlsProps {
     setRankDir: (v: RankDir) => void;
     goAuto: () => void;
     goManual: () => void;
+    fitContent: () => Promise<void>;
     isManual: boolean;
     inspectorMode: InspectorMode;
     setInspectorMode: (v: InspectorMode) => void;
@@ -50,7 +51,7 @@ const inspectorModes: {value: InspectorMode; label: any}[] = [
     )},
 ];
 
-export function Controls({isManual, colorMode, setColorMode, rankDir, setRankDir, goAuto, goManual, inspectorMode, setInspectorMode}: ControlsProps) {
+export function Controls({isManual, colorMode, setColorMode, rankDir, setRankDir, goAuto, goManual, fitContent, inspectorMode, setInspectorMode}: ControlsProps) {
     return (
         <div className="canvas-controls">
             <div className="mode-toggle">
@@ -92,7 +93,10 @@ export function Controls({isManual, colorMode, setColorMode, rankDir, setRankDir
                 {inspectorModes.map((o) => (
                     <button
                         key={o.value}
-                        onClick={() => setInspectorMode(o.value)}
+                        onClick={() => {
+                            setInspectorMode(o.value);
+                            setTimeout(fitContent, 50);
+                        }}
                         className={inspectorMode === o.value ? "active" : ""}
                     >
                         {o.label}

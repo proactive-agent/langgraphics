@@ -57,6 +57,7 @@ export function GraphCanvas({nodes, edges, events, activeNodeId, inspect, initia
                 goManual={goManual}
                 isManual={isManual}
                 colorMode={colorMode}
+                fitContent={fitContent}
                 setColorMode={setColorMode}
                 inspectorMode={inspectorMode}
                 setRankDir={handleRankDirChange}
