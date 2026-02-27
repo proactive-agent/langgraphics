@@ -44,6 +44,8 @@ def watch(
     ws_port: int = 8765,
     open_browser: bool = True,
     direction: Literal["TB", "LR"] = "TB",
+    mode: Literal["auto", "manual"] = "auto",
+    inspect: Literal["off", "tree", "full"] = "off",
     theme: Literal["system", "dark", "light"] = "system",
 ) -> Viewport:
     topology = extract(graph)
@@ -54,7 +56,12 @@ def watch(
     start_ws_server(manager, host, ws_port)
 
     if open_browser:
-        defaults = (("theme", theme, "system"), ("direction", direction, "TB"))
+        defaults = (
+            ("mode", mode, "auto"),
+            ("theme", theme, "system"),
+            ("inspect", inspect, "off"),
+            ("direction", direction, "TB"),
+        )
         params = [f"{k}={v}" for k, v, default in defaults if v != default]
         query = ("?" + "&".join(params)) if params else ""
         webbrowser.open(f"http://{host}:{port}{query}")

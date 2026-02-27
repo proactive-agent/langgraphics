@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import type {Edge, Node} from "@xyflow/react";
 import {useReactFlow} from "@xyflow/react";
-import type {EdgeData, NodeData} from "../types";
+import type {EdgeData, NodeData, ViewMode} from "../types";
 import type {RankDir} from "../layout";
 
 interface UseFocusOptions {
@@ -9,6 +9,7 @@ interface UseFocusOptions {
     edges: Edge<EdgeData>[];
     activeNodeId: string | null;
     rankDir?: RankDir;
+    initialMode?: ViewMode;
 }
 
 const FIT_VIEW_DURATION = 1500;
@@ -36,9 +37,9 @@ function getNeighbourIds(nodeId: string, nodes: Node<NodeData>[], edges: Edge<Ed
     return [before?.id, after?.id].filter((id): id is string => id !== undefined).map((id) => ({id}));
 }
 
-export function useFocus({nodes, edges, activeNodeId, rankDir = "TB"}: UseFocusOptions) {
+export function useFocus({nodes, edges, activeNodeId, rankDir = "TB", initialMode = "auto"}: UseFocusOptions) {
     const {fitView} = useReactFlow();
-    const [mode, setMode] = useState<"auto" | "manual">("auto");
+    const [mode, setMode] = useState<"auto" | "manual">(initialMode);
     const prevMode = useRef<"auto" | "manual">(mode);
     const initialDone = useRef(false);
     const prevFocusId = useRef<string | null>(null);
