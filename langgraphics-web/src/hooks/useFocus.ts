@@ -7,7 +7,7 @@ import type {RankDir} from "../layout";
 interface UseFocusOptions {
     nodes: Node<NodeData>[];
     edges: Edge<EdgeData>[];
-    activeNodeId: string | null;
+    activeNodeIds: string[];
     rankDir?: RankDir;
     initialMode?: ViewMode;
 }
@@ -37,12 +37,12 @@ function getNeighbourIds(nodeId: string, nodes: Node<NodeData>[], edges: Edge<Ed
     return [before?.id, after?.id].filter((id): id is string => id !== undefined).map((id) => ({id}));
 }
 
-export function useFocus({nodes, edges, activeNodeId, rankDir = "TB", initialMode = "auto"}: UseFocusOptions) {
+export function useFocus({nodes, edges, activeNodeIds, rankDir = "TB", initialMode = "auto"}: UseFocusOptions) {
     const {fitView} = useReactFlow();
     const [mode, setMode] = useState<"auto" | "manual">(initialMode);
     const prevMode = useRef<"auto" | "manual">(mode);
     const initialDone = useRef(false);
-    const prevFocusId = useRef<string | null>(null);
+    const prevFocusKey = useRef<string>("");
 
     const isManual = useMemo(() => mode === "manual", [mode]);
     const isHorizontal = useMemo(() => ["LR", "RL"].includes(rankDir), [rankDir]);
@@ -72,28 +72,34 @@ export function useFocus({nodes, edges, activeNodeId, rankDir = "TB", initialMod
                     duration: 0,
                 }).then();
             }
-            prevFocusId.current = null;
+            prevFocusKey.current = "";
             prevMode.current = mode;
             return;
         }
 
-        if (mode === "auto" && prevMode.current !== "auto") prevFocusId.current = null;
+        if (mode === "auto" && prevMode.current !== "auto") prevFocusKey.current = "";
         prevMode.current = mode;
 
         if (mode !== "auto") return;
 
-        if (activeNodeId && activeNodeId !== prevFocusId.current) {
-            prevFocusId.current = activeNodeId;
+        const focusKey = [...activeNodeIds].sort().join(",");
+        if (activeNodeIds.length > 0 && focusKey !== prevFocusKey.current) {
+            prevFocusKey.current = focusKey;
 
-            const activeNode = nodes.find((n) => n.id === activeNodeId);
-            if (activeNode?.data.nodeType === "node") {
+            const activeNodes = nodes.filter(
+                (n) => activeNodeIds.includes(n.id) && n.data.nodeType === "node",
+            );
+            if (activeNodes.length > 0) {
+                const neighbours = activeNodes.flatMap((n) =>
+                    getNeighbourIds(n.id, nodes, edges, isHorizontal),
+                );
                 fitView({
-                    nodes: [{id: activeNodeId}, ...getNeighbourIds(activeNodeId, nodes, edges, isHorizontal)],
+                    nodes: [...activeNodes.map((n) => ({id: n.id})), ...neighbours],
                     duration: FIT_VIEW_DURATION,
                 }).then();
             }
         }
-    }, [nodes, edges, activeNodeId, fitView, mode, isHorizontal]);
+    }, [nodes, edges, activeNodeIds, fitView, mode, isHorizontal]);
 
     return {isManual, goAuto, goManual, fitContent};
 }

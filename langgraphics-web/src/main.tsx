@@ -32,7 +32,7 @@ const {theme, mode, inspect, direction} = parseParams();
 function Index() {
     const [rankDir, setRankDir] = useState<RankDir>(direction);
     const {topology, events, nodeEntries} = useWebSocket(WS_URL);
-    const {nodes, edges, activeNodeId} = useGraphState(topology, events, rankDir);
+    const {nodes, edges, activeNodeIds} = useGraphState(topology, events, rankDir);
 
     return (
         <ReactFlowProvider>
@@ -44,7 +44,7 @@ function Index() {
                 initialInspect={inspect}
                 initialColorMode={theme}
                 initialRankDir={direction}
-                activeNodeId={activeNodeId}
+                activeNodeIds={activeNodeIds}
                 onRankDirChange={setRankDir}
                 inspect={<InspectPanel nodeEntries={nodeEntries}/>}
             />
