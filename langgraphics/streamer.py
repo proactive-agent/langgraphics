@@ -96,9 +96,11 @@ class Viewport:
         self.edge_lookup = edge_lookup
         self.http_server = http_server
         self.node_names: set[str] = set()
+        self.predecessors: dict[str, set[str]] = {}
         for src, tgt in edge_lookup:
             self.node_names.add(src)
             self.node_names.add(tgt)
+            self.predecessors.setdefault(tgt, set()).add(src)
         self.node_names -= {"__start__", "__end__"}
 
     def __getattr__(self, name: str) -> Any:
@@ -118,17 +120,19 @@ class Viewport:
         except Exception:
             pass
 
-    async def _emit_edge(self, source: str, target: str) -> None:
-        edge_id = self.edge_lookup.get((source, target))
-        if edge_id:
-            await self.broadcast(
-                {
-                    "type": "edge_active",
-                    "source": source,
-                    "target": target,
-                    "edge_id": edge_id,
-                }
-            )
+    async def _emit_edge(self, target: str, completed: set[str]) -> None:
+        for source in self.predecessors.get(target, set()):
+            if source in completed:
+                edge_id = self.edge_lookup.get((source, target))
+                if edge_id:
+                    await self.broadcast(
+                        {
+                            "type": "edge_active",
+                            "source": source,
+                            "target": target,
+                            "edge_id": edge_id,
+                        }
+                    )
 
     async def _emit_error(self, last_node: str) -> None:
         for (src, tgt), eid in self.edge_lookup.items():
@@ -159,6 +163,7 @@ class Viewport:
 
         result: Any = None
         last_node = "__start__"
+        completed: set[str] = {"__start__"}
         merged_config = self._make_config(config)
 
         try:
@@ -166,14 +171,15 @@ class Viewport:
                 input, config=merged_config, stream_mode="updates", **kwargs
             ):
                 if isinstance(chunk, dict):
-                    for node_name in chunk:
+                    for node_name, node_result in chunk.items():
                         if node_name == "__metadata__":
                             continue
-                        await self._emit_edge(last_node, node_name)
+                        await self._emit_edge(node_name, completed)
+                        completed.add(node_name)
                         last_node = node_name
-                        result = chunk[node_name]
+                        result = node_result
 
-            await self._emit_edge(last_node, "__end__")
+            await self._emit_edge("__end__", completed)
             await self.broadcast({"type": "run_end", "run_id": run_id})
         except Exception:
             await self._emit_error(last_node)
@@ -193,6 +199,7 @@ class Viewport:
         await self.broadcast({"type": "run_start", "run_id": run_id})
 
         last_node = "__start__"
+        completed: set[str] = {"__start__"}
         merged_config = self._make_config(config)
         stream_mode = kwargs.get("stream_mode", "values")
 
@@ -204,12 +211,13 @@ class Viewport:
                     for node_name in chunk:
                         if node_name == "__metadata__":
                             continue
-                        await self._emit_edge(last_node, node_name)
+                        await self._emit_edge(node_name, completed)
+                        completed.add(node_name)
                         last_node = node_name
                 yield chunk
 
-            if last_node != "__start__":
-                await self._emit_edge(last_node, "__end__")
+            if completed != {"__start__"}:
+                await self._emit_edge("__end__", completed)
 
             await self.broadcast({"type": "run_end", "run_id": run_id})
         except Exception:

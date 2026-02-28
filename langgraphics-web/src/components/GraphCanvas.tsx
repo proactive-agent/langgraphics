@@ -12,7 +12,7 @@ interface GraphCanvasProps {
     nodes: Node<NodeData>[];
     edges: Edge<EdgeData>[];
     events: ExecutionEvent[];
-    activeNodeId: string | null;
+    activeNodeIds: string[];
     inspect: ReactNode;
     initialMode: ViewMode;
     initialRankDir?: RankDir;
@@ -21,11 +21,11 @@ interface GraphCanvasProps {
     onRankDirChange?: (v: RankDir) => void;
 }
 
-export function GraphCanvas({nodes, edges, events, activeNodeId, inspect, initialMode = "auto", initialInspect = "off", initialColorMode = "system", initialRankDir = "TB", onRankDirChange}: GraphCanvasProps) {
+export function GraphCanvas({nodes, edges, events, activeNodeIds, inspect, initialMode = "auto", initialInspect = "off", initialColorMode = "system", initialRankDir = "TB", onRankDirChange}: GraphCanvasProps) {
     const [rankDir, setRankDir] = useState<RankDir>(initialRankDir);
     const [colorMode, setColorMode] = useState<ColorMode>(initialColorMode);
     const [inspectorMode, setInspectorMode] = useState<InspectorMode>(initialInspect);
-    const {isManual, goAuto, goManual, fitContent} = useFocus({nodes, edges, activeNodeId, rankDir, initialMode});
+    const {isManual, goAuto, goManual, fitContent} = useFocus({nodes, edges, activeNodeIds, rankDir, initialMode});
 
     const handleRankDirChange = useCallback(async (v: RankDir) => {
         setRankDir(v);

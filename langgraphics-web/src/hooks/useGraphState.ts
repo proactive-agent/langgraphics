@@ -9,20 +9,27 @@ export function computeStatuses(events: ExecutionEvent[]): {
 } {
     const nodeStatuses = new Map<string, NodeStatus>();
     const edgeStatuses = new Map<string, EdgeStatus>();
+    const edgeInfo = new Map<string, {source: string; target: string}>();
 
     for (const event of events) {
         if (event.type === "run_start") {
             nodeStatuses.clear();
             edgeStatuses.clear();
+            edgeInfo.clear();
         } else if (event.type === "edge_active") {
-            for (const [id, status] of edgeStatuses) {
-                if (status === "active") edgeStatuses.set(id, "traversed");
+            edgeInfo.set(event.edge_id, {source: event.source, target: event.target});
+            if (nodeStatuses.get(event.source) === "active") {
+                nodeStatuses.set(event.source, "completed");
             }
-            for (const [id, status] of nodeStatuses) {
-                if (status === "active") nodeStatuses.set(id, "completed");
+            for (const [id, info] of edgeInfo) {
+                if (info.target === event.source && edgeStatuses.get(id) === "active") {
+                    edgeStatuses.set(id, "traversed");
+                }
             }
             edgeStatuses.set(event.edge_id, "active");
-            nodeStatuses.set(event.target, "active");
+            if (nodeStatuses.get(event.target) !== "error") {
+                nodeStatuses.set(event.target, "active");
+            }
         } else if (event.type === "error") {
             for (const [id, status] of edgeStatuses) {
                 if (status === "active") edgeStatuses.set(id, "traversed");
@@ -52,14 +59,14 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
     }, [topology, rankDir]);
 
     return useMemo(() => {
-        if (events.length === 0) return {nodes: base.nodes, edges: base.edges, activeNodeId: null as string | null};
+        if (events.length === 0) return {nodes: base.nodes, edges: base.edges, activeNodeIds: [] as string[]};
 
         const {nodeStatuses, edgeStatuses} = computeStatuses(events);
 
-        let activeNodeId: string | null = null;
+        const activeNodeIds: string[] = [];
         const nodes = base.nodes.map((node) => {
             const status = nodeStatuses.get(node.id);
-            if (status === "active") activeNodeId = node.id;
+            if (status === "active") activeNodeIds.push(node.id);
             return {...node, className: status};
         });
 
@@ -81,6 +88,6 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
             return {...edge, className, animated: status === "active", markerEnd};
         });
 
-        return {nodes, edges, activeNodeId};
+        return {nodes, edges, activeNodeIds};
     }, [base, events]);
 }
