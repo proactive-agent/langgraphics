@@ -124,7 +124,7 @@ class Viewport:
 
     async def _emit_edge(self, target: str) -> None:
         for source in self.predecessors.get(target, set()):
-            if src_gen := self.generation.get(source) is None:
+            if (src_gen := self.generation.get(source)) is None:
                 continue
             if (key := (source, src_gen, target)) in self.linked:
                 continue
