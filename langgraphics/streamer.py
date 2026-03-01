@@ -33,6 +33,7 @@ class BroadcastingTracer(AsyncBaseTracer):
                 "status": "error" if run.error else "ok",
                 "input": Formatter.inputs(run),
                 "output": Formatter.outputs(run),
+                "metrics": Formatter.metrics(run),
             }
         )
 
@@ -55,6 +56,7 @@ class BroadcastingTracer(AsyncBaseTracer):
                         "status": "error" if run.error else "ok",
                         "input": Formatter.inputs(run),
                         "output": Formatter.outputs(run),
+                        "metrics": Formatter.metrics(run),
                     }
                 )
         else:
