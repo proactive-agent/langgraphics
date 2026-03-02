@@ -5,7 +5,6 @@ import {ReactFlowProvider} from "@xyflow/react";
 import {useWebSocket} from "./hooks/useWebSocket";
 import {useGraphState} from "./hooks/useGraphState";
 import {GraphCanvas} from "./components/GraphCanvas";
-import {InspectPanel} from "./components/InspectPanel";
 import type {ViewMode, InspectorMode} from "./types.ts";
 import type {RankDir} from "./layout";
 import "@xyflow/react/dist/style.css";
@@ -43,10 +42,10 @@ function Index() {
                 initialMode={mode}
                 initialInspect={inspect}
                 initialColorMode={theme}
+                nodeEntries={nodeEntries}
                 initialRankDir={direction}
-                activeNodeIds={activeNodeIds}
                 onRankDirChange={setRankDir}
-                inspect={<InspectPanel nodeEntries={nodeEntries}/>}
+                activeNodeIds={activeNodeIds}
             />
         </ReactFlowProvider>
     );

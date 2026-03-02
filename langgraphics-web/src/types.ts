@@ -3,6 +3,12 @@ import {Position} from "@xyflow/react";
 export type ViewMode = "auto" | "manual";
 export type InspectorMode = "off" | "tree" | "full";
 
+export interface NodeMetrics {
+    latency: string;
+    costs: { cached: string; total: string };
+    tokens: { cached: number; total: number };
+}
+
 export type NodeStatus = "idle" | "active" | "completed" | "error";
 export type EdgeStatus = "idle" | "active" | "traversed" | "error";
 
@@ -88,11 +94,12 @@ export interface NodeMessage {
     type: "node_output";
     run_id: string;
     node_id: string;
-    node_kind: NodeKind | null;
+    node_kind?: NodeKind | null;
     parent_run_id?: string | null;
     status?: "ok" | "error";
     input?: string | null;
     output?: string | null;
+    metrics?: NodeMetrics | null;
 }
 
 export type NodeEntry = Omit<NodeMessage, "type">;
