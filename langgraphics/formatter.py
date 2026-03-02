@@ -1,4 +1,5 @@
 import json
+import pathlib
 from collections import deque
 from typing import Any
 
@@ -7,6 +8,35 @@ from langchain_core.tracers.schemas import Run
 
 
 class Formatter:
+    models: dict = None
+
+    @classmethod
+    def costs(cls, model: str, cached: int, total: int):
+        if cls.models is None:
+            datadir_path = pathlib.Path(__file__).parent / "metadata"
+            with open(datadir_path / "models.json", encoding="utf-8") as fp:
+                cls.models = json.load(fp)
+        metadata = cls.models.get(model.lower(), {})
+        cost = metadata.get("cost", {"cache_read": 0, "output": 0})
+        fmt = lambda x: "0.0" if x == 0 else f"{x:.8f}".rstrip("0").rstrip(".")
+        return {
+            "cached": fmt((cached / 1e6) * cost["cache_read"]),
+            "total": fmt((total / 1e6) * cost["output"]),
+        }
+
+    @staticmethod
+    def latency(seconds: float) -> str:
+        if seconds >= 60:
+            return "%dm %ds" % (
+                int(seconds) // 60,
+                int(seconds) % 60,
+            )
+
+        if seconds < 1:
+            return "%dms" % round(seconds * 1000)
+
+        return "%ds %dms" % (int(seconds), int((seconds % int(seconds)) * 1000))
+
     @staticmethod
     def serialize(func):
         def wrapper(*args, **kwargs):
@@ -35,11 +65,13 @@ class Formatter:
 
     @classmethod
     def metrics(cls, run: Run) -> dict[str, Any]:
+        model_name = cls.extract(run.extra, "ls_model_name") or "unknown"
+        total_tokens = cls.extract(run.outputs, "total_tokens") or 0
+        cached_tokens = cls.extract(run.outputs, "cached_tokens") or 0
         return {
-            "latency": (run.end_time - run.start_time).total_seconds(),
-            "tokens": cls.extract(run.outputs, "total_tokens"),
-            # TODO: get the cost from the model costs metadata - coming soon
-            # "cost": cls.extract(run.extra, "model"),  # model_name
+            "latency": cls.latency((run.end_time - run.start_time).total_seconds()),
+            "costs": cls.costs(model_name, cached_tokens, total_tokens),
+            "tokens": {"cached": cached_tokens, "total": total_tokens},
         }
 
     @staticmethod
