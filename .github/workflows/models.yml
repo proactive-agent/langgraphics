@@ -1,8 +1,6 @@
 name: models
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 #  schedule:
@@ -29,7 +27,7 @@ jobs:
       - name: Compare models metadata
         id: compare
         run: |
-          git diff --exit-code langgraphics/metadata/models.json || echo "differs=true" >> $GITHUB_OUTPUT
+          git diff --exit-code langgraphics/metadata/models.json || echo "::set-output name=differs::true"
 
       - name: Create Pull Request
         if: steps.compare.outputs.differs == 'true'
@@ -37,8 +35,8 @@ jobs:
         with:
           base: main
           token: ${{ secrets.GH_TOKEN }}
-          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           branch: update-models-metadata
           branch-suffix: short-commit-hash
           title: Update the models metadata
