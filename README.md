@@ -1,8 +1,8 @@
 <p align="center">
   <picture class="github-only">
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/4e168df3-d45f-43fa-bd93-e71f8ca33d24">
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/5bceb55b-0588-4f35-91a9-2287c6db0310">
-    <img alt="LangGraphics" src="https://github.com/user-attachments/assets/4e168df3-d45f-43fa-bd93-e71f8ca33d24" width="25%">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/58ee0608-b00c-4de5-b97a-736dda05d30a">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/4f750d9e-21c3-4a6f-a07b-d1b51d1186bb">
+    <img alt="LangGraphics" src="https://github.com/user-attachments/assets/58ee0608-b00c-4de5-b97a-736dda05d30a" width="250px">
   </picture>
 </p>
 
