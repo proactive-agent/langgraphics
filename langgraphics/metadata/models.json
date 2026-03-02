@@ -1,36 +1,4 @@
 {
-  "microsoft/phi-4-multimodal-instruct": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 4096,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "intfloat/multilingual-e5-large-instruct": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": false,
-    "limit": {
-      "output": 1024,
-      "context": 512
-    },
-    "cost": {
-      "input": 0.02,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "moonshotai/kimi-k2.5": {
     "reasoning": true,
     "tool_call": true,
