@@ -1,5 +1,6 @@
 import json
 import uuid
+from datetime import datetime, timedelta
 from typing import Any
 from unittest.mock import MagicMock
 
@@ -22,6 +23,19 @@ def make_run(
     run.inputs = inputs or {}
     run.outputs = outputs or {}
     run.error = error
+    return run
+
+
+def make_metrics_run(
+    extra: dict | None = None,
+    outputs: dict | None = None,
+    latency: float = 0.0,
+) -> MagicMock:
+    run = MagicMock()
+    run.extra = extra or {}
+    run.outputs = outputs or {}
+    run.start_time = datetime(2025, 1, 1)
+    run.end_time = run.start_time + timedelta(seconds=latency)
     return run
 
 
@@ -250,3 +264,53 @@ class TestNorm:
         result = Formatter.norm(msg)
         assert result["role"] == "system"
         assert result["content"] == ""
+
+
+class TestLatency:
+    def test_milliseconds(self):
+        assert Formatter.latency(0.5) == "500ms"
+
+    def test_seconds_and_milliseconds(self):
+        assert Formatter.latency(5.25) == "5s 250ms"
+
+    def test_minutes_and_seconds(self):
+        assert Formatter.latency(90) == "1m 30s"
+
+
+class TestCosts:
+    def test_unknown_model(self):
+        result = Formatter.costs("unknown-model", 0, 0)
+        assert result == {"cached": "0.0", "total": "0.0"}
+
+    def test_zero_tokens(self):
+        result = Formatter.costs("openai/gpt-4o-mini", 0, 0)
+        assert result == {"cached": "0.0", "total": "0.0"}
+
+    def test_known_model_with_tokens(self):
+        result = Formatter.costs("openai/gpt-4o-mini", 1000, 2000)
+        assert result == {"cached": "0.000075", "total": "0.0012"}
+
+
+class TestMetrics:
+    def test_token_counts(self):
+        run = make_metrics_run(outputs={"total_tokens": 500, "cached_tokens": 100})
+        result = Formatter.metrics(run)
+        assert result["tokens"] == {"cached": 100, "total": 500}
+
+    def test_latency_format(self):
+        run = make_metrics_run(latency=1.5)
+        result = Formatter.metrics(run)
+        assert result["latency"] == "1s 500ms"
+
+    def test_cost_for_known_model(self):
+        run = make_metrics_run(
+            extra={"ls_model_name": "openai/gpt-4o-mini"},
+            outputs={"total_tokens": 2000, "cached_tokens": 1000},
+        )
+        result = Formatter.metrics(run)
+        assert result["costs"] == {"cached": "0.000075", "total": "0.0012"}
+
+    def test_unknown_model_fallback(self):
+        run = make_metrics_run()
+        result = Formatter.metrics(run)
+        assert result["costs"] == {"cached": "0.0", "total": "0.0"}
