@@ -33,6 +33,7 @@ jobs:
         if: steps.compare.outputs.differs == 'true'
         uses: peter-evans/create-pull-request@v5
         with:
+          base: main
           token: ${{ secrets.GH_TOKEN }}
           branch: update-models-metadata
           branch-suffix: short-commit-hash
