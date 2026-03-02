@@ -11,7 +11,7 @@ especially useful when working with large networks: graphs with many nodes, bran
 reason about from the logs alone.
 
 <p align="center">
-  <img alt="Demo" src="https://github.com/user-attachments/assets/1db519fb-0dd9-4fee-8bc8-f6b12cbf1342" width="80%">
+  <img alt="Demo" src="https://github.com/user-attachments/assets/1db519fb-0dd9-4fee-8bc8-f6b12cbf1342" width="800px">
 </p>
 
 ## Why it helps
@@ -43,26 +43,22 @@ it in while you're actively building - it has no effect on how the agent behaves
 
 ## Features
 
-| Feature                            | [LangGraphics](https://github.com/proactive-agent/langgraphics) | [LangFuse](https://github.com/langfuse/langfuse) | [LangSmith Studio](https://smith.langchain.com) |
-|------------------------------------|-----------------------------------------------------------------|--------------------------------------------------|-------------------------------------------------|
-| Open-source                        | ✅                                                               | ✅                                                | ❌                                               |
-| Unlimited free usage               | ✅                                                               | ✅                                                | ❌                                               |
-| Self-hosting supported             | ✅                                                               | ✅                                                | ❌                                               |
-| No vendor lock-in                  | ✅                                                               | ✅                                                | ❌                                               |
-| Works without external services    | ✅                                                               | ❌                                                | ❌                                               |
-| Simple setup                       | ✅                                                               | ❌                                                | ❌                                               |
-| One-line integration               | ✅                                                               | ❌                                                | ❌                                               |
-| No API key required                | ✅                                                               | ❌                                                | ❌                                               |
-| No instrumentation required        | ✅                                                               | ❌                                                | ❌                                               |
-| Runs fully locally                 | ✅                                                               | ❌                                                | ❌                                               |
-| Native LangGraph visualization     | ✅                                                               | ❌                                                | ❌                                               |
-| Real-time execution graph          | ✅                                                               | ❌                                                | ❌                                               |
-| Data stays local by default        | ✅                                                               | ❌                                                | ❌                                               |
-| Low learning curve                 | ✅                                                               | ❌                                                | ❌                                               |
-| Built-in prompt evaluation         | ❌                                                               | ❌                                                | ✅                                               |
-| Built-in observability dashboards  | ❌                                                               | ✅                                                | ✅                                               |
-| Built-in cost and latency tracking | ❌                                                               | ✅                                                | ✅                                               |
-| Production monitoring capabilities | ❌                                                               | ✅                                                | ✅                                               |
+| Feature                 | [LangGraphics](https://github.com/proactive-agent/langgraphics)                        | [LangFuse](https://github.com/langfuse/langfuse)                                       | [LangSmith](https://smith.langchain.com)                                               |
+|-------------------------|----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| Fully local             | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
+| Standalone              | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
+| Easy to learn           | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
+| One-line setup          | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
+| Data stays local        | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
+| No API key required     | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
+| Live execution graph    | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
+| No refactoring required | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
+| Self-hosted             | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
+| No vendor lock-in       | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
+| Unlimited free usage    | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
+| Graph visualization     | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  |
+| Cost & latency tracking | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  |
+| Prompt evaluation       | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  |
 
 ## Contribute
 
