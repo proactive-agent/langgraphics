@@ -1,10 +1,12 @@
 import Tree from "antd/es/tree";
 import type {TreeDataNode} from "antd";
 import ReactMarkdown from "react-markdown";
+import type {ColorMode} from "@xyflow/react";
 import {useCallback, useEffect, useMemo, useState} from "react";
 import type {NodeEntry} from "../types";
+import {Metrics} from "./Metrics";
 
-export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
+export function InspectPanel({colorMode, nodeEntries}: { colorMode: ColorMode, nodeEntries: NodeEntry[] }) {
     const [selectedKey, setSelectedKey] = useState<string>("");
 
     const expandedKeys = useMemo(() => {
@@ -100,6 +102,12 @@ export function InspectPanel({nodeEntries}: { nodeEntries: NodeEntry[] }) {
                 <div className="inspect-detail-pane">
                     {selectedEntry && (
                         <>
+                            {selectedEntry.metrics && (
+                                <Metrics
+                                    colorMode={colorMode}
+                                    metrics={selectedEntry.metrics}
+                                />
+                            )}
                             {system && (
                                 <div className="inspect-detail-section">
                                     <span className={`inspect-section-label ${system.role ?? ""}`}>

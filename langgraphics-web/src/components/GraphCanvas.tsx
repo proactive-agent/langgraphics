@@ -1,9 +1,10 @@
-import {type ReactNode, useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {Background, type ColorMode, type Edge, type Node, type NodeTypes, ReactFlow} from "@xyflow/react";
 import {Controls} from "./Controls";
 import {CustomNode} from "./CustomNode";
 import {useFocus} from "../hooks/useFocus";
-import type {EdgeData, ExecutionEvent, InspectorMode, NodeData, ViewMode} from "../types";
+import {InspectPanel} from "./InspectPanel";
+import type {EdgeData, ExecutionEvent, InspectorMode, NodeData, NodeEntry, ViewMode} from "../types";
 import type {RankDir} from "../layout";
 
 const nodeTypes: NodeTypes = {custom: CustomNode as NodeTypes[string]};
@@ -12,8 +13,8 @@ interface GraphCanvasProps {
     nodes: Node<NodeData>[];
     edges: Edge<EdgeData>[];
     events: ExecutionEvent[];
+    nodeEntries: NodeEntry[];
     activeNodeIds: string[];
-    inspect: ReactNode;
     initialMode: ViewMode;
     initialRankDir?: RankDir;
     initialColorMode?: ColorMode;
@@ -21,7 +22,7 @@ interface GraphCanvasProps {
     onRankDirChange?: (v: RankDir) => void;
 }
 
-export function GraphCanvas({nodes, edges, events, activeNodeIds, inspect, initialMode = "auto", initialInspect = "off", initialColorMode = "system", initialRankDir = "TB", onRankDirChange}: GraphCanvasProps) {
+export function GraphCanvas({nodes, edges, events, activeNodeIds, nodeEntries, initialMode = "auto", initialInspect = "off", initialColorMode = "system", initialRankDir = "TB", onRankDirChange}: GraphCanvasProps) {
     const [rankDir, setRankDir] = useState<RankDir>(initialRankDir);
     const [colorMode, setColorMode] = useState<ColorMode>(initialColorMode);
     const [inspectorMode, setInspectorMode] = useState<InspectorMode>(initialInspect);
@@ -65,7 +66,10 @@ export function GraphCanvas({nodes, edges, events, activeNodeIds, inspect, initi
             />
             <Background/>
             <div className={`inspect-wrapper-${inspectorMode}`}>
-                {inspect}
+                <InspectPanel
+                    colorMode={colorMode}
+                    nodeEntries={nodeEntries}
+                />
             </div>
         </ReactFlow>
     );
