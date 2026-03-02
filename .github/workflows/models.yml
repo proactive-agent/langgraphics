@@ -1,0 +1,41 @@
+name: models
+
+on:
+  pull_request:
+    branches: [ main ]
+#  schedule:
+#    - cron: "0 0 * * *"
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Update models metadata
+        run: uv run scripts/models.py
+
+      - name: Compare models metadata
+        id: compare
+        run: |
+          git diff --exit-code langgraphics/metadata/models.json || echo "::set-output name=differs::true"
+
+      - name: Create Pull Request
+        if: steps.compare.outputs.differs == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          branch: update-models-metadata
+          branch-suffix: short-commit-hash
+          title: Update the models metadata
+          commit-message: Update the models metadata
+          body: This PR updates the models metadata to keep the repository up-to-date with the upstream model costs.
