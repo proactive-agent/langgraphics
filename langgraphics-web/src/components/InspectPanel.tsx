@@ -157,7 +157,8 @@ export function InspectPanel({colorMode, nodeEntries}: { colorMode: ColorMode, n
                                     </span>
                                     <div className={`inspect-detail-text ${selectedEntry.status ?? ""}`}>
                                         {output.role
-                                            ? <ReactMarkdown children={output.content.trim()}/>
+                                            ? (output.role === "error") ? <pre>{output.content.trim()}</pre>
+                                            : <ReactMarkdown children={output.content.trim()}/>
                                             : <pre>{JSON.stringify(output, null, 4)}</pre>}
                                     </div>
                                 </div>
