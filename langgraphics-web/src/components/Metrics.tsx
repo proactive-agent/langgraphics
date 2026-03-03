@@ -10,11 +10,11 @@ export function Metrics({colorMode, metrics}: { colorMode: ColorMode, metrics: N
     }, [colorMode]);
 
     const color = useMemo(() => {
-        return theme === "dark" ? "#c8c8c8" : "#141414";
+        return theme === "dark" ? "#ffffff" : "#141414";
     }, [theme]);
 
     const background = useMemo(() => {
-        return theme === "dark" ? "#141414" : "#c8c8c8";
+        return theme === "dark" ? "#141414" : "#ffffff";
     }, [theme]);
 
     const border = useMemo(() => {
