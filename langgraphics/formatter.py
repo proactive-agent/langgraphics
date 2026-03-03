@@ -108,7 +108,7 @@ class Formatter:
             return list(map(cls.norm, messages))
         elif run.run_type == "chain":
             messages = messages_to_dict(data.get("messages", []))
-            return list(map(cls.norm, messages))
+            return list(map(cls.norm, messages)) or [data] if data else []
         elif run.run_type == "tool":
             return [{"role": "input", "content": str(data.get("input", ""))}]
         elif run.run_type == "retriever":
