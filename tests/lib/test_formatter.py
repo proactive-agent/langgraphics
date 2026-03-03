@@ -234,6 +234,22 @@ class TestChainInputsOutputs:
         result = parsed_inputs(run)
         assert result == []
 
+    def test_chain_tool_call_no_messages(self):
+        run = make_run(
+            "chain",
+            inputs={
+                "tool_call": {
+                    "name": "search",
+                    "args": {"q": "foo"},
+                    "id": "c1",
+                    "type": "tool_call",
+                }
+            },
+        )
+        result = parsed_inputs(run)
+        assert len(result) == 1
+        assert "search" in result[0]["content"]
+
     def test_chain_error(self):
         run = make_run("chain", error="Graph error")
         result = parsed_outputs(run)

@@ -15,7 +15,7 @@ html, body, #root {
     --xy-node-color-default: #3c3c3c;
     --xy-background-color-default: #ffffff;
     --xy-node-border-default: 1px solid #c8c8c8;
-    --xy-node-tag-background: #3c3c3c26;
+    --xy-node-tag-background: #C8C8C81A;
     --xy-node-border-color: #C8C8C880;
     --xy-node-tag-color: #3c3c3ccc;
 }
@@ -30,7 +30,7 @@ html, body, #root {
 .react-flow.dark {
     --xy-node-color-default: #c8c8c8;
     --xy-node-border-default: 1px solid #3c3c3c;
-    --xy-node-tag-background: #c8c8c826;
+    --xy-node-tag-background: #3C3C3C1A;
     --xy-node-border-color: #3C3C3C80;
     --xy-node-tag-color: #c8c8c8cc;
 }
@@ -216,7 +216,7 @@ html, body, #root {
     display: flex;
     padding: 10px;
     flex: 1 1 auto;
-    overflow-y: auto;
+    overflow: hidden;
     flex-direction: column;
 }
 
@@ -266,9 +266,9 @@ html, body, #root {
     text-overflow: ellipsis;
 }
 
+.ant-collapse-body.error,
 .inspect-node-label.error,
-.inspect-step-label.error,
-.inspect-detail-text.error {
+.inspect-step-label.error {
     color: #ef4444;
 }
 
@@ -302,80 +302,89 @@ html, body, #root {
     padding: 8px !important;
 }
 
-.inspect-detail-section {
-    display: flex;
-    max-height: 50%;
-    overflow: hidden;
+.ant-collapse {
     border-radius: 6px;
-    flex-direction: column;
+    background: unset !important;
     border: var(--xy-node-border-default);
     border-color: var(--xy-node-border-color);
 }
 
-.inspect-section-label {
+.ant-collapse-header {
     display: flex;
     font-size: 10px;
     font-weight: 700;
-    padding: 5px 10px;
     align-items: center;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+    padding: 5px 10px !important;
     background: var(--xy-node-border-default);
-    border-bottom: var(--xy-node-border-default);
-    border-color: var(--xy-node-border-color);
+    color: var(--xy-node-tag-color) !important;
 }
 
-.inspect-detail-section > :not(.inspect-section-label) {
-    padding: 8px 10px;
+.ant-collapse-title {
+    display: flex;
+    align-items: center;
 }
 
-.inspect-detail-text {
+.ant-collapse-title .tag {
+    font-size: 7px;
+    padding: 1px 5px;
+    margin-left: 8px;
+    border-radius: 10px;
+    color: var(--xy-node-tag-color);
+    background: var(--xy-node-tag-background);
+    border: 1px solid var(--xy-node-border-color);
+}
+
+.ant-collapse-panel {
+    background: unset !important;
+    border-top: var(--xy-node-border-default) !important;
+    border-color: var(--xy-node-border-color) !important;
+}
+
+.ant-collapse-body {
     width: 100%;
     font-size: 12px;
     overflow-y: auto;
+    padding: 8px 10px !important;
 }
 
-.inspect-detail-text > *:last-child,
-.inspect-detail-text > *:first-child {
+.ant-collapse-body * {
     margin: 0;
 }
 
-.inspect-section-label .tag {
-    border: 1px solid var(--xy-node-tag-color);
-    background: var(--xy-node-tag-background);
-    color: var(--xy-node-tag-color);
-    border-radius: 10px;
-    margin-left: 8px;
-    padding: 1px 5px;
-    font-size: 7px;
+.ant-collapse-body pre {
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
 }
 
-.inspect-detail-section.tool .inspect-detail-text:not(.error) {
+.ant-collapse-body.tool:not(.error) {
     color: #ea580ccc;
 }
 
-.inspect-detail-section.chain .inspect-detail-text:not(.error) {
+.ant-collapse-body.chain:not(.error) {
     color: #db2777cc;
 }
 
-.inspect-detail-section.prompt .inspect-detail-text:not(.error) {
+.ant-collapse-body.prompt:not(.error) {
     color: #9332eacc;
 }
 
-.inspect-detail-section.parser .inspect-detail-text:not(.error) {
+.ant-collapse-body.parser:not(.error) {
     color: #6467f2cc;
 }
 
-.inspect-detail-section.embedding .inspect-detail-text:not(.error) {
+.ant-collapse-body.embedding:not(.error) {
     color: #d67506cc;
 }
 
-.inspect-detail-section.retriever .inspect-detail-text:not(.error) {
+.ant-collapse-body.retriever:not(.error) {
     color: #0d9488cc;
 }
 
-.inspect-detail-section.llm .inspect-detail-text:not(.error),
-.inspect-detail-section.chat_model .inspect-detail-text:not(.error) {
+.ant-collapse-body.llm:not(.error),
+.ant-collapse-body.chat_model:not(.error) {
     color: #4f46e5cc;
 }
 

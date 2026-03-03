@@ -15,6 +15,7 @@ class BroadcastingTracer(AsyncBaseTracer):
     def __init__(self, viewport: "Viewport") -> None:
         super().__init__(_schema_format="original+chat")
         self.viewport = viewport
+        self.states = {}
 
     async def _persist_run(self, run: Run) -> None:
         pass
@@ -23,6 +24,7 @@ class BroadcastingTracer(AsyncBaseTracer):
         node_run_id = str(run.parent_run_id) if run.parent_run_id else None
         if node_run_id is None:
             return
+        state = self.states.get(run.name)
         await self.viewport.broadcast(
             {
                 "type": "node_output",
@@ -34,10 +36,16 @@ class BroadcastingTracer(AsyncBaseTracer):
                 "input": Formatter.inputs(run),
                 "output": Formatter.outputs(run),
                 "metrics": Formatter.metrics(run),
+                "state": json.dumps(
+                    state,
+                    ensure_ascii=False,
+                    default=lambda x: x.__dict__,
+                ) if state else None,
             }
         )
 
     async def _on_chain_start(self, run: Run) -> None:
+        self.states[run.name] = run.inputs
         if run.name in self.viewport.node_names:
             self.viewport.node_current = run.name
 
@@ -47,6 +55,7 @@ class BroadcastingTracer(AsyncBaseTracer):
                 self.run_map.get(str(run.parent_run_id)) if run.parent_run_id else None
             )
             if parent is None or parent.name not in self.viewport.node_names:
+                state = self.states.get(run.name)
                 await self.viewport.broadcast(
                     {
                         "type": "node_output",
@@ -57,6 +66,11 @@ class BroadcastingTracer(AsyncBaseTracer):
                         "input": Formatter.inputs(run),
                         "output": Formatter.outputs(run),
                         "metrics": Formatter.metrics(run),
+                        "state": json.dumps(
+                            state,
+                            ensure_ascii=False,
+                            default=lambda x: x.__dict__,
+                        ) if state else None,
                     }
                 )
         else:

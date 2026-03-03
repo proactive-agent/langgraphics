@@ -81,8 +81,10 @@ class Formatter:
                 "type": msg["id"][-1].replace("Message", "").lower(),
                 "data": msg["kwargs"],
             }
+        tool_call = msg.get("tool_call", {})
+        default_tool_calls = [tool_call] if tool_call else []
         data: dict[str, Any] = msg.get("data", {})
-        if tool_calls := data.get("tool_calls", []):
+        if tool_calls := data.get("tool_calls", default_tool_calls):
             fmt_tool = lambda tc: f"{tc.get('name', '?')}({tc.get('args', {})})"
             return {
                 "role": msg.get("type", "unknown"),
@@ -107,8 +109,9 @@ class Formatter:
                 return [data]
             return list(map(cls.norm, messages))
         elif run.run_type == "chain":
+            default = [cls.norm(data)] if "tool_call" in data else [data] if data else []
             messages = messages_to_dict(data.get("messages", []))
-            return list(map(cls.norm, messages))
+            return list(map(cls.norm, messages)) or default
         elif run.run_type == "tool":
             return [{"role": "input", "content": str(data.get("input", ""))}]
         elif run.run_type == "retriever":
