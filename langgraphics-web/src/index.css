@@ -351,6 +351,9 @@ html, body, #root {
 
 .ant-collapse-body * {
     margin: 0;
+}
+
+.ant-collapse-body pre {
     overflow-y: auto;
     white-space: pre-wrap;
     word-break: break-all;
