@@ -198,7 +198,9 @@ export function InspectPanel({colorMode, nodeEntries}: { colorMode: ColorMode, n
                                                 ),
                                                 children: (
                                                     output.role
-                                                        ? (output.role === "error") ? <pre>{output.content.trim()}</pre>
+                                                        ? (output.role === "error") ? (
+                                                            <pre>{output.content.trim().replace(/^\n+/mg, "\n")}</pre>
+                                                        )
                                                         : <ReactMarkdown children={output.content.trim()}/>
                                                         : <pre>{JSON.stringify(output, null, 4)}</pre>
                                                 ),
