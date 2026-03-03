@@ -99,6 +99,7 @@ export interface NodeMessage {
     status?: "ok" | "error";
     input?: string | null;
     output?: string | null;
+    state?: string | null;
     metrics?: NodeMetrics | null;
 }
 

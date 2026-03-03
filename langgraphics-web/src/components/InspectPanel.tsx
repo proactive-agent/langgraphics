@@ -25,6 +25,11 @@ export function InspectPanel({colorMode, nodeEntries}: { colorMode: ColorMode, n
         }
     }, [])
 
+    const state = useMemo(() => {
+        if (!selectedEntry?.state) return null;
+        return safeParseJSON(selectedEntry?.state);
+    }, [selectedEntry, safeParseJSON])
+
     const system = useMemo(() => {
         const inputs = safeParseJSON(selectedEntry?.input);
         const system = inputs[0] || {};
@@ -107,6 +112,16 @@ export function InspectPanel({colorMode, nodeEntries}: { colorMode: ColorMode, n
                                     colorMode={colorMode}
                                     metrics={selectedEntry.metrics}
                                 />
+                            )}
+                            {state && (
+                                <div className="inspect-detail-section">
+                                    <span className="inspect-section-label">
+                                        <span>State</span>
+                                    </span>
+                                    <div className="inspect-detail-text">
+                                        <pre>{JSON.stringify(state, null, 2)}</pre>
+                                    </div>
+                                </div>
                             )}
                             {system && (
                                 <div className="inspect-detail-section">

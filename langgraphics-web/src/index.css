@@ -340,6 +340,14 @@ html, body, #root {
     margin: 0;
 }
 
+.inspect-detail-text pre {
+    margin: 0;
+    font-size: 11px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
 .inspect-section-label .tag {
     border: 1px solid var(--xy-node-tag-color);
     background: var(--xy-node-tag-background);
