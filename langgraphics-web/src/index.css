@@ -216,7 +216,7 @@ html, body, #root {
     display: flex;
     padding: 10px;
     flex: 1 1 auto;
-    overflow-y: auto;
+    overflow: hidden;
     flex-direction: column;
 }
 
@@ -304,7 +304,8 @@ html, body, #root {
 
 .inspect-detail-section {
     display: flex;
-    max-height: 50%;
+    flex: 1 1 0;
+    min-height: 0;
     overflow: hidden;
     border-radius: 6px;
     flex-direction: column;
@@ -330,6 +331,8 @@ html, body, #root {
 }
 
 .inspect-detail-text {
+    flex: 1 1 0;
+    min-height: 0;
     width: 100%;
     font-size: 12px;
     overflow-y: auto;
