@@ -1,4 +1,5 @@
 import Tree from "antd/es/tree";
+import {Collapse, Space} from "antd";
 import type {TreeDataNode} from "antd";
 import ReactMarkdown from "react-markdown";
 import type {ColorMode} from "@xyflow/react";
@@ -45,6 +46,12 @@ export function InspectPanel({colorMode, nodeEntries}: { colorMode: ColorMode, n
         const output = safeParseJSON(selectedEntry?.output);
         return output[output.length - 1] || null;
     }, [selectedEntry, safeParseJSON])
+
+    const sectionMaxHeight = useMemo(() => {
+        const reducer: any = (acc: number, curr: boolean) => acc + Number(curr);
+        const count = [state, system, input, output].map(Boolean).reduce(reducer, 0);
+        return `calc((100vh - 240px) / ${count})`;
+    }, [state, system, input, output])
 
     const getChildren = useCallback((parent: NodeEntry) => {
         return nodeEntries.filter(({parent_run_id}) => parent_run_id === parent.run_id).map(child => {
@@ -113,56 +120,93 @@ export function InspectPanel({colorMode, nodeEntries}: { colorMode: ColorMode, n
                                     metrics={selectedEntry.metrics}
                                 />
                             )}
-                            {state && (
-                                <div className="inspect-detail-section">
-                                    <span className="inspect-section-label">
-                                        <span>State</span>
-                                    </span>
-                                    <div className="inspect-detail-text">
-                                        <pre>{JSON.stringify(state, null, 2)}</pre>
-                                    </div>
-                                </div>
-                            )}
-                            {system && (
-                                <div className="inspect-detail-section">
-                                    <span className={`inspect-section-label ${system.role ?? ""}`}>
-                                        <span>System</span>
-                                        <span className="tag">{system.role ?? "unknown"}</span>
-                                    </span>
-                                    <div className="inspect-detail-text">
-                                        {system.role
-                                            ? <ReactMarkdown children={system.content.trim()}/>
-                                            : <pre>{JSON.stringify(system, null, 4)}</pre>}
-                                    </div>
-                                </div>
-                            )}
-                            {input && (
-                                <div className="inspect-detail-section">
-                                    <span className={`inspect-section-label ${input.role ?? ""}`}>
-                                        <span>Input</span>
-                                        <span className="tag">{input.role ?? "unknown"}</span>
-                                    </span>
-                                    <div className="inspect-detail-text">
-                                        {input.role
-                                            ? <ReactMarkdown children={input.content.trim()}/>
-                                            : <pre>{JSON.stringify(input, null, 4)}</pre>}
-                                    </div>
-                                </div>
-                            )}
-                            {output && (
-                                <div className={`inspect-detail-section ${selectedEntry.node_kind ?? ""}`}>
-                                    <span className={`inspect-section-label ${output.role ?? ""}`}>
-                                        <span>Output</span>
-                                        <span className="tag">{output.role ?? "unknown"}</span>
-                                    </span>
-                                    <div className={`inspect-detail-text ${selectedEntry.status ?? ""}`}>
-                                        {output.role
-                                            ? (output.role === "error") ? <pre>{output.content.trim()}</pre>
-                                            : <ReactMarkdown children={output.content.trim()}/>
-                                            : <pre>{JSON.stringify(output, null, 4)}</pre>}
-                                    </div>
-                                </div>
-                            )}
+                            <Space vertical size={10}>
+                                {state && (
+                                    <Collapse
+                                        defaultActiveKey="state"
+                                        styles={{body: {maxHeight: sectionMaxHeight}}}
+                                        items={[
+                                            {
+                                                key: "state",
+                                                label: "State",
+                                                showArrow: false,
+                                                children: <pre>{JSON.stringify(state, null, 2)}</pre>,
+                                            },
+                                        ]}
+                                    />
+                                )}
+                                {system && (
+                                    <Collapse
+                                        defaultActiveKey="system"
+                                        styles={{body: {maxHeight: sectionMaxHeight}}}
+                                        items={[
+                                            {
+                                                key: "system",
+                                                showArrow: false,
+                                                label: (
+                                                    <>
+                                                        <span>System</span>
+                                                        <span className="tag">{system.role ?? "unknown"}</span>
+                                                    </>
+                                                ),
+                                                children: (
+                                                    system.role
+                                                        ? <ReactMarkdown children={system.content.trim()}/>
+                                                        : <pre>{JSON.stringify(system, null, 4)}</pre>
+                                                ),
+                                            },
+                                        ]}
+                                    />
+                                )}
+                                {input && (
+                                    <Collapse
+                                        defaultActiveKey="input"
+                                        styles={{body: {maxHeight: sectionMaxHeight}}}
+                                        items={[
+                                            {
+                                                key: "input",
+                                                showArrow: false,
+                                                label: (
+                                                    <>
+                                                        <span>Input</span>
+                                                        <span className="tag">{input.role ?? "unknown"}</span>
+                                                    </>
+                                                ),
+                                                children: (
+                                                    input.role
+                                                        ? <ReactMarkdown children={input.content.trim()}/>
+                                                        : <pre>{JSON.stringify(input, null, 4)}</pre>
+                                                ),
+                                            },
+                                        ]}
+                                    />
+                                )}
+                                {output && (
+                                    <Collapse
+                                        defaultActiveKey="output"
+                                        styles={{body: {maxHeight: sectionMaxHeight}}}
+                                        classNames={{body: `${selectedEntry.node_kind ?? ""} ${selectedEntry.status ?? ""}`}}
+                                        items={[
+                                            {
+                                                key: "output",
+                                                showArrow: false,
+                                                label: (
+                                                    <>
+                                                        <span>Output</span>
+                                                        <span className="tag">{output.role ?? "unknown"}</span>
+                                                    </>
+                                                ),
+                                                children: (
+                                                    output.role
+                                                        ? (output.role === "error") ? <pre>{output.content.trim()}</pre>
+                                                        : <ReactMarkdown children={output.content.trim()}/>
+                                                        : <pre>{JSON.stringify(output, null, 4)}</pre>
+                                                ),
+                                            },
+                                        ]}
+                                    />
+                                )}
+                            </Space>
                         </>
                     )}
                 </div>
