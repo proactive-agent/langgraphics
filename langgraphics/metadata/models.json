@@ -3400,6 +3400,146 @@
       "cache_write": 0
     }
   },
+  "google/gemini-3.1-pro-preview": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 2,
+      "output": 12,
+      "cache_read": 0.2,
+      "cache_write": 0
+    }
+  },
+  "perplexity/sonar": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 25415,
+      "context": 127072
+    },
+    "cost": {
+      "input": 1,
+      "output": 1,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "anthropic/claude-opus-4-6": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 0.5,
+      "cache_write": 6.25,
+      "context_over_200k": {
+        "input": 10,
+        "output": 37.5,
+        "cache_read": 1,
+        "cache_write": 12.5
+      }
+    }
+  },
+  "anthropic/claude-sonnet-4-6": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 3,
+      "output": 15,
+      "cache_read": 0.3,
+      "cache_write": 3.75,
+      "context_over_200k": {
+        "input": 6,
+        "output": 22.5,
+        "cache_read": 0.6,
+        "cache_write": 7.5
+      }
+    }
+  },
+  "anthropic/claude-haiku-4-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 62000,
+      "context": 200000
+    },
+    "cost": {
+      "input": 1,
+      "output": 5,
+      "cache_read": 0.1,
+      "cache_write": 1.25
+    }
+  },
+  "anthropic/claude-opus-4-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 200000
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 0.5,
+      "cache_write": 6.25
+    }
+  },
+  "anthropic/claude-sonnet-4-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 3,
+      "output": 15,
+      "cache_read": 0.3,
+      "cache_write": 3.75
+    }
+  },
+  "xai/grok-4-1-fast-non-reasoning": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 30000,
+      "context": 2000000
+    },
+    "cost": {
+      "input": 0.2,
+      "output": 0.5,
+      "cache_read": 0.05,
+      "cache_write": 0
+    }
+  },
   "mimo-v2-flash": {
     "reasoning": true,
     "tool_call": true,
@@ -6602,28 +6742,6 @@
       "cache_write": 1
     }
   },
-  "anthropic/claude-opus-4-6": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 128000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 5,
-      "output": 25,
-      "cache_read": 0.5,
-      "cache_write": 6.25,
-      "context_over_200k": {
-        "input": 10,
-        "output": 37.5,
-        "cache_read": 1,
-        "cache_write": 12.5
-      }
-    }
-  },
   "anthropic/claude-3-haiku": {
     "reasoning": false,
     "tool_call": true,
@@ -6640,60 +6758,6 @@
       "cache_write": 0.3
     }
   },
-  "anthropic/claude-sonnet-4-6": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 3,
-      "output": 15,
-      "cache_read": 0.3,
-      "cache_write": 3.75,
-      "context_over_200k": {
-        "input": 6,
-        "output": 22.5,
-        "cache_read": 0.6,
-        "cache_write": 7.5
-      }
-    }
-  },
-  "anthropic/claude-haiku-4-5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 62000,
-      "context": 200000
-    },
-    "cost": {
-      "input": 1,
-      "output": 5,
-      "cache_read": 0.1,
-      "cache_write": 1.25
-    }
-  },
-  "anthropic/claude-opus-4-5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 200000
-    },
-    "cost": {
-      "input": 5,
-      "output": 25,
-      "cache_read": 0.5,
-      "cache_write": 6.25
-    }
-  },
   "anthropic/claude-3-opus": {
     "reasoning": false,
     "tool_call": true,
@@ -6708,22 +6772,6 @@
       "output": 75,
       "cache_read": 1.5,
       "cache_write": 18.75
-    }
-  },
-  "anthropic/claude-sonnet-4-5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 3,
-      "output": 15,
-      "cache_read": 0.3,
-      "cache_write": 3.75
     }
   },
   "solar-pro2": {
@@ -16397,22 +16445,6 @@
       "cache_write": 0
     }
   },
-  "google/gemini-3.1-pro-preview": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 2,
-      "output": 12,
-      "cache_read": 0.2,
-      "cache_write": 0
-    }
-  },
   "google/gemini-2.0-flash-exp:free": {
     "reasoning": false,
     "tool_call": true,
@@ -22189,22 +22221,6 @@
     "cost": {
       "input": 2,
       "output": 8,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "perplexity/sonar": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 25415,
-      "context": 127072
-    },
-    "cost": {
-      "input": 1,
-      "output": 1,
       "cache_read": 0,
       "cache_write": 0
     }
