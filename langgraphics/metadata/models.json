@@ -6660,7 +6660,12 @@
       "input": 2.5,
       "output": 15,
       "cache_read": 0.25,
-      "cache_write": 0
+      "cache_write": 0,
+      "context_over_200k": {
+        "input": 5,
+        "output": 22.5,
+        "cache_read": 0.5
+      }
     }
   },
   "openai/o3-mini": {
@@ -10222,7 +10227,7 @@
     "temperature": true,
     "limit": {
       "output": 128000,
-      "context": 1000000
+      "context": 200000
     },
     "cost": {
       "input": 5,
@@ -10324,7 +10329,7 @@
     "temperature": true,
     "limit": {
       "output": 128000,
-      "context": 1000000
+      "context": 200000
     },
     "cost": {
       "input": 5,
@@ -10362,7 +10367,7 @@
     "temperature": true,
     "limit": {
       "output": 128000,
-      "context": 1000000
+      "context": 200000
     },
     "cost": {
       "input": 5,
@@ -11164,7 +11169,7 @@
     "temperature": true,
     "limit": {
       "output": 128000,
-      "context": 1000000
+      "context": 200000
     },
     "cost": {
       "input": 5,
@@ -17399,6 +17404,23 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "openai/gpt-5.4-pro": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1050000,
+      "input": 272000
+    },
+    "cost": {
+      "input": 30,
+      "output": 180,
+      "cache_read": 30,
       "cache_write": 0
     }
   },
