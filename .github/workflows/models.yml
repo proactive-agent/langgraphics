@@ -1,8 +1,10 @@
 name: models
 
 on:
-  schedule:
-    - cron: "0 0 * * *"
+  push:
+    branches: [ main ]
+#  schedule:
+#    - cron: "0 0 * * *"
 
 jobs:
   update:
@@ -28,6 +30,7 @@ jobs:
           git diff --exit-code langgraphics/metadata/models.json || echo "::set-output name=differs::true"
 
       - name: Create Pull Request
+        id: create-pr
         if: steps.compare.outputs.differs == 'true'
         uses: peter-evans/create-pull-request@v5
         with:
@@ -40,3 +43,14 @@ jobs:
           title: Update the models metadata
           commit-message: Update the models metadata
           body: This PR updates the models metadata to keep the repository up-to-date with the upstream model costs.
+
+      - name: Enable auto-merge
+        if: steps.create-pr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} \
+            --auto \
+            --merge \
+            --subject "Update the models metadata (GH-${{ steps.create-pr.outputs.pull-request-number }})" \
+            --body "Co-authored-by: Artyom Vancyan <44609997+artyomvancyan@users.noreply.github.com>"
