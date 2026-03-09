@@ -1,20 +1,4 @@
 {
-  "nvidia/llama-3.3-70b-instruct-fp8": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": false,
-    "limit": {
-      "output": 32768,
-      "context": 131072
-    },
-    "cost": {
-      "input": 1.18,
-      "output": 1.18,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "microsoft/phi-4-multimodal-instruct": {
     "reasoning": true,
     "tool_call": true,
