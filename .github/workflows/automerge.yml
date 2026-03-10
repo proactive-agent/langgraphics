@@ -1,0 +1,32 @@
+name: automerge
+
+on:
+  workflow_run:
+    workflows: [ tests ]
+    types: [ completed ]
+
+jobs:
+  merge:
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      startsWith(github.event.workflow_run.head_branch, 'update-models-metadata')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Merge PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          PR_NUMBER=$(gh pr list --repo "$REPO" --head "$BRANCH" --state open --json number --jq '.[0].number')
+          if [ -n "$PR_NUMBER" ]; then
+            gh pr merge "$PR_NUMBER" \
+              --merge \
+              --delete-branch \
+              --subject "Update the models metadata (GH-${PR_NUMBER})" \
+              --body "Co-authored-by: Artyom Vancyan <44609997+artyomvancyan@users.noreply.github.com>"
+          fi
