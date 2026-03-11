@@ -16,6 +16,9 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Merge PR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
