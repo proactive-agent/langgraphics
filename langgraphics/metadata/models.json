@@ -2534,13 +2534,14 @@
     }
   },
   "qwen/qwen3.5-397b-a17b": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": false,
     "limit": {
-      "output": 64000,
-      "context": 256000
+      "output": 65536,
+      "context": 258048,
+      "input": 258048
     },
     "cost": {
       "input": 0.6,
@@ -3553,14 +3554,15 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": false,
-    "temperature": true,
+    "temperature": false,
     "limit": {
-      "output": 202752,
-      "context": 202752
+      "output": 128000,
+      "context": 200000,
+      "input": 200000
     },
     "cost": {
-      "input": 1,
-      "output": 3.2,
+      "input": 0.3,
+      "output": 2.55,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -10436,6 +10438,22 @@
     "cost": {
       "input": 0.22,
       "output": 0.22,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "mistral.devstral-2-123b": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0.4,
+      "output": 2,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -20745,22 +20763,6 @@
       "cache_write": 0
     }
   },
-  " minimaxai/minimax-m2.5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 196000,
-      "context": 196000
-    },
-    "cost": {
-      "input": 0.3,
-      "output": 1.2,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "anthropic/claude-3-7-sonnet": {
     "reasoning": true,
     "tool_call": true,
@@ -22745,6 +22747,28 @@
       "output": 60,
       "cache_read": 0,
       "cache_write": 0
+    }
+  },
+  "google/gemini-3.1-flash-lite-preview": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 0.5,
+      "output": 3,
+      "cache_read": 0.05,
+      "cache_write": 0,
+      "context_over_200k": {
+        "input": 0.25,
+        "output": 1.5,
+        "cache_read": 0.025,
+        "cache_write": 1
+      }
     }
   },
   "google/text-multilingual-embedding-002": {
@@ -25136,6 +25160,22 @@
       "cache_write": 0
     }
   },
+  "qwen-image": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 0,
+      "context": 0
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "llama-3.3-70b-shakudo": {
     "reasoning": false,
     "tool_call": false,
@@ -25200,6 +25240,22 @@
     "cost": {
       "input": 0.07,
       "output": 0.11,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "z-image-turbo": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 0,
+      "context": 0
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -26371,6 +26427,22 @@
     "cost": {
       "input": 7.004,
       "output": 19.992,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "chroma": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 0,
+      "context": 0
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -27561,6 +27633,22 @@
     "cost": {
       "input": 0.306,
       "output": 0.306,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "hidream": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 0,
+      "context": 0
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
       "cache_read": 0,
       "cache_write": 0
     }
