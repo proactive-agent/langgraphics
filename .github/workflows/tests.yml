@@ -74,8 +74,8 @@ jobs:
 
       - name: Install dependencies
         working-directory: langgraphics-web
-        run: yarn install --frozen-lockfile
+        run: npm install
 
       - name: Run tests
         working-directory: langgraphics-web
-        run: yarn test
+        run: npm test
