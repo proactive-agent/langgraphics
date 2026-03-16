@@ -3735,6 +3735,39 @@
       "cache_write": 0
     }
   },
+  "nvidia/nemotron-3-super-120b-a12b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 256000,
+      "input": 256000
+    },
+    "cost": {
+      "input": 0.3,
+      "output": 0.9,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "openai/gpt-5.4": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1050000
+    },
+    "cost": {
+      "input": 2.5,
+      "output": 15,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "perplexity/sonar": {
     "reasoning": false,
     "tool_call": false,
@@ -4352,23 +4385,6 @@
     "cost": {
       "input": 0.05,
       "output": 0.22,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "nvidia/nemotron-3-super-120b-a12b": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 32768,
-      "context": 256000,
-      "input": 256000
-    },
-    "cost": {
-      "input": 0.3,
-      "output": 0.9,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -7154,22 +7170,6 @@
     "cost": {
       "input": 1.1,
       "output": 4.4,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "openai/gpt-5.4": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 128000,
-      "context": 1050000
-    },
-    "cost": {
-      "input": 2.5,
-      "output": 15,
       "cache_read": 0,
       "cache_write": 0
     }
