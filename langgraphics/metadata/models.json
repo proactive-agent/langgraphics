@@ -6261,7 +6261,7 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 8192,
+      "output": 16384,
       "context": 32000
     },
     "cost": {
@@ -6287,6 +6287,22 @@
       "cache_write": 0
     }
   },
+  "qwen3-embedding-8b": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": false,
+    "limit": {
+      "output": 4096,
+      "context": 32768
+    },
+    "cost": {
+      "input": 0.1,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "bge-multilingual-gemma2": {
     "reasoning": false,
     "tool_call": false,
@@ -6297,7 +6313,7 @@
       "context": 8191
     },
     "cost": {
-      "input": 0.13,
+      "input": 0.1,
       "output": 0,
       "cache_read": 0,
       "cache_write": 0
@@ -6373,7 +6389,7 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 8192,
+      "output": 16384,
       "context": 256000
     },
     "cost": {
@@ -12288,7 +12304,7 @@
     }
   },
   "cohere-command-r-08-2024": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": false,
     "temperature": true,
@@ -12513,7 +12529,7 @@
     }
   },
   "cohere-command-r-plus-08-2024": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": false,
     "temperature": true,
@@ -18764,7 +18780,7 @@
     }
   },
   "cohere/cohere-command-r-plus-08-2024": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": false,
     "temperature": true,
@@ -18796,7 +18812,7 @@
     }
   },
   "cohere/cohere-command-r-08-2024": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": false,
     "temperature": true,
@@ -18812,7 +18828,7 @@
     }
   },
   "cohere/cohere-command-r-plus": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": false,
     "temperature": true,
@@ -19262,6 +19278,23 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "gpt-5.4-mini": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 400000,
+      "input": 272000
+    },
+    "cost": {
+      "input": 0.75,
+      "output": 4.5,
+      "cache_read": 0.075,
       "cache_write": 0
     }
   },
@@ -21797,6 +21830,22 @@
       "cache_write": 0
     }
   },
+  "zai/glm-5-turbo": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131100,
+      "context": 202800
+    },
+    "cost": {
+      "input": 1.2,
+      "output": 4,
+      "cache_read": 0.24,
+      "cache_write": 0
+    }
+  },
   "zai/glm-4.5v": {
     "reasoning": true,
     "tool_call": true,
@@ -23420,6 +23469,40 @@
       "cache_write": 0
     }
   },
+  "openai/gpt-5.4-nano": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 400000,
+      "input": 272000
+    },
+    "cost": {
+      "input": 0.19999999999999998,
+      "output": 1.25,
+      "cache_read": 0.02,
+      "cache_write": 0
+    }
+  },
+  "openai/gpt-5.4-mini": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 400000,
+      "input": 272000
+    },
+    "cost": {
+      "input": 0.75,
+      "output": 4.5,
+      "cache_read": 0.075,
+      "cache_write": 0
+    }
+  },
   "morph/morph-v3-large": {
     "reasoning": false,
     "tool_call": false,
@@ -23837,6 +23920,23 @@
       "cache_write": 0
     }
   },
+  "gpt-5.4-nano": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 400000,
+      "input": 272000
+    },
+    "cost": {
+      "input": 0.2,
+      "output": 1.25,
+      "cache_read": 0.02,
+      "cache_write": 0
+    }
+  },
   "auto": {
     "reasoning": false,
     "tool_call": false,
@@ -23887,7 +23987,7 @@
   },
   "c4ai-aya-expanse-32b": {
     "reasoning": false,
-    "tool_call": true,
+    "tool_call": false,
     "attachment": false,
     "temperature": true,
     "limit": {
@@ -23902,7 +24002,7 @@
     }
   },
   "command-a-03-2025": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": false,
     "temperature": true,
@@ -23950,7 +24050,7 @@
     }
   },
   "command-r-08-2024": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": false,
     "temperature": true,
@@ -23966,7 +24066,7 @@
     }
   },
   "command-r-plus-08-2024": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": false,
     "temperature": true,
@@ -24000,7 +24100,7 @@
   },
   "c4ai-aya-expanse-8b": {
     "reasoning": false,
-    "tool_call": true,
+    "tool_call": false,
     "attachment": false,
     "temperature": true,
     "limit": {
@@ -24016,7 +24116,7 @@
   },
   "c4ai-aya-vision-8b": {
     "reasoning": false,
-    "tool_call": true,
+    "tool_call": false,
     "attachment": true,
     "temperature": true,
     "limit": {
@@ -24032,7 +24132,7 @@
   },
   "c4ai-aya-vision-32b": {
     "reasoning": false,
-    "tool_call": true,
+    "tool_call": false,
     "attachment": true,
     "temperature": true,
     "limit": {
@@ -24371,6 +24471,86 @@
       "output": 75,
       "cache_read": 1.5,
       "cache_write": 18.75
+    }
+  },
+  "hunyuan-turbos": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "tc-code-latest": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "hunyuan-t1": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "hunyuan-2.0-instruct": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "hunyuan-2.0-thinking": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
     }
   },
   "claude-sonnet-4-5@20250929": {
@@ -26369,7 +26549,7 @@
   },
   "cohere/command-r-plus-08-2024": {
     "reasoning": false,
-    "tool_call": false,
+    "tool_call": true,
     "attachment": false,
     "temperature": false,
     "limit": {
@@ -26386,7 +26566,7 @@
   },
   "cohere/command-r7b-12-2024": {
     "reasoning": false,
-    "tool_call": false,
+    "tool_call": true,
     "attachment": false,
     "temperature": true,
     "limit": {
