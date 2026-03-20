@@ -3908,6 +3908,22 @@
       "cache_write": 0
     }
   },
+  "mimo-v2-omni": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0.4,
+      "output": 2,
+      "cache_read": 0.08,
+      "cache_write": 0
+    }
+  },
   "mimo-v2-flash": {
     "reasoning": true,
     "tool_call": true,
@@ -3921,6 +3937,22 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "mimo-v2-pro": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 1,
+      "output": 3,
+      "cache_read": 0.2,
       "cache_write": 0
     }
   },
@@ -6031,6 +6063,22 @@
       "cache_write": 0
     }
   },
+  "minimax-m2.7": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 204800
+    },
+    "cost": {
+      "input": 0.3,
+      "output": 1.2,
+      "cache_read": 0.06,
+      "cache_write": 0.375
+    }
+  },
   "gpt-oss:20b": {
     "reasoning": true,
     "tool_call": true,
@@ -6448,6 +6496,38 @@
       "cache_write": 0
     }
   },
+  "workers-ai/@cf/zai-org/glm-4.7-flash": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0.06,
+      "output": 0.4,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "workers-ai/@cf/nvidia/nemotron-3-120b-a12b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 256000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0.5,
+      "output": 1.5,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "workers-ai/@cf/ibm-granite/granite-4.0-h-micro": {
     "reasoning": false,
     "tool_call": false,
@@ -6637,6 +6717,22 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "workers-ai/@cf/moonshotai/kimi-k2.5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 256000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0.6,
+      "output": 3,
+      "cache_read": 0.1,
       "cache_write": 0
     }
   },
@@ -7508,22 +7604,6 @@
     "cost": {
       "input": 0.6,
       "output": 2.4,
-      "cache_read": 0.06,
-      "cache_write": 0.375
-    }
-  },
-  "minimax-m2.7": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 131072,
-      "context": 204800
-    },
-    "cost": {
-      "input": 0.3,
-      "output": 1.2,
       "cache_read": 0.06,
       "cache_write": 0.375
     }
@@ -13411,6 +13491,22 @@
       "cache_write": 0
     }
   },
+  "@cf/nvidia/nemotron-3-120b-a12b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 256000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0.5,
+      "output": 1.5,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "@cf/ibm-granite/granite-4.0-h-micro": {
     "reasoning": false,
     "tool_call": false,
@@ -13600,6 +13696,22 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "@cf/moonshotai/kimi-k2.5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 256000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0.6,
+      "output": 3,
+      "cache_read": 0.1,
       "cache_write": 0
     }
   },
@@ -16576,6 +16688,38 @@
       "cache_write": 0
     }
   },
+  "xiaomi/mimo-v2-omni": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.4,
+      "output": 2,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "xiaomi/mimo-v2-pro": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 1,
+      "output": 3,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "microsoft/mai-ds-r1:free": {
     "reasoning": true,
     "tool_call": true,
@@ -18235,6 +18379,23 @@
       "cache_write": 0
     }
   },
+  "openai/gpt-5.4-nano": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 400000,
+      "input": 272000
+    },
+    "cost": {
+      "input": 0.19999999999999998,
+      "output": 1.25,
+      "cache_read": 0.02,
+      "cache_write": 0
+    }
+  },
   "openai/gpt-oss-120b:free": {
     "reasoning": true,
     "tool_call": true,
@@ -18248,6 +18409,23 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "openai/gpt-5.4-mini": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 400000,
+      "input": 272000
+    },
+    "cost": {
+      "input": 0.75,
+      "output": 4.5,
+      "cache_read": 0.075,
       "cache_write": 0
     }
   },
@@ -20641,6 +20819,22 @@
       "input": 2.19,
       "output": 17.5,
       "cache_read": 0.219,
+      "cache_write": 0
+    }
+  },
+  "minimax-m27": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 198000
+    },
+    "cost": {
+      "input": 0.375,
+      "output": 1.5,
+      "cache_read": 0.075,
       "cache_write": 0
     }
   },
@@ -23515,40 +23709,6 @@
       "input": 1.75,
       "output": 14,
       "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "openai/gpt-5.4-nano": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 128000,
-      "context": 400000,
-      "input": 272000
-    },
-    "cost": {
-      "input": 0.19999999999999998,
-      "output": 1.25,
-      "cache_read": 0.02,
-      "cache_write": 0
-    }
-  },
-  "openai/gpt-5.4-mini": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 128000,
-      "context": 400000,
-      "input": 272000
-    },
-    "cost": {
-      "input": 0.75,
-      "output": 4.5,
-      "cache_read": 0.075,
       "cache_write": 0
     }
   },
@@ -33097,7 +33257,7 @@
   },
   "grok-4.20-multi-agent-beta-latest": {
     "reasoning": true,
-    "tool_call": true,
+    "tool_call": false,
     "attachment": true,
     "temperature": true,
     "limit": {
