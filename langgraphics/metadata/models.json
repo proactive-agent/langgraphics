@@ -1635,17 +1635,18 @@
   "minimax/minimax-m2.7": {
     "reasoning": true,
     "tool_call": true,
-    "attachment": true,
-    "temperature": true,
+    "attachment": false,
+    "temperature": false,
     "limit": {
-      "output": 131000,
-      "context": 204800
+      "output": 131072,
+      "context": 204800,
+      "input": 204800
     },
     "cost": {
       "input": 0.3,
       "output": 1.2,
-      "cache_read": 0.06,
-      "cache_write": 0.375
+      "cache_read": 0,
+      "cache_write": 0
     }
   },
   "minimax/minimax-m2.7-highspeed": {
@@ -33206,9 +33207,9 @@
       "cache_write": 0
     }
   },
-  "grok-4.20-beta-latest-non-reasoning": {
-    "reasoning": false,
-    "tool_call": true,
+  "grok-4.20-multi-agent-0309": {
+    "reasoning": true,
+    "tool_call": false,
     "attachment": true,
     "temperature": true,
     "limit": {
@@ -33340,27 +33341,6 @@
       "cache_write": 0
     }
   },
-  "grok-4.20-multi-agent-beta-latest": {
-    "reasoning": true,
-    "tool_call": false,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 30000,
-      "context": 2000000
-    },
-    "cost": {
-      "input": 2,
-      "output": 6,
-      "cache_read": 0.2,
-      "cache_write": 0,
-      "context_over_200k": {
-        "input": 4,
-        "output": 12,
-        "cache_read": 0.4
-      }
-    }
-  },
   "grok-3-latest": {
     "reasoning": false,
     "tool_call": true,
@@ -33443,6 +33423,27 @@
       "reasoning": 4
     }
   },
+  "grok-4.20-0309-reasoning": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 30000,
+      "context": 2000000
+    },
+    "cost": {
+      "input": 2,
+      "output": 6,
+      "cache_read": 0.2,
+      "cache_write": 0,
+      "context_over_200k": {
+        "input": 4,
+        "output": 12,
+        "cache_read": 0.4
+      }
+    }
+  },
   "grok-2-latest": {
     "reasoning": false,
     "tool_call": true,
@@ -33475,24 +33476,8 @@
       "cache_write": 0
     }
   },
-  "grok-3-fast": {
+  "grok-4.20-0309-non-reasoning": {
     "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 131072
-    },
-    "cost": {
-      "input": 5,
-      "output": 25,
-      "cache_read": 1.25,
-      "cache_write": 0
-    }
-  },
-  "grok-4.20-beta-latest-reasoning": {
-    "reasoning": true,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
@@ -33510,6 +33495,22 @@
         "output": 12,
         "cache_read": 0.4
       }
+    }
+  },
+  "grok-3-fast": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 131072
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 1.25,
+      "cache_write": 0
     }
   },
   "qwen-math-plus": {
