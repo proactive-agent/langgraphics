@@ -15879,6 +15879,23 @@
       "cache_write": 0
     }
   },
+  "duo-chat-gpt-5-3-codex": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 400000,
+      "input": 272000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "duo-chat-sonnet-4-5": {
     "reasoning": true,
     "tool_call": true,
@@ -15928,7 +15945,41 @@
       "cache_write": 0
     }
   },
+  "duo-chat-gpt-5-4-nano": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 400000,
+      "input": 272000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "duo-chat-gpt-5-2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 400000,
+      "input": 272000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "duo-chat-gpt-5-4-mini": {
     "reasoning": true,
     "tool_call": true,
     "attachment": true,
@@ -15953,6 +16004,23 @@
     "limit": {
       "output": 64000,
       "context": 1000000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "duo-chat-gpt-5-4": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1050000,
+      "input": 922000
     },
     "cost": {
       "input": 0,
@@ -20625,16 +20693,16 @@
   },
   "qwen2.5-coder-32b-instruct": {
     "reasoning": false,
-    "tool_call": true,
+    "tool_call": false,
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 256,
-      "context": 15000
+      "output": 32768,
+      "context": 32768
     },
     "cost": {
-      "input": 0.2,
-      "output": 0.6,
+      "input": 0.96,
+      "output": 0.96,
       "cache_read": 0,
       "cache_write": 0
     }
