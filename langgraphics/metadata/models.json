@@ -225,6 +225,22 @@
       "cache_write": 0
     }
   },
+  "glm-4.7-flashx": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 200000
+    },
+    "cost": {
+      "input": 0.07,
+      "output": 0.4,
+      "cache_read": 0.01,
+      "cache_write": 0
+    }
+  },
   "glm-4.5-air": {
     "reasoning": true,
     "tool_call": true,
@@ -11227,8 +11243,8 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 131072,
-      "context": 1000000
+      "output": 98304,
+      "context": 196608
     },
     "cost": {
       "input": 0.3,
@@ -11915,8 +11931,8 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 131072,
-      "context": 200000
+      "output": 101376,
+      "context": 202752
     },
     "cost": {
       "input": 1,
@@ -11955,6 +11971,22 @@
       "output": 25,
       "cache_read": 0.5,
       "cache_write": 6.25
+    }
+  },
+  "nvidia.nemotron-super-3-120b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.15,
+      "output": 0.65,
+      "cache_read": 0,
+      "cache_write": 0
     }
   },
   "eu.anthropic.claude-opus-4-6-v1": {
@@ -17920,6 +17952,22 @@
       "cache_write": 0
     }
   },
+  "mistralai/mistral-small-2603": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.15,
+      "output": 0.6,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "mistralai/devstral-2512": {
     "reasoning": false,
     "tool_call": true,
@@ -20529,22 +20577,6 @@
       "cache_read": 0,
       "cache_write": 0,
       "reasoning": 0
-    }
-  },
-  "glm-4.7-flashx": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 131072,
-      "context": 200000
-    },
-    "cost": {
-      "input": 0.07,
-      "output": 0.4,
-      "cache_read": 0.01,
-      "cache_write": 0
     }
   },
   "public/deepseek-v3": {
