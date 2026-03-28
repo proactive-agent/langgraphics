@@ -5108,6 +5108,22 @@
       "cache_write": 0
     }
   },
+  "glm-5.1": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 200000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "claude-opus-4-5-20251101": {
     "reasoning": true,
     "tool_call": true,
@@ -8241,6 +8257,22 @@
       "cache_write": 0
     }
   },
+  "xai/grok-4.20-multi-agent": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 2000000,
+      "context": 2000000
+    },
+    "cost": {
+      "input": 2,
+      "output": 6,
+      "cache_read": 0.19999999999999998,
+      "cache_write": 0
+    }
+  },
   "xai/grok-4-fast-reasoning": {
     "reasoning": true,
     "tool_call": true,
@@ -8815,6 +8847,22 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "novita/deepseek-v3.2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 0,
+      "context": 128000
+    },
+    "cost": {
+      "input": 0.27,
+      "output": 0.4,
+      "cache_read": 0.13,
       "cache_write": 0
     }
   },
@@ -22980,22 +23028,6 @@
       "cache_write": 0
     }
   },
-  "xai/grok-4.20-multi-agent": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 2000000,
-      "context": 2000000
-    },
-    "cost": {
-      "input": 2,
-      "output": 6,
-      "cache_read": 0.19999999999999998,
-      "cache_write": 0
-    }
-  },
   "xai/grok-imagine-image-pro": {
     "reasoning": false,
     "tool_call": false,
@@ -26039,6 +26071,22 @@
       "cache_write": 0
     }
   },
+  "whisper-large-v3-turbo": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 448,
+      "context": 448
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "llama3-8b-8192": {
     "reasoning": false,
     "tool_call": true,
@@ -26055,6 +26103,70 @@
       "cache_write": 0
     }
   },
+  "allam-2-7b": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 4096,
+      "context": 4096
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "canopylabs/orpheus-arabic-saudi": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 50000,
+      "context": 4000
+    },
+    "cost": {
+      "input": 40,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "canopylabs/orpheus-v1-english": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 50000,
+      "context": 4000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "meta-llama/llama-prompt-guard-2-22m": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 512,
+      "context": 512
+    },
+    "cost": {
+      "input": 0.03,
+      "output": 0.03,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "meta-llama/llama-4-maverick-17b-128e-instruct": {
     "reasoning": false,
     "tool_call": true,
@@ -26067,6 +26179,54 @@
     "cost": {
       "input": 0.2,
       "output": 0.6,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "meta-llama/llama-prompt-guard-2-86m": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 512,
+      "context": 512
+    },
+    "cost": {
+      "input": 0.04,
+      "output": 0.04,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "groq/compound-mini": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "groq/compound": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -27112,6 +27272,22 @@
       "input": 0.35,
       "output": 1.5,
       "cache_read": 0.04,
+      "cache_write": 0
+    }
+  },
+  "aion-labs.aion-2-0": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 128000
+    },
+    "cost": {
+      "input": 1,
+      "output": 2,
+      "cache_read": 0.25,
       "cache_write": 0
     }
   },
