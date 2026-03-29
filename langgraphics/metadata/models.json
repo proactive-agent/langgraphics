@@ -11068,6 +11068,22 @@
       "cache_write": 0
     }
   },
+  "zai-glm-5": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 198000
+    },
+    "cost": {
+      "input": 1,
+      "output": 3.2,
+      "cache_read": 0.2,
+      "cache_write": 0
+    }
+  },
   "deepseek-v3-2": {
     "reasoning": false,
     "tool_call": true,
@@ -11182,6 +11198,71 @@
     "cost": {
       "input": 2,
       "output": 12,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "gemma-3n-e2b-it": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0.08,
+      "output": 0.3,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "gemma-3-27b-it": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": false,
+    "limit": {
+      "output": 16384,
+      "context": 32768,
+      "input": 32768
+    },
+    "cost": {
+      "input": 0.306,
+      "output": 0.306,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "gemma-3-4b-it": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0.08,
+      "output": 0.3,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "gemma-3n-e4b-it": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0.08,
+      "output": 0.3,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -11383,6 +11464,22 @@
       "output": 2.5,
       "cache_read": 0.075,
       "cache_write": 0.383
+    }
+  },
+  "gemma-3-12b-it": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0.08,
+      "output": 0.3,
+      "cache_read": 0,
+      "cache_write": 0
     }
   },
   "gemini-live-2.5-flash-preview-native-audio": {
@@ -20812,22 +20909,6 @@
       "cache_write": 0
     }
   },
-  "gemma-3-12b-it": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 16384,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 0.08,
-      "output": 0.3,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "llama-prompt-guard-2-86m": {
     "reasoning": false,
     "tool_call": false,
@@ -24998,22 +25079,6 @@
       "cache_write": 0
     }
   },
-  "gemma-3n-e2b-it": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 16384,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 0.08,
-      "output": 0.3,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "llama-guard-4-12b": {
     "reasoning": false,
     "tool_call": false,
@@ -25094,22 +25159,6 @@
       "cache_write": 0
     }
   },
-  "gemma-3-4b-it": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 16384,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 0.08,
-      "output": 0.3,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "ministral-8b-2512": {
     "reasoning": false,
     "tool_call": false,
@@ -25186,22 +25235,6 @@
     "cost": {
       "input": 0.6,
       "output": 3.6,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "gemma-3n-e4b-it": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 16384,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 0.08,
-      "output": 0.3,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -27158,23 +27191,6 @@
     "cost": {
       "input": 0.4,
       "output": 2,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "gemma-3-27b-it": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": false,
-    "limit": {
-      "output": 16384,
-      "context": 32768,
-      "input": 32768
-    },
-    "cost": {
-      "input": 0.306,
-      "output": 0.306,
       "cache_read": 0,
       "cache_write": 0
     }
