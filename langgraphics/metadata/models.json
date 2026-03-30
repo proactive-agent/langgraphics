@@ -19135,22 +19135,6 @@
       "cache_write": 0
     }
   },
-  "nvidia/nemotron-3-super-120b-a12b-free": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 262144,
-      "context": 262144
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "nvidia/nemotron-nano-12b-v2-vl:free": {
     "reasoning": true,
     "tool_call": true,
@@ -32234,6 +32218,23 @@
       "cache_write": 0
     }
   },
+  "zai-org/glm-5.1:thinking": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": false,
+    "limit": {
+      "output": 131072,
+      "context": 200000,
+      "input": 200000
+    },
+    "cost": {
+      "input": 0.3,
+      "output": 2.55,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "zai-org/glm-5:thinking": {
     "reasoning": true,
     "tool_call": true,
@@ -32241,6 +32242,23 @@
     "temperature": false,
     "limit": {
       "output": 128000,
+      "context": 200000,
+      "input": 200000
+    },
+    "cost": {
+      "input": 0.3,
+      "output": 2.55,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "zai-org/glm-5.1": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": false,
+    "limit": {
+      "output": 131072,
       "context": 200000,
       "input": 200000
     },
