@@ -24936,6 +24936,22 @@
       "cache_write": 0
     }
   },
+  "hf:qwen/qwen3.5-397b-a17b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.6,
+      "output": 3,
+      "cache_read": 0.6,
+      "cache_write": 0
+    }
+  },
   "hf:qwen/qwen3-235b-a22b-thinking-2507": {
     "reasoning": true,
     "tool_call": true,
@@ -27341,7 +27357,7 @@
     }
   },
   "aion-labs.aion-2-0": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": false,
     "attachment": false,
     "temperature": true,
@@ -27492,6 +27508,22 @@
         "output": 15,
         "cache_read": 0.25
       }
+    }
+  },
+  "openai-gpt-54-mini": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 400000
+    },
+    "cost": {
+      "input": 0.9375,
+      "output": 5.625,
+      "cache_read": 0.09375,
+      "cache_write": 0
     }
   },
   "openai-gpt-54-pro": {
@@ -27675,22 +27707,6 @@
       "cache_write": 0
     }
   },
-  "qwen3-4b": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 4096,
-      "context": 32000
-    },
-    "cost": {
-      "input": 0.05,
-      "output": 0.15,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "hermes-3-llama-3.1-405b": {
     "reasoning": false,
     "tool_call": false,
@@ -27735,22 +27751,6 @@
     "cost": {
       "input": 0.7,
       "output": 2.8,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "mistral-31-24b": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 4096,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.5,
-      "output": 2,
       "cache_read": 0,
       "cache_write": 0
     }
