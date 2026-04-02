@@ -1015,6 +1015,23 @@
       "cache_write": 0
     }
   },
+  "gpt-image-1.5": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 0,
+      "context": 0,
+      "input": 0
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "gpt-4o-mini": {
     "reasoning": false,
     "tool_call": true,
@@ -1027,6 +1044,23 @@
     "cost": {
       "input": 0.15,
       "output": 0.6,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "gpt-image-1-mini": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 0,
+      "context": 0,
+      "input": 0
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -1226,6 +1260,23 @@
       "cache_write": 0
     }
   },
+  "chatgpt-image-latest": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 0,
+      "context": 0,
+      "input": 0
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "gpt-4o-2024-11-20": {
     "reasoning": false,
     "tool_call": true,
@@ -1350,6 +1401,23 @@
     "cost": {
       "input": 0.05,
       "output": 0.4,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "gpt-image-1": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 0,
+      "context": 0,
+      "input": 0
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -5044,6 +5112,22 @@
       "cache_write": 0
     }
   },
+  "glm-5v-turbo": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 200000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "glm-5-turbo": {
     "reasoning": true,
     "tool_call": true,
@@ -7570,7 +7654,7 @@
   },
   "openai/gpt-image-1.5": {
     "reasoning": false,
-    "tool_call": true,
+    "tool_call": false,
     "attachment": true,
     "temperature": false,
     "limit": {
@@ -19200,6 +19284,22 @@
       "cache_write": 0
     }
   },
+  "z-ai/glm-5-turbo": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 200000
+    },
+    "cost": {
+      "input": 0.88,
+      "output": 3.48,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "z-ai/glm-4.5-air:free": {
     "reasoning": true,
     "tool_call": false,
@@ -19949,22 +20049,6 @@
     "cost": {
       "input": 0,
       "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "z-ai/glm-5-turbo": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 128000,
-      "context": 200000
-    },
-    "cost": {
-      "input": 0.88,
-      "output": 3.48,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -26086,6 +26170,54 @@
       "input": 3,
       "output": 15,
       "cache_read": 0.3,
+      "cache_write": 0
+    }
+  },
+  "text-standard": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16000,
+      "context": 128000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "text-max": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "text-prime": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 30000,
+      "context": 128000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
