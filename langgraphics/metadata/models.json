@@ -5530,22 +5530,6 @@
       "cache_write": 3.75
     }
   },
-  "claude-3-7-sonnet-latest": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 200000
-    },
-    "cost": {
-      "input": 3,
-      "output": 15,
-      "cache_read": 0.3,
-      "cache_write": 3.75
-    }
-  },
   "claude-haiku-4-5": {
     "reasoning": true,
     "tool_call": true,
@@ -7652,6 +7636,22 @@
       "cache_write": 0
     }
   },
+  "openai/gpt-5.3-codex-spark": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 16384,
+      "context": 128000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "openai/gpt-image-1.5": {
     "reasoning": false,
     "tool_call": false,
@@ -9190,6 +9190,23 @@
       "cache_write": 0
     }
   },
+  "fireworks-ai/kimi-k2.5-fw": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 16384,
+      "context": 262144,
+      "input": 245760
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "v0-1.5-lg": {
     "reasoning": false,
     "tool_call": false,
@@ -9430,7 +9447,7 @@
     "temperature": true,
     "limit": {
       "output": 128000,
-      "context": 1000000
+      "context": 204800
     },
     "cost": {
       "input": 0,
@@ -11978,6 +11995,22 @@
     "cost": {
       "input": 0.22,
       "output": 0.88,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "moonshotai/kimi-k2-thinking-maas": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.6,
+      "output": 2.5,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -19685,6 +19718,22 @@
       "cache_write": 0
     }
   },
+  "qwen/qwen3.6-plus:free": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "xiaomi/mimo-v2-pro": {
     "reasoning": true,
     "tool_call": true,
@@ -21176,14 +21225,19 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 128000,
-      "context": 1000000
+      "output": 64000,
+      "context": 1048576
     },
     "cost": {
       "input": 1,
       "output": 3,
       "cache_read": 0.2,
-      "cache_write": 0
+      "cache_write": 0,
+      "context_over_200k": {
+        "input": 2,
+        "output": 6,
+        "cache_read": 0.4
+      }
     }
   },
   "mimo-v2-omni": {
@@ -21192,8 +21246,8 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 128000,
-      "context": 256000
+      "output": 64000,
+      "context": 262144
     },
     "cost": {
       "input": 0.4,
