@@ -10171,6 +10171,22 @@
       "cache_write": 0
     }
   },
+  "google/gemma-4-31b-it": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.14,
+      "output": 0.39999999999999997,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "google/gemma-2-2b-it": {
     "reasoning": false,
     "tool_call": false,
@@ -12015,6 +12031,22 @@
       "cache_write": 0
     }
   },
+  "deepseek-ai/deepseek-v3.2-maas": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 163840
+    },
+    "cost": {
+      "input": 0.56,
+      "output": 1.68,
+      "cache_read": 0.056,
+      "cache_write": 0
+    }
+  },
   "qwen/qwen3-235b-a22b-instruct-2507-maas": {
     "reasoning": true,
     "tool_call": true,
@@ -12991,11 +13023,10 @@
       "context": 1000000
     },
     "cost": {
-      "input": 1.146,
-      "output": 6.88,
+      "input": 0,
+      "output": 0,
       "cache_read": 0,
-      "cache_write": 0,
-      "reasoning": 6.88
+      "cache_write": 0
     }
   },
   "qwen2-5-72b-instruct": {
@@ -19735,22 +19766,6 @@
       "cache_write": 0
     }
   },
-  "qwen/qwen3.6-plus-preview:free": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 65536,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "qwen/qwen3-coder:exacto": {
     "reasoning": false,
     "tool_call": true,
@@ -23572,22 +23587,6 @@
     "cost": {
       "input": 0,
       "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "google/gemma-4-31b-it": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 131072,
-      "context": 262144
-    },
-    "cost": {
-      "input": 0.14,
-      "output": 0.39999999999999997,
       "cache_read": 0,
       "cache_write": 0
     }
