@@ -11642,6 +11642,22 @@
       "cache_write": 0
     }
   },
+  "pro/zai-org/glm-5.1": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 205000,
+      "context": 205000
+    },
+    "cost": {
+      "input": 1.4,
+      "output": 4.4,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "pro/zai-org/glm-5": {
     "reasoning": true,
     "tool_call": true,
@@ -13098,12 +13114,12 @@
     "temperature": true,
     "limit": {
       "output": 131072,
-      "context": 200000
+      "context": 202752
     },
     "cost": {
-      "input": 0.8781,
-      "output": 3.5126,
-      "cache_read": 0.1903,
+      "input": 1.26,
+      "output": 3.96,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -13251,6 +13267,22 @@
       "cache_write": 0.38
     }
   },
+  "minimax/minimax-m2.5:free": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 204800
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "minimax/minimax-m1": {
     "reasoning": true,
     "tool_call": true,
@@ -13279,6 +13311,22 @@
     "cost": {
       "input": 0,
       "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "qwen/qwen3.5-flash-02-23": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0.1,
+      "output": 0.4,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -16035,22 +16083,6 @@
       "cache_write": 0
     }
   },
-  "skywork/r1v4-lite": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 65536,
-      "context": 262144
-    },
-    "cost": {
-      "input": 0.2,
-      "output": 0.6,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "baidu/ernie-4.5-vl-28b-a3b-thinking": {
     "reasoning": true,
     "tool_call": true,
@@ -16097,6 +16129,22 @@
       "output": 0.28,
       "cache_read": 0,
       "cache_write": 0
+    }
+  },
+  "minimax/minimax-m2.5-highspeed": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 0,
+      "context": 0
+    },
+    "cost": {
+      "input": 0.6,
+      "output": 2.4,
+      "cache_read": 0.03,
+      "cache_write": 0.375
     }
   },
   "qwen/qwen3-4b-fp8": {
@@ -16176,22 +16224,6 @@
       "input": 0.207,
       "output": 0.828,
       "cache_read": 0.0414,
-      "cache_write": 0
-    }
-  },
-  "kwaipilot/kat-coder": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 32000,
-      "context": 256000
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -17798,22 +17830,6 @@
       "cache_write": 0
     }
   },
-  "minimax/minimax-m2.5-highspeed": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 0,
-      "context": 0
-    },
-    "cost": {
-      "input": 0.6,
-      "output": 2.4,
-      "cache_read": 0.03,
-      "cache_write": 0.375
-    }
-  },
   "meituan/longcat-flash-chat": {
     "reasoning": false,
     "tool_call": true,
@@ -19338,22 +19354,6 @@
       "cache_write": 0
     }
   },
-  "minimax/minimax-m2.5:free": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 131072,
-      "context": 204800
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "qwen/qwen2.5-coder-7b-instruct": {
     "reasoning": false,
     "tool_call": true,
@@ -19431,22 +19431,6 @@
       "input": 0.4,
       "output": 1.2,
       "cache_read": 0.08,
-      "cache_write": 0
-    }
-  },
-  "qwen/qwen3.5-flash-02-23": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 65536,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 0.1,
-      "output": 0.4,
-      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -21842,6 +21826,22 @@
     }
   },
   "novita/glm-4.7": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 205000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "novita/glm-5": {
     "reasoning": true,
     "tool_call": true,
     "attachment": true,
@@ -30273,6 +30273,22 @@
     "cost": {
       "input": 0.05,
       "output": 0.05,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "zai-org/glm-5v-turbo": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 200000
+    },
+    "cost": {
+      "input": 1.2,
+      "output": 4,
       "cache_read": 0,
       "cache_write": 0
     }
