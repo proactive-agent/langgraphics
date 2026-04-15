@@ -5490,23 +5490,6 @@
       "cache_write": 0
     }
   },
-  "mercury-coder-small": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": false,
-    "limit": {
-      "output": 16384,
-      "context": 32768,
-      "input": 32768
-    },
-    "cost": {
-      "input": 0.25,
-      "output": 1,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "jamba-large-1.7": {
     "reasoning": false,
     "tool_call": false,
@@ -12316,22 +12299,6 @@
       "cache_write": 0
     }
   },
-  "arcee-ai/trinity-mini:free": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 131072,
-      "context": 131072
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "arcee-ai/trinity-large-thinking": {
     "reasoning": true,
     "tool_call": true,
@@ -12888,6 +12855,22 @@
       "cache_write": 0
     }
   },
+  "inception/mercury-edit-2": {
+    "reasoning": true,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 128000
+    },
+    "cost": {
+      "input": 0.25,
+      "output": 0.75,
+      "cache_read": 0.025,
+      "cache_write": 0
+    }
+  },
   "inception/mercury-2": {
     "reasoning": true,
     "tool_call": true,
@@ -12901,38 +12884,6 @@
       "input": 0.25,
       "output": 0.75,
       "cache_read": 0.024999999999999998,
-      "cache_write": 0
-    }
-  },
-  "inception/mercury": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 32000,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.25,
-      "output": 0.75,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "inception/mercury-coder": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 32000,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.25,
-      "output": 0.75,
-      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -13325,22 +13276,6 @@
       "cache_write": 0
     }
   },
-  "qwen/qwen3-coder:free": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 66536,
-      "context": 262144
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "qwen/qwen3.5-flash-02-23": {
     "reasoning": true,
     "tool_call": true,
@@ -13401,38 +13336,6 @@
     "cost": {
       "input": 0.38,
       "output": 1.53,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "qwen/qwen3-4b:free": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 40960,
-      "context": 40960
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "qwen/qwen3-next-80b-a3b-instruct:free": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 262144,
-      "context": 262144
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -13940,22 +13843,6 @@
       "cache_write": 0
     }
   },
-  "moonshotai/kimi-k2:free": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 32800,
-      "context": 32800
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "anthropic/claude-opus-4.1": {
     "reasoning": true,
     "tool_call": true,
@@ -14252,6 +14139,22 @@
     "limit": {
       "output": 200000,
       "context": 200000
+    },
+    "cost": {
+      "input": 0.3,
+      "output": 1.2,
+      "cache_read": 0.03,
+      "cache_write": 0
+    }
+  },
+  "accounts/fireworks/models/minimax-m2p7": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 196608,
+      "context": 196608
     },
     "cost": {
       "input": 0.3,
@@ -21737,15 +21640,15 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": true,
-    "temperature": false,
+    "temperature": true,
     "limit": {
       "output": 262144,
-      "context": 256000
+      "context": 128000
     },
     "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
+      "input": 0.6,
+      "output": 3,
+      "cache_read": 0.1,
       "cache_write": 0
     }
   },
@@ -21775,9 +21678,9 @@
       "context": 205000
     },
     "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
+      "input": 1,
+      "output": 3.2,
+      "cache_read": 0.2,
       "cache_write": 0
     }
   },
@@ -21965,11 +21868,11 @@
     "temperature": false,
     "limit": {
       "output": 0,
-      "context": 0
+      "context": 128000
     },
     "cost": {
-      "input": 0,
-      "output": 0,
+      "input": 0.35,
+      "output": 0.75,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -21981,11 +21884,11 @@
     "temperature": false,
     "limit": {
       "output": 0,
-      "context": 0
+      "context": 128000
     },
     "cost": {
-      "input": 0,
-      "output": 0,
+      "input": 0.1,
+      "output": 0.1,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -25589,6 +25492,22 @@
       "cache_write": 0
     }
   },
+  "mercury-edit-2": {
+    "reasoning": true,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 128000
+    },
+    "cost": {
+      "input": 0.25,
+      "output": 0.75,
+      "cache_read": 0.025,
+      "cache_write": 0
+    }
+  },
   "zai-org-glm-4.7-flash": {
     "reasoning": true,
     "tool_call": true,
@@ -26182,6 +26101,22 @@
       "input": 2,
       "output": 12,
       "cache_read": 0.5,
+      "cache_write": 0
+    }
+  },
+  "coding-glm-5.1": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 200000
+    },
+    "cost": {
+      "input": 0.06,
+      "output": 0.22,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -29381,54 +29316,6 @@
       "cache_write": 0
     }
   },
-  "mercury-edit": {
-    "reasoning": true,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.25,
-      "output": 0.75,
-      "cache_read": 0.025,
-      "cache_write": 0
-    }
-  },
-  "mercury": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 16384,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.25,
-      "output": 1,
-      "cache_read": 0.25,
-      "cache_write": 1
-    }
-  },
-  "mercury-coder": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 16384,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.25,
-      "output": 1,
-      "cache_read": 0.25,
-      "cache_write": 1
-    }
-  },
   "gpt-4o-2024-05-13": {
     "reasoning": false,
     "tool_call": true,
@@ -31208,22 +31095,6 @@
       "cache_read": 0.15,
       "cache_write": 0,
       "reasoning": 4
-    }
-  },
-  "inception/mercury-coder-small": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 16384,
-      "context": 32000
-    },
-    "cost": {
-      "input": 0.25,
-      "output": 1,
-      "cache_read": 0,
-      "cache_write": 0
     }
   },
   "openai/codex-mini": {
