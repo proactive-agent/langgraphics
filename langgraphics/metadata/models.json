@@ -26082,9 +26082,9 @@
       "context": 204800
     },
     "cost": {
-      "input": 0.27,
-      "output": 1.1,
-      "cache_read": 0.548,
+      "input": 0.06,
+      "output": 0.22,
+      "cache_read": 0.01,
       "cache_write": 0
     }
   },
