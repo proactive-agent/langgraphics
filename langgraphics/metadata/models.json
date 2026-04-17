@@ -6871,13 +6871,13 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 131072,
-      "context": 202752
+      "output": 202000,
+      "context": 202000
     },
     "cost": {
-      "input": 1.4,
-      "output": 4.4,
-      "cache_read": 0,
+      "input": 0.66,
+      "output": 2,
+      "cache_read": 0.12,
       "cache_write": 0
     }
   },
@@ -9221,14 +9221,14 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 131000,
-      "context": 204800
+      "output": 131072,
+      "context": 1000000
     },
     "cost": {
-      "input": 0.3,
-      "output": 1.2,
-      "cache_read": 0.03,
-      "cache_write": 0.375
+      "input": 0.14,
+      "output": 0.56,
+      "cache_read": 0.014,
+      "cache_write": 0
     }
   },
   "qwen/qwen3.5-397b-a17b": {
@@ -9447,15 +9447,15 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": false,
-    "temperature": true,
+    "temperature": false,
     "limit": {
       "output": 262144,
       "context": 262144
     },
     "cost": {
-      "input": 0.5,
-      "output": 2.8,
-      "cache_read": 0,
+      "input": 0.21,
+      "output": 1,
+      "cache_read": 0.03,
       "cache_write": 0
     }
   },
@@ -13873,6 +13873,22 @@
       "output": 15,
       "cache_read": 0.3,
       "cache_write": 3.75
+    }
+  },
+  "anthropic/claude-opus-4.7": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 0.5,
+      "cache_write": 6.25
     }
   },
   "anthropic/claude-sonnet-4": {
@@ -20559,6 +20575,22 @@
       "cache_write": 0
     }
   },
+  "anthropic/claude-opus-4-7": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 0.5,
+      "cache_write": 6.25
+    }
+  },
   "anthropic/claude-opus-4-1": {
     "reasoning": true,
     "tool_call": true,
@@ -20903,6 +20935,22 @@
       "output": 0,
       "cache_read": 0,
       "cache_write": 0
+    }
+  },
+  "claude-opus-4-7": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 0.5,
+      "cache_write": 6.25
     }
   },
   "minimax-m2.5-free": {
@@ -24154,6 +24202,22 @@
       "cache_write": 0
     }
   },
+  "global.anthropic.claude-opus-4-7": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 0.5,
+      "cache_write": 6.25
+    }
+  },
   "mistral.pixtral-large-2502-v1:0": {
     "reasoning": false,
     "tool_call": true,
@@ -24378,6 +24442,22 @@
       "cache_write": 0
     }
   },
+  "us.anthropic.claude-opus-4-7": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 0.5,
+      "cache_write": 6.25
+    }
+  },
   "amazon.nova-2-lite-v1:0": {
     "reasoning": false,
     "tool_call": true,
@@ -24504,6 +24584,22 @@
       "output": 15,
       "cache_read": 0.3,
       "cache_write": 3.75
+    }
+  },
+  "anthropic.claude-opus-4-7": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 0.5,
+      "cache_write": 6.25
     }
   },
   "global.anthropic.claude-opus-4-6-v1": {
@@ -24856,6 +24952,22 @@
       "output": 0.6,
       "cache_read": 0,
       "cache_write": 0
+    }
+  },
+  "eu.anthropic.claude-opus-4-7": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 0.5,
+      "cache_write": 6.25
     }
   },
   "minimax.minimax-m2.5": {
@@ -25492,22 +25604,6 @@
       "cache_write": 0
     }
   },
-  "mercury-edit-2": {
-    "reasoning": true,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.25,
-      "output": 0.75,
-      "cache_read": 0.025,
-      "cache_write": 0
-    }
-  },
   "zai-org-glm-4.7-flash": {
     "reasoning": true,
     "tool_call": true,
@@ -25925,22 +26021,6 @@
       "input": 0.56,
       "output": 3.5,
       "cache_read": 0.11,
-      "cache_write": 0
-    }
-  },
-  "minimax-m21": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 32768,
-      "context": 198000
-    },
-    "cost": {
-      "input": 0.35,
-      "output": 1.5,
-      "cache_read": 0.04,
       "cache_write": 0
     }
   },
@@ -28003,6 +28083,28 @@
       }
     }
   },
+  "claude-opus-4-7@default": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 0.5,
+      "cache_write": 6.25,
+      "context_over_200k": {
+        "input": 10,
+        "output": 37.5,
+        "cache_read": 1,
+        "cache_write": 12.5
+      }
+    }
+  },
   "qwen/qwen3-30b-a3b-instruct-2507-fp8": {
     "reasoning": false,
     "tool_call": true,
@@ -29313,6 +29415,22 @@
       "input": 0.1,
       "output": 0.5,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "mercury-edit-2": {
+    "reasoning": true,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 128000
+    },
+    "cost": {
+      "input": 0.25,
+      "output": 0.75,
+      "cache_read": 0.025,
       "cache_write": 0
     }
   },
@@ -30792,6 +30910,22 @@
       "cache_write": 0
     }
   },
+  "zai/glm-5.1": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 202752,
+      "context": 202752
+    },
+    "cost": {
+      "input": 1.4,
+      "output": 4.4,
+      "cache_read": 0.26,
+      "cache_write": 0
+    }
+  },
   "zai/glm-4.6v-flash": {
     "reasoning": true,
     "tool_call": true,
@@ -31095,6 +31229,22 @@
       "cache_read": 0.15,
       "cache_write": 0,
       "reasoning": 4
+    }
+  },
+  "inception/mercury-coder-small": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 32000
+    },
+    "cost": {
+      "input": 0.25,
+      "output": 1,
+      "cache_read": 0,
+      "cache_write": 0
     }
   },
   "openai/codex-mini": {
