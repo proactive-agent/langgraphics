@@ -14209,6 +14209,22 @@
       "cache_write": 0
     }
   },
+  "moonshotai/kimi-k2.6": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.16,
+      "cache_write": 0
+    }
+  },
   "moonshotai/kimi-k2-0905:exacto": {
     "reasoning": false,
     "tool_call": true,
@@ -14705,6 +14721,22 @@
       "cache_write": 0
     }
   },
+  "k2p6": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "k2p5": {
     "reasoning": true,
     "tool_call": true,
@@ -14734,6 +14766,22 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "kimi-k2.6": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.16,
       "cache_write": 0
     }
   },
@@ -20749,6 +20797,22 @@
       "cache_write": 0
     }
   },
+  "workers-ai/@cf/moonshotai/kimi-k2.6": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 256000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.16,
+      "cache_write": 0
+    }
+  },
   "workers-ai/@cf/ai4bharat/indictrans2-en-indic-1b": {
     "reasoning": false,
     "tool_call": false,
@@ -23929,6 +23993,22 @@
       "cache_write": 0
     }
   },
+  "kimi-k2.6:cloud": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "nemotron-3-nano:30b": {
     "reasoning": true,
     "tool_call": true,
@@ -26340,6 +26420,22 @@
       "input": 2,
       "output": 12,
       "cache_read": 0.2,
+      "cache_write": 0
+    }
+  },
+  "kimi-k2-6": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0.56,
+      "output": 3.5,
+      "cache_read": 0.11,
       "cache_write": 0
     }
   },
@@ -34202,6 +34298,22 @@
       "input": 0.6,
       "output": 3,
       "cache_read": 0.1,
+      "cache_write": 0
+    }
+  },
+  "@cf/moonshotai/kimi-k2.6": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 256000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.16,
       "cache_write": 0
     }
   },
