@@ -12569,6 +12569,38 @@
       "cache_write": 0.375
     }
   },
+  "deepseek-v4-flash": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0.175,
+      "output": 0.35,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "deepseek-v4-pro": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 2.175,
+      "output": 4.35,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "cerebras-llama-4-maverick-17b-128e-instruct": {
     "reasoning": false,
     "tool_call": true,
@@ -14510,6 +14542,38 @@
       "input": 1,
       "output": 3,
       "cache_read": 0.19999999999999998,
+      "cache_write": 0
+    }
+  },
+  "deepseek/deepseek-v4-flash": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 384000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0.14,
+      "output": 0.28,
+      "cache_read": 0.028,
+      "cache_write": 0
+    }
+  },
+  "deepseek/deepseek-v4-pro": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 384000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 1.74,
+      "output": 3.48,
+      "cache_read": 0.145,
       "cache_write": 0
     }
   },
@@ -21801,6 +21865,23 @@
       "cache_write": 0
     }
   },
+  "gpt-5.5-pro": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1050000,
+      "input": 922000
+    },
+    "cost": {
+      "input": 30,
+      "output": 180,
+      "cache_read": 30,
+      "cache_write": 0
+    }
+  },
   "mimo-v2-omni-free": {
     "reasoning": true,
     "tool_call": true,
@@ -21815,6 +21896,28 @@
       "output": 0,
       "cache_read": 0,
       "cache_write": 0
+    }
+  },
+  "gpt-5.5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 130000,
+      "context": 1050000,
+      "input": 920000
+    },
+    "cost": {
+      "input": 5,
+      "output": 30,
+      "cache_read": 0.5,
+      "cache_write": 0,
+      "context_over_200k": {
+        "input": 10,
+        "output": 45,
+        "cache_read": 1
+      }
     }
   },
   "step-3.5-flash-2603": {
@@ -24515,6 +24618,22 @@
       "cache_write": 0
     }
   },
+  "au.anthropic.claude-opus-4-6-v1": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 16.5,
+      "output": 82.5,
+      "cache_read": 1.65,
+      "cache_write": 20.625
+    }
+  },
   "mistral.ministral-3-3b-instruct": {
     "reasoning": false,
     "tool_call": true,
@@ -25425,6 +25544,22 @@
       "output": 3,
       "cache_read": 0,
       "cache_write": 0
+    }
+  },
+  "au.anthropic.claude-sonnet-4-6": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 3.3,
+      "output": 16.5,
+      "cache_read": 0.33,
+      "cache_write": 4.125
     }
   },
   "openai.gpt-oss-safeguard-20b": {
@@ -30052,23 +30187,6 @@
       "cache_write": 0
     }
   },
-  "gpt-5.5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 130000,
-      "context": 1050000,
-      "input": 920000
-    },
-    "cost": {
-      "input": 5,
-      "output": 30,
-      "cache_read": 0.5,
-      "cache_write": 0
-    }
-  },
   "o4-mini-deep-research": {
     "reasoning": true,
     "tool_call": true,
@@ -31649,6 +31767,22 @@
       "cache_write": 0
     }
   },
+  "alibaba/qwen-3.6-max-preview": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 240000
+    },
+    "cost": {
+      "input": 1.3,
+      "output": 7.8,
+      "cache_read": 0.26,
+      "cache_write": 1.625
+    }
+  },
   "alibaba/qwen3-next-80b-a3b-thinking": {
     "reasoning": true,
     "tool_call": true,
@@ -32548,6 +32682,23 @@
       "cache_write": 0
     }
   },
+  "openai/gpt-5.5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 1000000,
+      "input": 872000
+    },
+    "cost": {
+      "input": 5,
+      "output": 30,
+      "cache_read": 0.5,
+      "cache_write": 0
+    }
+  },
   "openai/text-embedding-ada-002": {
     "reasoning": false,
     "tool_call": false,
@@ -32595,6 +32746,23 @@
     "cost": {
       "input": 0.02,
       "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "openai/gpt-5.5-pro": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 1000000,
+      "input": 872000
+    },
+    "cost": {
+      "input": 30,
+      "output": 180,
       "cache_read": 0,
       "cache_write": 0
     }
