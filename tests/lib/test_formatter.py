@@ -304,7 +304,7 @@ class TestCosts:
 
     def test_known_model_with_tokens(self):
         result = Formatter.costs("openai/gpt-4o-mini", 1000, 2000)
-        assert result == {"cached": "0", "total": "0"}
+        assert result == {"cached": "0.0", "total": "0.0"}
 
 
 class TestMetrics:
@@ -324,7 +324,7 @@ class TestMetrics:
             outputs={"total_tokens": 2000, "cached_tokens": 1000},
         )
         result = Formatter.metrics(run)
-        assert result["costs"] == {"cached": "0", "total": "0"}
+        assert result["costs"] == {"cached": "0.0", "total": "0.0"}
 
     def test_unknown_model_fallback(self):
         run = make_metrics_run()
