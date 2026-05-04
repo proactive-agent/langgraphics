@@ -11465,6 +11465,23 @@
       "cache_write": 0
     }
   },
+  "openai/gpt-5.5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 1000000,
+      "input": 872000
+    },
+    "cost": {
+      "input": 5,
+      "output": 30,
+      "cache_read": 0.5,
+      "cache_write": 0
+    }
+  },
   "openai/gpt-5.4": {
     "reasoning": true,
     "tool_call": true,
@@ -11566,6 +11583,22 @@
         "cache_read": 0.6,
         "cache_write": 7.5
       }
+    }
+  },
+  "anthropic/claude-opus-4-7": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 0.5,
+      "cache_write": 6.25
     }
   },
   "anthropic/claude-opus-4-5": {
@@ -14779,23 +14812,6 @@
       "input": 1.74,
       "output": 3.48,
       "cache_read": 0.145,
-      "cache_write": 0
-    }
-  },
-  "openai/gpt-5.5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 128000,
-      "context": 1000000,
-      "input": 872000
-    },
-    "cost": {
-      "input": 5,
-      "output": 30,
-      "cache_read": 0.5,
       "cache_write": 0
     }
   },
@@ -21792,22 +21808,6 @@
       "output": 0,
       "cache_read": 0,
       "cache_write": 0
-    }
-  },
-  "anthropic/claude-opus-4-7": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 128000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 5,
-      "output": 25,
-      "cache_read": 0.5,
-      "cache_write": 6.25
     }
   },
   "anthropic/claude-opus-4-1": {
@@ -30069,6 +30069,22 @@
       "input": 0.55,
       "output": 2.19,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "hf:moonshotai/kimi-k2.6": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.95,
       "cache_write": 0
     }
   },
