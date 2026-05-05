@@ -14815,6 +14815,22 @@
       "cache_write": 0
     }
   },
+  "x-ai/grok-4.3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 4096,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 1.25,
+      "output": 2.5,
+      "cache_read": 0.2,
+      "cache_write": 0
+    }
+  },
   "openai/gpt-5.5-pro": {
     "reasoning": true,
     "tool_call": true,
@@ -19771,22 +19787,6 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "x-ai/grok-4.3": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 4096,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 1.25,
-      "output": 2.5,
-      "cache_read": 0.2,
       "cache_write": 0
     }
   },
@@ -26594,6 +26594,198 @@
       "cache_write": 0
     }
   },
+  "zai-glm-5-1": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 198000
+    },
+    "cost": {
+      "input": 1.4,
+      "output": 4.4,
+      "cache_read": 0.26,
+      "cache_write": 0
+    }
+  },
+  "gpt-5-4-nano": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 400000
+    },
+    "cost": {
+      "input": 0.2,
+      "output": 1.25,
+      "cache_read": 0.02,
+      "cache_write": 0
+    }
+  },
+  "gpt-5-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 272000
+    },
+    "cost": {
+      "input": 2.5,
+      "output": 15,
+      "cache_read": 0.25,
+      "cache_write": 0
+    }
+  },
+  "grok-4-3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 32000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 1.42,
+      "output": 2.83,
+      "cache_read": 0.23,
+      "cache_write": 0,
+      "context_over_200k": {
+        "input": 2.83,
+        "output": 5.67,
+        "cache_read": 0.45
+      }
+    }
+  },
+  "gpt-5-4-mini": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 400000
+    },
+    "cost": {
+      "input": 0.75,
+      "output": 4.5,
+      "cache_read": 0.075,
+      "cache_write": 0
+    }
+  },
+  "qwen-3-6-plus": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0.625,
+      "output": 3.75,
+      "cache_read": 0.0625,
+      "cache_write": 0.78,
+      "context_over_200k": {
+        "input": 2.5,
+        "output": 7.5,
+        "cache_read": 0.0625,
+        "cache_write": 0.78
+      }
+    }
+  },
+  "minimax-m2-7": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 192000
+    },
+    "cost": {
+      "input": 0.3,
+      "output": 1.2,
+      "cache_read": 0.06,
+      "cache_write": 0
+    }
+  },
+  "minimax-m2-5": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 192000
+    },
+    "cost": {
+      "input": 0.3,
+      "output": 1.2,
+      "cache_read": 0.03,
+      "cache_write": 0
+    }
+  },
+  "gemini-3-1-pro-preview": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 2.5,
+      "output": 15,
+      "cache_read": 0.5,
+      "cache_write": 0.5,
+      "context_over_200k": {
+        "input": 5,
+        "output": 22.5,
+        "cache_read": 0.5
+      }
+    }
+  },
+  "kimi-k2-6": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0.85,
+      "output": 4.655,
+      "cache_read": 0.22,
+      "cache_write": 0
+    }
+  },
+  "gpt-5-3-codex": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 400000
+    },
+    "cost": {
+      "input": 1.75,
+      "output": 14,
+      "cache_read": 0.175,
+      "cache_write": 0
+    }
+  },
   "openai-gpt-4o-mini-2024-07-18": {
     "reasoning": false,
     "tool_call": true,
@@ -27221,22 +27413,6 @@
       "cache_write": 0
     }
   },
-  "qwen-3-6-plus": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 0.5,
-      "output": 3,
-      "cache_read": 0.1,
-      "cache_write": 0
-    }
-  },
   "aion-labs-aion-2-0": {
     "reasoning": true,
     "tool_call": false,
@@ -27346,38 +27522,6 @@
       "input": 1.1,
       "output": 3,
       "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "gemini-3-1-pro-preview": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 2,
-      "output": 12,
-      "cache_read": 0.2,
-      "cache_write": 0
-    }
-  },
-  "kimi-k2-6": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 128000,
-      "context": 256000
-    },
-    "cost": {
-      "input": 0.95,
-      "output": 4,
-      "cache_read": 0.16,
       "cache_write": 0
     }
   },
@@ -27592,134 +27736,6 @@
       "input": 2.25,
       "output": 2.75,
       "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "zai-glm-5-1": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 198000
-    },
-    "cost": {
-      "input": 1.4,
-      "output": 4.4,
-      "cache_read": 0.26,
-      "cache_write": 0
-    }
-  },
-  "gpt-5-4-nano": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 128000,
-      "context": 400000
-    },
-    "cost": {
-      "input": 0.2,
-      "output": 1.25,
-      "cache_read": 0.02,
-      "cache_write": 0
-    }
-  },
-  "gpt-5-5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 128000,
-      "context": 272000
-    },
-    "cost": {
-      "input": 2.5,
-      "output": 15,
-      "cache_read": 0.25,
-      "cache_write": 0
-    }
-  },
-  "grok-4-3": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 128000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 1.25,
-      "output": 2.5,
-      "cache_read": 0.2,
-      "cache_write": 0
-    }
-  },
-  "gpt-5-4-mini": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 128000,
-      "context": 400000
-    },
-    "cost": {
-      "input": 0.75,
-      "output": 4.5,
-      "cache_read": 0.075,
-      "cache_write": 0
-    }
-  },
-  "minimax-m2-7": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 192000
-    },
-    "cost": {
-      "input": 0.3,
-      "output": 1.2,
-      "cache_read": 0.06,
-      "cache_write": 0
-    }
-  },
-  "minimax-m2-5": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 192000
-    },
-    "cost": {
-      "input": 0.3,
-      "output": 1.2,
-      "cache_read": 0.03,
-      "cache_write": 0
-    }
-  },
-  "gpt-5-3-codex": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 128000,
-      "context": 400000
-    },
-    "cost": {
-      "input": 1.75,
-      "output": 14,
-      "cache_read": 0.175,
       "cache_write": 0
     }
   },
@@ -37576,6 +37592,22 @@
     "cost": {
       "input": 0.658,
       "output": 1.11,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "moonshotai/chat-completion/models/kimi-k2_6": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.95,
+      "output": 4,
       "cache_read": 0,
       "cache_write": 0
     }
