@@ -14120,6 +14120,22 @@
       "cache_write": 0
     }
   },
+  "qwen/qwen-3.6-27b": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 81920,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.195,
+      "output": 1.56,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "qwen/qwen3-coder-flash": {
     "reasoning": false,
     "tool_call": true,
@@ -18185,6 +18201,22 @@
       "input": 16.5,
       "output": 82.5,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "deepseek-ai/deepseek-v4-flash": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 393216,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 0.14,
+      "output": 0.28,
+      "cache_read": 0.028,
       "cache_write": 0
     }
   },
@@ -24680,7 +24712,7 @@
     "attachment": true,
     "temperature": false,
     "limit": {
-      "output": 262144,
+      "output": 65536,
       "context": 262144
     },
     "cost": {
@@ -29236,6 +29268,22 @@
       "cache_write": 0
     }
   },
+  "claude-haiku-4-5@20251001": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 200000
+    },
+    "cost": {
+      "input": 1,
+      "output": 5,
+      "cache_read": 0.1,
+      "cache_write": 1.25
+    }
+  },
   "claude-sonnet-4-6@default": {
     "reasoning": true,
     "tool_call": true,
@@ -29256,22 +29304,6 @@
         "cache_read": 0.6,
         "cache_write": 7.5
       }
-    }
-  },
-  "claude-haiku-4-5@20251001": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 200000
-    },
-    "cost": {
-      "input": 1,
-      "output": 5,
-      "cache_read": 0.1,
-      "cache_write": 1.25
     }
   },
   "claude-3-5-haiku@20241022": {
@@ -30725,22 +30757,6 @@
       "input": 1.65,
       "output": 5.5,
       "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "deepseek-ai/deepseek-v4-flash": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 393216,
-      "context": 1048576
-    },
-    "cost": {
-      "input": 0.14,
-      "output": 0.28,
-      "cache_read": 0.028,
       "cache_write": 0
     }
   },
