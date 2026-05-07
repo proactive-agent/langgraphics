@@ -5539,14 +5539,15 @@
     "reasoning": false,
     "tool_call": false,
     "attachment": false,
-    "temperature": true,
+    "temperature": false,
     "limit": {
-      "output": 8192,
-      "context": 32000
+      "output": 16384,
+      "context": 128000,
+      "input": 128000
     },
     "cost": {
-      "input": 0.2,
-      "output": 0.9,
+      "input": 0.4,
+      "output": 0.4,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -14767,38 +14768,6 @@
       "cache_write": 1.25
     }
   },
-  "xiaomi/mimo-v2-omni": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 65536,
-      "context": 262144
-    },
-    "cost": {
-      "input": 0.4,
-      "output": 2,
-      "cache_read": 0.08,
-      "cache_write": 0
-    }
-  },
-  "xiaomi/mimo-v2-pro": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 128000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 1,
-      "output": 3,
-      "cache_read": 0.19999999999999998,
-      "cache_write": 0
-    }
-  },
   "deepseek/deepseek-v4-flash": {
     "reasoning": true,
     "tool_call": true,
@@ -14912,6 +14881,22 @@
       "cache_write": 0
     }
   },
+  "xiaomi/mimo-v2-omni": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.4,
+      "output": 2,
+      "cache_read": 0.08,
+      "cache_write": 0
+    }
+  },
   "xiaomi/mimo-v2.5": {
     "reasoning": true,
     "tool_call": true,
@@ -14925,6 +14910,22 @@
       "input": 0.39999999999999997,
       "output": 2,
       "cache_read": 0.08,
+      "cache_write": 0
+    }
+  },
+  "xiaomi/mimo-v2-pro": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 1,
+      "output": 3,
+      "cache_read": 0.19999999999999998,
       "cache_write": 0
     }
   },
@@ -18652,22 +18653,6 @@
       "cache_write": 0
     }
   },
-  "mimo-v2-flash": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 256000
-    },
-    "cost": {
-      "input": 0.1,
-      "output": 0.3,
-      "cache_read": 0.01,
-      "cache_write": 0
-    }
-  },
   "doubao-1.5-vision-pro": {
     "reasoning": false,
     "tool_call": false,
@@ -18889,6 +18874,22 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "mimo-v2-flash": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.1,
+      "output": 0.3,
+      "cache_read": 0.01,
       "cache_write": 0
     }
   },
@@ -21923,14 +21924,13 @@
     }
   },
   "claude-opus-4.6": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
     "limit": {
       "output": 64000,
-      "context": 144000,
-      "input": 128000
+      "context": 1000000
     },
     "cost": {
       "input": 0,
@@ -21940,14 +21940,13 @@
     }
   },
   "claude-opus-4.7": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": true,
     "temperature": false,
     "limit": {
       "output": 64000,
-      "context": 144000,
-      "input": 128000
+      "context": 1000000
     },
     "cost": {
       "input": 0,
@@ -21973,14 +21972,13 @@
     }
   },
   "claude-sonnet-4.5": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 32000,
-      "context": 144000,
-      "input": 128000
+      "output": 64000,
+      "context": 200000
     },
     "cost": {
       "input": 0,
@@ -22006,14 +22004,13 @@
     }
   },
   "claude-opus-4.5": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 32000,
-      "context": 160000,
-      "input": 128000
+      "output": 64000,
+      "context": 200000
     },
     "cost": {
       "input": 0,
@@ -22023,14 +22020,13 @@
     }
   },
   "claude-haiku-4.5": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 32000,
-      "context": 144000,
-      "input": 128000
+      "output": 64000,
+      "context": 200000
     },
     "cost": {
       "input": 0,
@@ -22040,14 +22036,13 @@
     }
   },
   "claude-sonnet-4.6": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 32000,
-      "context": 200000,
-      "input": 128000
+      "output": 64000,
+      "context": 1000000
     },
     "cost": {
       "input": 0,
@@ -31036,6 +31031,22 @@
       "cache_write": 0
     }
   },
+  "deepseek-3.2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 128000
+    },
+    "cost": {
+      "input": 0.5,
+      "output": 1.6,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "xai/grok-4-fast": {
     "reasoning": true,
     "tool_call": true,
@@ -31461,22 +31472,6 @@
       "input": 1.75,
       "output": 14,
       "cache_read": 0.175,
-      "cache_write": 0
-    }
-  },
-  "deepseek-3.2": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.5,
-      "output": 1.6,
-      "cache_read": 0,
       "cache_write": 0
     }
   },
