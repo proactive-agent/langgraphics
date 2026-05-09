@@ -2207,7 +2207,7 @@
       "input": 1.3,
       "output": 7.8,
       "cache_read": 0.13,
-      "cache_write": 0
+      "cache_write": 1.625
     }
   },
   "qwen2-5-omni-7b": {
@@ -22880,6 +22880,23 @@
       "cache_write": 0
     }
   },
+  "novita/kimi-k2.6": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144,
+      "input": 262144
+    },
+    "cost": {
+      "input": 0.96,
+      "output": 4.04,
+      "cache_read": 0.16,
+      "cache_write": 0
+    }
+  },
   "novita/glm-4.6v": {
     "reasoning": true,
     "tool_call": true,
@@ -22973,6 +22990,40 @@
     "cost": {
       "input": 0,
       "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "empiriolabs/deepseek-v4-pro-el": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 384000,
+      "context": 1000000,
+      "input": 1000000
+    },
+    "cost": {
+      "input": 1.67,
+      "output": 3.33,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "empiriolabs/deepseek-v4-flash-el": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 384000,
+      "context": 1000000,
+      "input": 1000000
+    },
+    "cost": {
+      "input": 0.14,
+      "output": 0.28,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -23704,15 +23755,15 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": true,
-    "temperature": false,
+    "temperature": true,
     "limit": {
-      "output": 65536,
-      "context": 1048576
+      "output": 65000,
+      "context": 1000000
     },
     "cost": {
       "input": 0.25,
       "output": 1.5,
-      "cache_read": 0,
+      "cache_read": 0.03,
       "cache_write": 0
     }
   },
@@ -26604,18 +26655,18 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 32000,
+      "output": 30000,
       "context": 1000000
     },
     "cost": {
-      "input": 1.42,
-      "output": 2.83,
-      "cache_read": 0.23,
+      "input": 1.25,
+      "output": 2.5,
+      "cache_read": 0.2,
       "cache_write": 0,
       "context_over_200k": {
-        "input": 2.83,
-        "output": 5.67,
-        "cache_read": 0.45
+        "input": 2.5,
+        "output": 5,
+        "cache_read": 0.4
       }
     }
   },
@@ -35501,6 +35552,22 @@
       "cache_write": 0
     }
   },
+  "gemini-3.1-flash-lite": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 0.25,
+      "output": 1.5,
+      "cache_read": 0.025,
+      "cache_write": 1
+    }
+  },
   "gemma-3-4b-it": {
     "reasoning": false,
     "tool_call": false,
@@ -36419,22 +36486,6 @@
       "output": 10,
       "cache_read": 0,
       "cache_write": 0
-    }
-  },
-  "gemini-3.1-flash-lite": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 65536,
-      "context": 1048576
-    },
-    "cost": {
-      "input": 0.25,
-      "output": 1.5,
-      "cache_read": 0.025,
-      "cache_write": 1
     }
   },
   "gemini-2.5-pro-preview-tts": {
