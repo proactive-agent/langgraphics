@@ -21986,13 +21986,14 @@
     }
   },
   "claude-opus-4.6": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
     "limit": {
       "output": 64000,
-      "context": 1000000
+      "context": 144000,
+      "input": 128000
     },
     "cost": {
       "input": 0,
@@ -22002,13 +22003,14 @@
     }
   },
   "claude-opus-4.7": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": true,
     "attachment": true,
     "temperature": false,
     "limit": {
       "output": 64000,
-      "context": 1000000
+      "context": 144000,
+      "input": 128000
     },
     "cost": {
       "input": 0,
@@ -22034,13 +22036,14 @@
     }
   },
   "claude-sonnet-4.5": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 64000,
-      "context": 200000
+      "output": 32000,
+      "context": 144000,
+      "input": 128000
     },
     "cost": {
       "input": 0,
@@ -22066,13 +22069,14 @@
     }
   },
   "claude-opus-4.5": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 64000,
-      "context": 200000
+      "output": 32000,
+      "context": 160000,
+      "input": 128000
     },
     "cost": {
       "input": 0,
@@ -22082,13 +22086,14 @@
     }
   },
   "claude-haiku-4.5": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 64000,
-      "context": 200000
+      "output": 32000,
+      "context": 144000,
+      "input": 128000
     },
     "cost": {
       "input": 0,
@@ -22098,13 +22103,14 @@
     }
   },
   "claude-sonnet-4.6": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 64000,
-      "context": 1000000
+      "output": 32000,
+      "context": 200000,
+      "input": 128000
     },
     "cost": {
       "input": 0,
@@ -22206,6 +22212,22 @@
     "limit": {
       "output": 131072,
       "context": 204800
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "ring-2.6-1t-free": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 66000,
+      "context": 262000
     },
     "cost": {
       "input": 0,
@@ -30968,22 +30990,6 @@
       "cache_write": 0
     }
   },
-  "deepseek-3.2": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.5,
-      "output": 1.6,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "xai/grok-4-fast": {
     "reasoning": true,
     "tool_call": true,
@@ -31489,6 +31495,22 @@
       "input": 1.75,
       "output": 14,
       "cache_read": 0.175,
+      "cache_write": 0
+    }
+  },
+  "deepseek-3.2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 128000
+    },
+    "cost": {
+      "input": 0.5,
+      "output": 1.6,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
