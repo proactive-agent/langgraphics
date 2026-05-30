@@ -7597,9 +7597,9 @@
       "context": 163840
     },
     "cost": {
-      "input": 0.287,
-      "output": 0.431,
-      "cache_read": 0.058,
+      "input": 0.4,
+      "output": 1.2,
+      "cache_read": 0.135,
       "cache_write": 0
     }
   },
@@ -13492,6 +13492,22 @@
       "cache_write": 0
     }
   },
+  "anthropic-claude-opus-4.8": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 0.5,
+      "cache_write": 6.25
+    }
+  },
   "anthropic-claude-haiku-4.5": {
     "reasoning": true,
     "tool_call": true,
@@ -13506,6 +13522,22 @@
       "output": 5,
       "cache_read": 1,
       "cache_write": 1.25
+    }
+  },
+  "deepseek-4-flash": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
     }
   },
   "openai-gpt-image-1": {
@@ -16550,13 +16582,13 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 262142,
-      "context": 262142
+      "output": 262144,
+      "context": 262144
     },
     "cost": {
-      "input": 0.73,
-      "output": 3.49,
-      "cache_read": 0.25,
+      "input": 0.684,
+      "output": 3.42,
+      "cache_read": 0.144,
       "cache_write": 0
     }
   },
@@ -17660,7 +17692,7 @@
     "temperature": true,
     "limit": {
       "output": 8192,
-      "context": 1000000
+      "context": 1048576
     },
     "cost": {
       "input": 0.1,
@@ -18292,7 +18324,7 @@
   "openai/gpt-4o-audio-preview": {
     "reasoning": false,
     "tool_call": true,
-    "attachment": true,
+    "attachment": false,
     "temperature": true,
     "limit": {
       "output": 16384,
@@ -24376,6 +24408,22 @@
       "cache_write": 0
     }
   },
+  "stepfun/step-3.7-flash": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 256000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0.2,
+      "output": 1.15,
+      "cache_read": 0.04,
+      "cache_write": 0
+    }
+  },
   "openai/gpt-oss-20b:free": {
     "reasoning": true,
     "tool_call": true,
@@ -24527,7 +24575,7 @@
     "temperature": true,
     "limit": {
       "output": 8192,
-      "context": 262144
+      "context": 196608
     },
     "cost": {
       "input": 0,
@@ -29631,6 +29679,22 @@
       "cache_write": 0
     }
   },
+  "stepfun-ai/step-3.7-flash": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "meta/llama-3.1-70b-instruct": {
     "reasoning": false,
     "tool_call": true,
@@ -32397,6 +32461,22 @@
       "output": 0.3,
       "cache_read": 0,
       "cache_write": 0
+    }
+  },
+  "anthropic/claude-opus-4-8": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 0.5,
+      "cache_write": 6.25
     }
   },
   "anthropic/claude-3-7-sonnet": {
