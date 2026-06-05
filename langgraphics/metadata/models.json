@@ -5125,23 +5125,6 @@
       "cache_write": 0
     }
   },
-  "mercury-coder-small": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": false,
-    "limit": {
-      "output": 16384,
-      "context": 32768,
-      "input": 32768
-    },
-    "cost": {
-      "input": 0.25,
-      "output": 1,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "sonar-reasoning-pro": {
     "reasoning": true,
     "tool_call": false,
@@ -21336,7 +21319,7 @@
     }
   },
   "mistral-medium-latest": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
@@ -21345,8 +21328,8 @@
       "context": 262144
     },
     "cost": {
-      "input": 1.5,
-      "output": 7.5,
+      "input": 0.4,
+      "output": 2,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -24986,6 +24969,22 @@
       "cache_write": 0
     }
   },
+  "nvidia/nemotron-3-ultra-550b-a55b:free": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "nvidia/nemotron-3-nano-30b-a3b:free": {
     "reasoning": true,
     "tool_call": true,
@@ -24999,6 +24998,38 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "nvidia/nemotron-3.5-content-safety:free": {
+    "reasoning": true,
+    "tool_call": false,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 128000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "nvidia/nemotron-3-ultra-550b-a55b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 512300,
+      "context": 512300
+    },
+    "cost": {
+      "input": 0.6,
+      "output": 3.6,
+      "cache_read": 0.2,
       "cache_write": 0
     }
   },
@@ -33840,6 +33871,40 @@
       "cache_write": 0
     }
   },
+  "qwen-3-7-plus": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0.5,
+      "output": 2,
+      "cache_read": 0.05,
+      "cache_write": 0.625,
+      "tiers": [
+        {
+          "input": 1.5,
+          "output": 6,
+          "cache_read": 0.15,
+          "cache_write": 1.875,
+          "tier": {
+            "type": "context",
+            "size": 256000
+          }
+        }
+      ],
+      "context_over_200k": {
+        "input": 1.5,
+        "output": 6,
+        "cache_read": 0.15,
+        "cache_write": 1.875
+      }
+    }
+  },
   "gemini-3-5-flash": {
     "reasoning": true,
     "tool_call": true,
@@ -33900,7 +33965,7 @@
     "cost": {
       "input": 0.155,
       "output": 0.44,
-      "cache_read": 0,
+      "cache_read": 0.12,
       "cache_write": 0
     }
   },
@@ -34209,7 +34274,7 @@
     }
   },
   "mistral/mistral-medium-latest": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
@@ -34218,8 +34283,8 @@
       "context": 262144
     },
     "cost": {
-      "input": 1.5,
-      "output": 7.5,
+      "input": 0.4,
+      "output": 2,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -34994,6 +35059,22 @@
       "cache_write": 0
     }
   },
+  "openai.gpt-oss-120b": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 128000
+    },
+    "cost": {
+      "input": 0.15,
+      "output": 0.6,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "us.anthropic.claude-opus-4-7": {
     "reasoning": true,
     "tool_call": true,
@@ -35263,6 +35344,22 @@
       "input": 0.04,
       "output": 0.08,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "openai.gpt-5.5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 272000
+    },
+    "cost": {
+      "input": 5.5,
+      "output": 33,
+      "cache_read": 0.55,
       "cache_write": 0
     }
   },
@@ -35954,6 +36051,22 @@
       "cache_write": 4.125
     }
   },
+  "openai.gpt-5.4": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 272000
+    },
+    "cost": {
+      "input": 2.75,
+      "output": 16.5,
+      "cache_read": 0.275,
+      "cache_write": 0
+    }
+  },
   "jp.anthropic.claude-opus-4-7": {
     "reasoning": true,
     "tool_call": true,
@@ -36080,6 +36193,22 @@
       "output": 15,
       "cache_read": 0.3,
       "cache_write": 3.75
+    }
+  },
+  "openai.gpt-oss-20b": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 128000
+    },
+    "cost": {
+      "input": 0.07,
+      "output": 0.3,
+      "cache_read": 0,
+      "cache_write": 0
     }
   },
   "qwen.qwen3-32b-v1:0": {
@@ -37972,22 +38101,6 @@
     "cost": {
       "input": 0.77,
       "output": 0.77,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "inception/mercury-coder-small": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 16384,
-      "context": 32000
-    },
-    "cost": {
-      "input": 0.25,
-      "output": 1,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -40086,6 +40199,22 @@
     "limit": {
       "output": 66000,
       "context": 262000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "nemotron-3-ultra-free": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
     },
     "cost": {
       "input": 0,
