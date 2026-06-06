@@ -32,10 +32,15 @@ function Index() {
     const [rankDir, setRankDir] = useState<RankDir>(direction);
     const {topology, events, nodeEntries} = useWebSocket(WS_URL);
     const [displayEvents, setDisplayEvents] = useState<ExecutionEvent[]>([]);
+    const [displayNodeEntries, setDisplayNodeEntries] = useState<typeof nodeEntries>([]);
 
     const playEvents = useMemo(() => {
         return displayEvents.length > 0 ? displayEvents : events;
     }, [displayEvents, events]);
+
+    const playNodeEntries = useMemo(() => {
+        return displayEvents.length > 0 ? displayNodeEntries : nodeEntries;
+    }, [displayEvents, displayNodeEntries, nodeEntries]);
 
     const isRecording = useMemo(() => {
         return !events.find(({type}) => ["error", "run_end"].includes(type));
@@ -50,12 +55,19 @@ function Index() {
 
     const startReplay = useCallback(async () => {
         setDisplayEvents([]);
+        setDisplayNodeEntries([]);
+        let parentIndex = 0;
         for (const event of events) {
+            parentIndex = Math.max(parentIndex, nodeEntries.findIndex(
+                ({node_id}) => node_id === (event as any).source
+            ));
             setDisplayEvents(prev => [...prev!, event]);
+            setDisplayNodeEntries(nodeEntries.slice(0, parentIndex + 1));
             await new Promise<void>(r => setTimeout(r, 1000));
         }
         setDisplayEvents([]);
-    }, [events]);
+        setDisplayNodeEntries([]);
+    }, [events, nodeEntries]);
 
     return (
         <ReactFlowProvider>
@@ -69,9 +81,9 @@ function Index() {
                 initialColorMode={theme}
                 isRecording={isRecording}
                 isReplaying={isReplaying}
-                nodeEntries={nodeEntries}
                 initialRankDir={direction}
                 onRankDirChange={setRankDir}
+                nodeEntries={playNodeEntries}
                 activeNodeIds={activeNodeIds}
             />
         </ReactFlowProvider>
