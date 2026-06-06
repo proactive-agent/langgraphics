@@ -12,6 +12,7 @@ from websockets.asyncio.server import serve
 from .broadcaster import Broadcaster
 from .streamer import Viewport
 from .topology import extract
+from .upstream import sync
 
 
 def start_http_server(host: str, port: int) -> TCPServer:
@@ -48,6 +49,7 @@ def watch(
     inspect: Literal["off", "tree", "full"] = "off",
     theme: Literal["system", "dark", "light"] = "system",
 ) -> Viewport:
+    sync()
     topology = extract(graph)
     manager = Broadcaster(topology)
     edge_lookup = {(e["source"], e["target"]): e["id"] for e in topology["edges"]}
