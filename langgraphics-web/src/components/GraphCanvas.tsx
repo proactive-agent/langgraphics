@@ -16,13 +16,16 @@ interface GraphCanvasProps {
     nodeEntries: NodeEntry[];
     activeNodeIds: string[];
     initialMode: ViewMode;
+    isRecording: boolean;
+    isReplaying: boolean;
+    onReplay: () => void;
     initialRankDir?: RankDir;
     initialColorMode?: ColorMode;
     initialInspect?: InspectorMode;
     onRankDirChange?: (v: RankDir) => void;
 }
 
-export function GraphCanvas({nodes, edges, events, activeNodeIds, nodeEntries, initialMode = "auto", initialInspect = "off", initialColorMode = "system", initialRankDir = "TB", onRankDirChange}: GraphCanvasProps) {
+export function GraphCanvas({nodes, edges, events, activeNodeIds, nodeEntries, initialMode = "auto", initialInspect = "off", initialColorMode = "system", initialRankDir = "TB", onRankDirChange, onReplay, isRecording = true, isReplaying = false}: GraphCanvasProps) {
     const [rankDir, setRankDir] = useState<RankDir>(initialRankDir);
     const [colorMode, setColorMode] = useState<ColorMode>(initialColorMode);
     const [inspectorMode, setInspectorMode] = useState<InspectorMode>(initialInspect);
@@ -57,8 +60,11 @@ export function GraphCanvas({nodes, edges, events, activeNodeIds, nodeEntries, i
                 rankDir={rankDir}
                 goManual={goManual}
                 isManual={isManual}
+                onReplay={onReplay}
                 colorMode={colorMode}
                 fitContent={fitContent}
+                isRecording={isRecording}
+                isReplaying={isReplaying}
                 setColorMode={setColorMode}
                 inspectorMode={inspectorMode}
                 setRankDir={handleRankDirChange}

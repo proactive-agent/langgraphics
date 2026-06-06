@@ -11,6 +11,9 @@ interface ControlsProps {
     goManual: () => void;
     fitContent: () => Promise<void>;
     isManual: boolean;
+    isRecording: boolean;
+    isReplaying: boolean;
+    onReplay: () => void;
     inspectorMode: InspectorMode;
     setInspectorMode: (v: InspectorMode) => void;
 }
@@ -51,7 +54,7 @@ const inspectorModes: {value: InspectorMode; label: any}[] = [
     )},
 ];
 
-export function Controls({isManual, colorMode, setColorMode, rankDir, setRankDir, goAuto, goManual, fitContent, inspectorMode, setInspectorMode}: ControlsProps) {
+export function Controls({isManual, colorMode, setColorMode, rankDir, setRankDir, goAuto, goManual, fitContent, inspectorMode, setInspectorMode, onReplay, isRecording = true, isReplaying = false}: ControlsProps) {
     return (
         <div className="canvas-controls">
             <div className="mode-toggle">
@@ -103,6 +106,25 @@ export function Controls({isManual, colorMode, setColorMode, rankDir, setRankDir
                     </button>
                 ))}
             </div>
+            {onReplay && (
+                <div className="mode-toggle">
+                    <button onClick={onReplay} disabled={isRecording || isReplaying}>
+                        {isRecording ? (
+                            <svg viewBox="213.333333 213.333333 640 640" version="1.1" xmlns="http://www.w3.org/2000/svg" width="25" height="25">
+                                <path style={{animation: "rec-pulse .75s ease-out infinite"}}
+                                      d="M533.333333 213.333333A320 320 0 0 0 213.333333 533.333333a320 320 0 0 0 320 320 320 320 0 0 0 320-320A320 320 0 0 0 533.333333 213.333333M298.666667 426.666667h85.333333a42.666667 42.666667 0 0 1 42.666667 42.666666v42.666667c0 21.333333-16.213333 38.4-36.693334 41.386667L439.893333 640H390.4L341.333333 554.666667v85.333333H298.666667m213.333333-213.333333h85.333333v42.666666h-85.333333v42.666667h85.333333v42.666667h-85.333333v42.666666h85.333333v42.666667h-85.333333a42.666667 42.666667 0 0 1-42.666667-42.666667v-128a42.666667 42.666667 0 0 1 42.666667-42.666666m170.666667 0h85.333333v42.666666h-85.333333v128h85.333333v42.666667h-85.333333a42.666667 42.666667 0 0 1-42.666667-42.666667v-128a42.666667 42.666667 0 0 1 42.666667-42.666666m-341.333334 42.666666v42.666667h42.666667v-42.666667"/>
+                            </svg>
+                        ) : (
+                            <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="25" height="25">
+                                <path style={{animation: isReplaying ? "play-rotate 1.5s linear infinite": "none", transformOrigin: "center"}}
+                                      d="M512 51.2c253.952 -0 460.8 206.848 460.8 460.8S765.952 972.8 512 972.8C253.952 972.8 51.2 779.264 51.2 531.456c0 -11.264 9.216 -20.48 20.48 -20.48s20.48 9.216 20.48 20.48C92.16 755.712 276.48 931.84 512 931.84c231.424 -0 419.84 -188.416 419.84 -419.84s-188.416 -419.84 -419.84 -419.84c-131.072 -0 -253.952 60.416 -332.8 163.84L337.92 256c11.264 -0 20.48 9.216 20.48 20.48s-9.216 20.48 -20.48 20.48L133.12 296.96c-11.264 -0 -20.48 -9.216 -20.48 -20.48L112.64 71.68c0 -11.264 9.216 -20.48 20.48 -20.48s20.48 9.216 20.48 20.48L153.6 222.208C240.64 114.688 372.736 51.2 512 51.2z"/>
+                                <path style={{animation: isReplaying ? "play-pulse .75s ease-out infinite": "none"}}
+                                      d="M654.07215941 510.61590941l-231.31022735-133.53494382v267.06988676l231.31022735-133.53494294z"/>
+                            </svg>
+                        )}
+                    </button>
+                </div>
+            )}
         </div>
     );
 }
