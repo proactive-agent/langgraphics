@@ -66,6 +66,33 @@ html, body, #root {
     width: 100% !important;
 }
 
+@keyframes rec-pulse {
+    0%,100% {
+        fill: #3b82f6;
+    }
+    50% {
+        fill: #ef4444;
+    }
+}
+
+@keyframes play-pulse {
+    0%,100% {
+        fill: #3b82f6;
+    }
+    50% {
+        fill: #22c55e;
+    }
+}
+
+@keyframes play-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
 @keyframes node-pulse {
     0% {
         box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
