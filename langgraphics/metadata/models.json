@@ -1184,6 +1184,22 @@
       "cache_write": 0
     }
   },
+  "accounts/fireworks/routers/kimi-k2p6-fast": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 262000,
+      "context": 262000
+    },
+    "cost": {
+      "input": 2,
+      "output": 8,
+      "cache_read": 0.3,
+      "cache_write": 0
+    }
+  },
   "accounts/fireworks/routers/kimi-k2p6-turbo": {
     "reasoning": true,
     "tool_call": true,
@@ -3140,18 +3156,17 @@
     }
   },
   "gemini-3-pro-image-preview": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": false,
     "attachment": true,
-    "temperature": false,
+    "temperature": true,
     "limit": {
-      "output": 65536,
-      "context": 1048756,
-      "input": 1048756
+      "output": 32768,
+      "context": 65536
     },
     "cost": {
       "input": 2,
-      "output": 12,
+      "output": 120,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -6578,13 +6593,31 @@
     "temperature": true,
     "limit": {
       "output": 65536,
-      "context": 262144
+      "context": 1000000
     },
     "cost": {
       "input": 0.4,
       "output": 1.6,
       "cache_read": 0.04,
-      "cache_write": 0.5
+      "cache_write": 0.5,
+      "tiers": [
+        {
+          "input": 1.2,
+          "output": 4.8,
+          "cache_read": 0.12,
+          "cache_write": 1.5,
+          "tier": {
+            "type": "context",
+            "size": 256000
+          }
+        }
+      ],
+      "context_over_200k": {
+        "input": 1.2,
+        "output": 4.8,
+        "cache_read": 0.12,
+        "cache_write": 1.5
+      }
     }
   },
   "gemini-2.5-flash-preview-05-20:thinking": {
@@ -9230,7 +9263,7 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 20000,
+      "output": 16384,
       "context": 40960
     },
     "cost": {
@@ -37350,6 +37383,23 @@
       "cache_write": 0
     }
   },
+  "xpersona-gpt-5.5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 3,
+      "output": 18,
+      "cache_read": 0.3,
+      "cache_write": 0,
+      "reasoning": 18
+    }
+  },
   "xpersona-frieren-coder": {
     "reasoning": true,
     "tool_call": true,
@@ -40039,6 +40089,22 @@
     "limit": {
       "output": 16384,
       "context": 8192
+    },
+    "cost": {
+      "input": 0.5,
+      "output": 10,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "gemini-2.5-flash-tts": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 32768
     },
     "cost": {
       "input": 0.5,
