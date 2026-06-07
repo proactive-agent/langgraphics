@@ -323,7 +323,7 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": false,
-    "temperature": false,
+    "temperature": true,
     "limit": {
       "output": 65536,
       "context": 262144
@@ -500,7 +500,7 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": false,
-    "temperature": false,
+    "temperature": true,
     "limit": {
       "output": 131072,
       "context": 1048576
@@ -2615,7 +2615,7 @@
     "cost": {
       "input": 0.14,
       "output": 0.28,
-      "cache_read": 0.028,
+      "cache_read": 0.0028,
       "cache_write": 0
     }
   },
@@ -10654,7 +10654,7 @@
     "reasoning": false,
     "tool_call": false,
     "attachment": false,
-    "temperature": false,
+    "temperature": true,
     "limit": {
       "output": 16384,
       "context": 128000,
@@ -10687,7 +10687,7 @@
     "reasoning": false,
     "tool_call": false,
     "attachment": false,
-    "temperature": false,
+    "temperature": true,
     "limit": {
       "output": 8192,
       "context": 16384,
@@ -10721,7 +10721,7 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": false,
-    "temperature": false,
+    "temperature": true,
     "limit": {
       "output": 16384,
       "context": 262144,
@@ -16222,8 +16222,8 @@
       "context": 8192
     },
     "cost": {
-      "input": 0.04,
-      "output": 0.04,
+      "input": 0.14,
+      "output": 0.14,
       "cache_read": 0,
       "cache_write": 0
     }
