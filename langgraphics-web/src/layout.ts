@@ -25,8 +25,12 @@ function _computeSubgraphLayout(
     const RANK_FROM = DIRECTIONS_MAP[rankDir[0]] as Position;
     const IS_HORIZONTAL = ["LR", "RL"].includes(rankDir);
 
+    const terminalIds = new Set(subgraph.nodes.filter((n) => ["start", "end"].includes(n.node_type)).map(n => n.id));
+    const layoutNodes = subgraph.nodes.filter(n => !terminalIds.has(n.id));
+    const layoutEdges = subgraph.edges.filter(e => !terminalIds.has(e.source) && !terminalIds.has(e.target));
+
     const innerLayouts = new Map<string, ReturnType<typeof _computeSubgraphLayout>>();
-    for (const n of subgraph.nodes) {
+    for (const n of layoutNodes) {
         if (n.node_type === "subgraph" && n.subgraph) {
             innerLayouts.set(n.id, _computeSubgraphLayout(n.subgraph, `${parentId}:${n.id}`, rankDir));
         }
@@ -36,19 +40,18 @@ function _computeSubgraphLayout(
     g.setDefaultEdgeLabel(() => ({}));
     g.setGraph({rankdir: rankDir, ranksep: 60, nodesep: 40, marginx: 30, marginy: 0});
 
-    for (const n of subgraph.nodes) {
+    for (const n of layoutNodes) {
         const inner = innerLayouts.get(n.id);
-        const isTerminal = n.node_type === "start" || n.node_type === "end";
         g.setNode(n.id, inner
             ? {width: inner.width, height: inner.height}
-            : {width: isTerminal ? SMALL_NODE_WIDTH : NODE_WIDTH, height: isTerminal ? SMALL_NODE_HEIGHT : NODE_HEIGHT}
+            : {width: NODE_WIDTH, height: NODE_HEIGHT}
         );
     }
-    for (const e of subgraph.edges) g.setEdge(e.source, e.target);
+    for (const e of layoutEdges) g.setEdge(e.source, e.target);
     dagre.layout(g);
 
-    const nodeX = new Map<string, number>(subgraph.nodes.map((n) => [n.id, g.node(n.id).x]));
-    const nodeY = new Map<string, number>(subgraph.nodes.map((n) => [n.id, g.node(n.id).y]));
+    const nodeX = new Map<string, number>(layoutNodes.map((n) => [n.id, g.node(n.id).x]));
+    const nodeY = new Map<string, number>(layoutNodes.map((n) => [n.id, g.node(n.id).y]));
     const nodeRank = IS_HORIZONTAL ? nodeX : nodeY;
     const nodeCross = IS_HORIZONTAL ? nodeY : nodeX;
     const crossSize = IS_HORIZONTAL ? NODE_HEIGHT : NODE_WIDTH;
@@ -56,12 +59,12 @@ function _computeSubgraphLayout(
     const isBack = (e: {source: string; target: string}) =>
         (nodeRank.get(e.source) ?? 0) >= (nodeRank.get(e.target) ?? 0);
 
-    for (const be of subgraph.edges.filter(isBack)) {
+    for (const be of layoutEdges.filter(isBack)) {
         const tRank = nodeRank.get(be.target) ?? 0;
         const minRank = Math.min(nodeRank.get(be.source) ?? 0, tRank);
         const maxRank = Math.max(nodeRank.get(be.source) ?? 0, tRank);
         const corridor = ((nodeCross.get(be.source) ?? 0) + (nodeCross.get(be.target) ?? 0)) / 2;
-        for (const n of subgraph.nodes) {
+        for (const n of layoutNodes) {
             if (n.id === be.source || n.id === be.target) continue;
             const nRank = nodeRank.get(n.id) ?? 0;
             const nCross = nodeCross.get(n.id) ?? 0;
@@ -80,7 +83,7 @@ function _computeSubgraphLayout(
         return m.get(pos)!;
     };
 
-    for (const e of subgraph.edges) {
+    for (const e of layoutEdges) {
         const back = isBack(e);
         bucket(e.source, back ? RANK_FROM : RANK_TO).push(`src:${parentId}:${e.id}`);
         bucket(e.target, back ? RANK_TO : RANK_FROM).push(`tgt:${parentId}:${e.id}`);
@@ -96,11 +99,10 @@ function _computeSubgraphLayout(
 
     const {width: gWidth = 0, height: gHeight = 0} = g.graph();
 
-    const nodes: Node<NodeData>[] = subgraph.nodes.map((n) => {
+    const nodes: Node<NodeData>[] = layoutNodes.map((n) => {
         const inner = innerLayouts.get(n.id);
-        const isTerminal = n.node_type === "start" || n.node_type === "end";
-        const w = inner ? inner.width : (isTerminal ? SMALL_NODE_WIDTH : NODE_WIDTH);
-        const h = inner ? inner.height : (isTerminal ? SMALL_NODE_HEIGHT : NODE_HEIGHT);
+        const w = inner ? inner.width : NODE_WIDTH;
+        const h = inner ? inner.height : NODE_HEIGHT;
         const pos = g.node(n.id);
 
         const handles: NodeData["handles"] = [];
@@ -131,7 +133,7 @@ function _computeSubgraphLayout(
         return node;
     });
 
-    const edges: Edge<EdgeData>[] = subgraph.edges.map((e) => ({
+    const edges: Edge<EdgeData>[] = layoutEdges.map((e) => ({
         id: `${parentId}:${e.id}`,
         source: `${parentId}:${e.source}`,
         target: `${parentId}:${e.target}`,

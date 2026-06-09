@@ -68,7 +68,7 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
             while (current.includes(":")) {
                 current = current.slice(0, current.lastIndexOf(":"));
                 const s = nodeStatuses.get(current);
-                if (s !== undefined) return s;
+                if (s !== undefined && s !== "active") return s;
             }
         };
 
@@ -85,6 +85,7 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
             const status = edgeStatuses.get(edge.id)
                 ?? (parentId ? (() => {
                     const ps = nodeStatuses.get(parentId) ?? resolveStatus(parentId);
+                    if (!ps || ps === "active") return undefined;
                     return ps === "completed" ? "traversed" : ps;
                 })() : undefined);
             const conditional = edge.data?.conditional ?? false;
