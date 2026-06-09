@@ -3,7 +3,7 @@ import {type Edge, MarkerType, type Node} from "@xyflow/react";
 import type {EdgeData, EdgeStatus, ExecutionEvent, GraphMessage, NodeData, NodeStatus} from "../types";
 import {computeLayout, type RankDir} from "../layout";
 
-export function computeStatuses(events: ExecutionEvent[]): {
+export function computeStatuses(events: ExecutionEvent[], subgraphContainers: Set<string> = new Set()): {
     nodeStatuses: Map<string, NodeStatus>;
     edgeStatuses: Map<string, EdgeStatus>;
 } {
@@ -20,6 +20,15 @@ export function computeStatuses(events: ExecutionEvent[]): {
             edgeInfo.set(event.edge_id, {source: event.source, target: event.target});
             if (nodeStatuses.get(event.source) === "active") {
                 nodeStatuses.set(event.source, "completed");
+                const endChild = `${event.source}:__end__`;
+                if (nodeStatuses.get(endChild) === "active") {
+                    nodeStatuses.set(endChild, "completed");
+                    for (const [id, info] of edgeInfo) {
+                        if (info.target === endChild && edgeStatuses.get(id) === "active") {
+                            edgeStatuses.set(id, "traversed");
+                        }
+                    }
+                }
             }
             for (const [id, info] of edgeInfo) {
                 if (info.target === event.source && edgeStatuses.get(id) === "active") {
@@ -29,6 +38,9 @@ export function computeStatuses(events: ExecutionEvent[]): {
             edgeStatuses.set(event.edge_id, "active");
             if (nodeStatuses.get(event.target) !== "error") {
                 nodeStatuses.set(event.target, "active");
+                if (subgraphContainers.has(event.target)) {
+                    nodeStatuses.set(`${event.target}:__start__`, "active");
+                }
             }
         } else if (event.type === "error") {
             for (const [id, status] of edgeStatuses) {
@@ -52,16 +64,32 @@ export function computeStatuses(events: ExecutionEvent[]): {
     return {nodeStatuses, edgeStatuses};
 }
 
+function collectSubgraphContainers(nodes: GraphMessage["nodes"], prefix: string, out: Set<string>) {
+    for (const n of nodes) {
+        const id = prefix ? `${prefix}:${n.id}` : n.id;
+        if (n.node_type === "subgraph") {
+            out.add(id);
+            if (n.subgraph) collectSubgraphContainers(n.subgraph.nodes as GraphMessage["nodes"], id, out);
+        }
+    }
+}
+
 export function useGraphState(topology: GraphMessage | null, events: ExecutionEvent[], rankDir: RankDir = "TB") {
     const base = useMemo(() => {
         if (!topology) return {nodes: [] as Node<NodeData>[], edges: [] as Edge<EdgeData>[]};
         return computeLayout(topology, rankDir);
     }, [topology, rankDir]);
 
+    const subgraphContainers = useMemo(() => {
+        const out = new Set<string>();
+        if (topology) collectSubgraphContainers(topology.nodes, "", out);
+        return out;
+    }, [topology]);
+
     return useMemo(() => {
         if (events.length === 0) return {nodes: base.nodes, edges: base.edges, activeNodeIds: [] as string[]};
 
-        const {nodeStatuses, edgeStatuses} = computeStatuses(events);
+        const {nodeStatuses, edgeStatuses} = computeStatuses(events, subgraphContainers);
 
         const resolveStatus = (id: string): NodeStatus | undefined => {
             let current = id;
@@ -105,5 +133,5 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
         });
 
         return {nodes, edges, activeNodeIds};
-    }, [base, events]);
+    }, [base, events, subgraphContainers]);
 }
