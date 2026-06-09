@@ -17,6 +17,29 @@ class BroadcastingTracer(AsyncBaseTracer):
         self.viewport = viewport
         self.states = {}
 
+    def _build_full_id(self, run: Run) -> str | None:
+        parts = [run.name]
+        current = run
+        top_container = None
+        while current.parent_run_id:
+            parent = self.run_map.get(str(current.parent_run_id))
+            if parent is None:
+                break
+            if parent.name == "LangGraph":
+                current = parent
+                continue
+            if parent.name in self.viewport.node_names:
+                top_container = parent.name
+                break
+            parts.append(parent.name)
+            current = parent
+        if top_container is None:
+            return None
+        parts.reverse()
+        full_id = f"{top_container}:{':'.join(parts)}"
+        if full_id in self.viewport.predecessors:
+            return full_id
+
     async def _persist_run(self, run: Run) -> None:
         pass
 
@@ -48,8 +71,17 @@ class BroadcastingTracer(AsyncBaseTracer):
         self.states[run.name] = run.inputs
         if run.name in self.viewport.node_names:
             self.viewport.node_current = run.name
+            await self.viewport._emit_edge(run.name)
+        else:
+            if (full_id := self._build_full_id(run)) is not None:
+                await self.viewport._emit_edge(full_id)
 
     async def _on_chain_end(self, run: Run) -> None:
+        async def emit_last_edge(run_name):
+            end_id = f"{run_name}:__end__"
+            if end_id in self.viewport.predecessors:
+                await self.viewport._emit_edge(end_id)
+
         if run.name in self.viewport.node_names:
             parent = (
                 self.run_map.get(str(run.parent_run_id)) if run.parent_run_id else None
@@ -73,7 +105,10 @@ class BroadcastingTracer(AsyncBaseTracer):
                         ) if state else None,
                     }
                 )
+                await emit_last_edge(run.name)
         else:
+            if (full_id := self._build_full_id(run)) is not None:
+                await emit_last_edge(full_id)
             await self._emit_end(run)
 
     async def _on_chain_error(self, run: Run) -> None:
@@ -111,14 +146,17 @@ class Viewport:
         self.node_current = None
         self.edge_lookup = edge_lookup
         self.http_server = http_server
-        self.node_names: set[str] = set()
         self.predecessors: dict[str, set[str]] = {}
         for src, tgt in edge_lookup:
-            self.node_names.add(src)
-            self.node_names.add(tgt)
             self.predecessors.setdefault(tgt, set()).add(src)
-        self.node_names -= {"__start__", "__end__"}
-        self.generation: dict[str, int] = {"__start__": 0}
+        self.generation: dict[str, int] = {
+            n: 0 for pair in edge_lookup for n in pair
+            if n == "__start__" or n.endswith(":__start__")
+        }
+        self.node_names: set[str] = {
+            n for pair in edge_lookup for n in pair
+            if ":" not in n and n not in {"__start__", "__end__"}
+        }
         self.linked: set[tuple[str, int, str]] = set()
 
     def __getattr__(self, name: str) -> Any:
@@ -186,12 +224,13 @@ class Viewport:
         result: Any = None
         last_node = "__start__"
         merged_config = self._make_config(config)
+        kwargs.pop("subgraphs", None)
 
         try:
-            async for chunk in self.graph.astream(
-                input, config=merged_config, stream_mode="updates", **kwargs
+            async for namespace, chunk in self.graph.astream(
+                input, config=merged_config, stream_mode="updates", subgraphs=True, **kwargs
             ):
-                if isinstance(chunk, dict):
+                if isinstance(chunk, dict) and not namespace:
                     for node_name, node_result in chunk.items():
                         if node_name == "__metadata__":
                             continue
@@ -221,21 +260,22 @@ class Viewport:
         last_node = "__start__"
         merged_config = self._make_config(config)
         stream_mode = kwargs.get("stream_mode", "values")
+        kwargs.pop("subgraphs", None)
 
         try:
-            async for chunk in self.graph.astream(
-                input, config=merged_config, **kwargs
+            async for namespace, chunk in self.graph.astream(
+                input, config=merged_config, subgraphs=True, **kwargs
             ):
-                if isinstance(chunk, dict) and stream_mode == "updates":
+                if isinstance(chunk, dict) and stream_mode == "updates" and not namespace:
                     for node_name in chunk:
                         if node_name == "__metadata__":
                             continue
                         await self._emit_edge(node_name)
                         last_node = node_name
-                yield chunk
+                if not namespace:
+                    yield chunk
 
-            if len(self.generation) > 1:
-                await self._emit_edge("__end__")
+            await self._emit_edge("__end__")
 
             await self.broadcast({"type": "run_end", "run_id": run_id})
         except Exception:

@@ -52,7 +52,17 @@ def watch(
     sync()
     topology = extract(graph)
     manager = Broadcaster(topology)
+
+    def collect_subgraph_edges(nodes: list, prefix: str) -> None:
+        for node in nodes:
+            if node.get("node_type") == "subgraph" and node.get("subgraph"):
+                pid = f"{prefix}:{node['id']}" if prefix else node["id"]
+                for e in node["subgraph"]["edges"]:
+                    edge_lookup[(f"{pid}:{e['source']}", f"{pid}:{e['target']}")] = f"{pid}:{e['id']}"
+                collect_subgraph_edges(node["subgraph"]["nodes"], pid)
+
     edge_lookup = {(e["source"], e["target"]): e["id"] for e in topology["edges"]}
+    collect_subgraph_edges(topology["nodes"], "")
 
     http_server = start_http_server(host, port)
     start_ws_server(manager, host, ws_port)
