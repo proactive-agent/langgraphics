@@ -57,14 +57,30 @@ function Index() {
         setDisplayEvents([]);
         setDisplayNodeEntries([]);
         let parentIndex = 0;
-        for (const event of events) {
-            parentIndex = Math.max(parentIndex, nodeEntries.findIndex(
-                ({node_id}) => node_id === (event as any).source
-            ));
-            setDisplayEvents(prev => [...prev!, event]);
+
+        const isSimultaneous = (a: any, b: any) =>
+            a.type === "edge_active" && b.type === "edge_active" && (b.source === `${a.target}:__start__`
+                || (a.target.endsWith(":__end__") && b.source === a.target.slice(0, -":__end__".length)));
+
+        const batches = events.reduce<ExecutionEvent[][]>((acc, event, i) => {
+            if (i > 0 && isSimultaneous(events[i - 1], event)) {
+                acc.at(-1)!.push(event);
+                return acc;
+            }
+            return [...acc, [event]];
+        }, []);
+
+        for (const batch of batches) {
+            for (const event of batch) {
+                parentIndex = Math.max(parentIndex, nodeEntries.findIndex(
+                    ({node_id}) => node_id === (event as any).source
+                ));
+            }
+            setDisplayEvents(prev => [...prev, ...batch]);
             setDisplayNodeEntries(nodeEntries.slice(0, parentIndex + 1));
             await new Promise<void>(r => setTimeout(r, 1000));
         }
+
         setDisplayEvents([]);
         setDisplayNodeEntries([]);
     }, [events, nodeEntries]);
