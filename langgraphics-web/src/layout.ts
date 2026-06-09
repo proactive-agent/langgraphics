@@ -25,16 +25,24 @@ function _computeSubgraphLayout(
     const RANK_FROM = DIRECTIONS_MAP[rankDir[0]] as Position;
     const IS_HORIZONTAL = ["LR", "RL"].includes(rankDir);
 
+    const innerLayouts = new Map<string, ReturnType<typeof _computeSubgraphLayout>>();
+    for (const n of subgraph.nodes) {
+        if (n.node_type === "subgraph" && n.subgraph) {
+            innerLayouts.set(n.id, _computeSubgraphLayout(n.subgraph, `${parentId}:${n.id}`, rankDir));
+        }
+    }
+
     const g = new dagre.graphlib.Graph();
     g.setDefaultEdgeLabel(() => ({}));
     g.setGraph({rankdir: rankDir, ranksep: 60, nodesep: 40, marginx: 30, marginy: 0});
 
     for (const n of subgraph.nodes) {
+        const inner = innerLayouts.get(n.id);
         const isTerminal = n.node_type === "start" || n.node_type === "end";
-        g.setNode(n.id, {
-            width: isTerminal ? SMALL_NODE_WIDTH : NODE_WIDTH,
-            height: isTerminal ? SMALL_NODE_HEIGHT : NODE_HEIGHT,
-        });
+        g.setNode(n.id, inner
+            ? {width: inner.width, height: inner.height}
+            : {width: isTerminal ? SMALL_NODE_WIDTH : NODE_WIDTH, height: isTerminal ? SMALL_NODE_HEIGHT : NODE_HEIGHT}
+        );
     }
     for (const e of subgraph.edges) g.setEdge(e.source, e.target);
     dagre.layout(g);
@@ -89,9 +97,10 @@ function _computeSubgraphLayout(
     const {width: gWidth = 0, height: gHeight = 0} = g.graph();
 
     const nodes: Node<NodeData>[] = subgraph.nodes.map((n) => {
+        const inner = innerLayouts.get(n.id);
         const isTerminal = n.node_type === "start" || n.node_type === "end";
-        const w = isTerminal ? SMALL_NODE_WIDTH : NODE_WIDTH;
-        const h = isTerminal ? SMALL_NODE_HEIGHT : NODE_HEIGHT;
+        const w = inner ? inner.width : (isTerminal ? SMALL_NODE_WIDTH : NODE_WIDTH);
+        const h = inner ? inner.height : (isTerminal ? SMALL_NODE_HEIGHT : NODE_HEIGHT);
         const pos = g.node(n.id);
 
         const handles: NodeData["handles"] = [];
@@ -107,7 +116,7 @@ function _computeSubgraphLayout(
             }));
         }
 
-        return {
+        const node: Node<NodeData> = {
             id: `${parentId}:${n.id}`,
             type: "custom",
             parentId,
@@ -118,6 +127,8 @@ function _computeSubgraphLayout(
             },
             data: {label: n.name, nodeType: n.node_type as NodeData["nodeType"], status: "idle" as const, handles},
         };
+        if (inner) node.style = {width: inner.width, height: inner.height};
+        return node;
     });
 
     const edges: Edge<EdgeData>[] = subgraph.edges.map((e) => ({
@@ -129,9 +140,16 @@ function _computeSubgraphLayout(
         data: {conditional: e.conditional, label: e.label, status: "idle" as const},
     }));
 
+    const allNodes = [...nodes];
+    const allEdges = [...edges];
+    for (const inner of innerLayouts.values()) {
+        allNodes.push(...inner.nodes);
+        allEdges.push(...inner.edges);
+    }
+
     return {
-        nodes,
-        edges,
+        nodes: allNodes,
+        edges: allEdges,
         width: gWidth + SUBGRAPH_PADDING,
         height: gHeight + SUBGRAPH_HEADER_HEIGHT + SUBGRAPH_PADDING,
     };

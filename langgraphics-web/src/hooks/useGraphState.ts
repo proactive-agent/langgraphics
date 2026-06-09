@@ -63,19 +63,28 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
 
         const {nodeStatuses, edgeStatuses} = computeStatuses(events);
 
+        const resolveStatus = (id: string): NodeStatus | undefined => {
+            let current = id;
+            while (current.includes(":")) {
+                current = current.slice(0, current.lastIndexOf(":"));
+                const s = nodeStatuses.get(current);
+                if (s !== undefined) return s;
+            }
+        };
+
         const activeNodeIds: string[] = [];
         const nodes = base.nodes.map((node) => {
-            const status = nodeStatuses.get(node.id)
-                ?? (node.parentId ? nodeStatuses.get(node.parentId) : undefined);
+            const status = nodeStatuses.get(node.id) ?? (node.parentId ? resolveStatus(node.id) : undefined);
             if (status === "active" && !node.parentId) activeNodeIds.push(node.id);
             return {...node, className: status};
         });
 
         const edges = base.edges.map((edge) => {
-            const parentId = edge.source.includes(":") ? edge.source.split(":")[0] : undefined;
+            const lastColon = edge.source.lastIndexOf(":");
+            const parentId = lastColon !== -1 ? edge.source.slice(0, lastColon) : undefined;
             const status = edgeStatuses.get(edge.id)
                 ?? (parentId ? (() => {
-                    const ps = nodeStatuses.get(parentId);
+                    const ps = nodeStatuses.get(parentId) ?? resolveStatus(parentId);
                     return ps === "completed" ? "traversed" : ps;
                 })() : undefined);
             const conditional = edge.data?.conditional ?? false;
