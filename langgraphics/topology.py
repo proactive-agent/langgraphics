@@ -1,5 +1,7 @@
 from typing import Any
 
+from langgraph.graph.state import CompiledStateGraph
+
 
 def extract(graph: Any) -> dict[str, Any]:
     raw = graph.get_graph()
@@ -14,6 +16,10 @@ def extract(graph: Any) -> dict[str, Any]:
                     "__end__": "end",
                     "__start__": "start",
                 }.get(node.name, "node"),
+                **({
+                   "node_type": "subgraph",
+                   "subgraph": extract(node.data),
+               } if isinstance(node.data, CompiledStateGraph) else {})
             }
             for node_id, node in raw.nodes.items()
         ],
