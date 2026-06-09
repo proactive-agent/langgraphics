@@ -58,11 +58,25 @@ function Index() {
         setDisplayNodeEntries([]);
         let parentIndex = 0;
 
+        const batches: ExecutionEvent[][] = [];
         for (const event of events) {
-            parentIndex = Math.max(parentIndex, nodeEntries.findIndex(
-                ({node_id}) => node_id === (event as any).source
-            ));
-            setDisplayEvents(prev => [...prev, event]);
+            const last = batches[batches.length - 1];
+            const prev = last?.[last.length - 1];
+            if (last &&
+                prev?.type === "edge_active" &&
+                event.type === "edge_active" &&
+                ((event as any).source === (prev as any).source ||
+                 (event as any).target === (prev as any).target)) last.push(event);
+            else batches.push([event]);
+        }
+
+        for (const batch of batches) {
+            for (const event of batch) {
+                parentIndex = Math.max(parentIndex, nodeEntries.findIndex(
+                    ({node_id}) => node_id === (event as any).source
+                ));
+            }
+            setDisplayEvents(prev => [...prev, ...batch]);
             setDisplayNodeEntries(nodeEntries.slice(0, parentIndex + 1));
             await new Promise<void>(r => setTimeout(r, 1000));
         }
