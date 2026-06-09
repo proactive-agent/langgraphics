@@ -112,7 +112,12 @@ class BroadcastingTracer(AsyncBaseTracer):
             await self._emit_end(run)
 
     async def _on_chain_error(self, run: Run) -> None:
-        await self._on_chain_end(run)
+        if run.name in self.viewport.node_names:
+            parent = self.run_map.get(str(run.parent_run_id)) if run.parent_run_id else None
+            if parent is None or parent.name not in self.viewport.node_names:
+                await self._emit_end(run)
+        else:
+            await self._emit_end(run)
 
     async def _on_llm_end(self, run: Run) -> None:
         await self._emit_end(run)

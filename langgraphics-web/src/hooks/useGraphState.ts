@@ -47,7 +47,7 @@ export function computeStatuses(events: ExecutionEvent[], subgraphContainers: Se
                 if (status === "active") edgeStatuses.set(id, "traversed");
             }
             for (const [id, status] of nodeStatuses) {
-                if (status === "active") nodeStatuses.set(id, "completed");
+                if (status === "active") nodeStatuses.set(id, "error");
             }
             if (event.edge_id) edgeStatuses.set(event.edge_id, "error");
             nodeStatuses.set(event.target, "error");
@@ -96,7 +96,7 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
             while (current.includes(":")) {
                 current = current.slice(0, current.lastIndexOf(":"));
                 const s = nodeStatuses.get(current);
-                if (s !== undefined && s !== "active") return s;
+                if (s === "completed") return s;
             }
         };
 
