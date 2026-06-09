@@ -65,13 +65,19 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
 
         const activeNodeIds: string[] = [];
         const nodes = base.nodes.map((node) => {
-            const status = nodeStatuses.get(node.id);
-            if (status === "active") activeNodeIds.push(node.id);
+            const status = nodeStatuses.get(node.id)
+                ?? (node.parentId ? nodeStatuses.get(node.parentId) : undefined);
+            if (status === "active" && !node.parentId) activeNodeIds.push(node.id);
             return {...node, className: status};
         });
 
         const edges = base.edges.map((edge) => {
-            const status = edgeStatuses.get(edge.id);
+            const parentId = edge.source.includes(":") ? edge.source.split(":")[0] : undefined;
+            const status = edgeStatuses.get(edge.id)
+                ?? (parentId ? (() => {
+                    const ps = nodeStatuses.get(parentId);
+                    return ps === "completed" ? "traversed" : ps;
+                })() : undefined);
             const conditional = edge.data?.conditional ?? false;
             const className = conditional ? `conditional ${status}` : status;
             const color = status === "error" ? "#ef4444" : status === "active" ? "#22c55e" : status === "traversed" ? "#3b82f6" : undefined;
