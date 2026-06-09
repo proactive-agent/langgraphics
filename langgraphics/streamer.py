@@ -115,7 +115,23 @@ class BroadcastingTracer(AsyncBaseTracer):
         if run.name in self.viewport.node_names:
             parent = self.run_map.get(str(run.parent_run_id)) if run.parent_run_id else None
             if parent is None or parent.name not in self.viewport.node_names:
-                await self._emit_end(run)
+                await self.viewport.broadcast(
+                    {
+                        "type": "node_output",
+                        "node_id": run.name,
+                        "run_id": str(run.id),
+                        "node_kind": run.run_type,
+                        "status": "error" if run.error else "ok",
+                        "input": Formatter.inputs(run),
+                        "output": Formatter.outputs(run),
+                        "metrics": Formatter.metrics(run),
+                        "state": json.dumps(
+                            self.states.get(run.name),
+                            ensure_ascii=False,
+                            default=lambda x: x.__dict__,
+                        ) if self.states.get(run.name) else None,
+                    }
+                )
         else:
             await self._emit_end(run)
 
