@@ -78,7 +78,7 @@ function Index() {
             }
             setDisplayEvents(prev => [...prev, ...batch]);
             setDisplayNodeEntries(nodeEntries.slice(0, parentIndex + 1));
-            await new Promise<void>(r => setTimeout(r, 1000));
+            await new Promise<void>(r => setTimeout(r, 1500));
         }
 
         setDisplayEvents([]);
