@@ -255,7 +255,6 @@ class Viewport:
                     for node_name, node_result in chunk.items():
                         if node_name == "__metadata__":
                             continue
-                        await self._emit_edge(node_name)
                         last_node = node_name
                         result = node_result
 
@@ -291,7 +290,6 @@ class Viewport:
                     for node_name in chunk:
                         if node_name == "__metadata__":
                             continue
-                        await self._emit_edge(node_name)
                         last_node = node_name
                 if not namespace:
                     yield chunk
