@@ -112,12 +112,14 @@ export function useGraphState(topology: GraphMessage | null, events: ExecutionEv
         const edges = base.edges.map((edge) => {
             const lastColon = edge.source.lastIndexOf(":");
             const parentId = lastColon !== -1 ? edge.source.slice(0, lastColon) : undefined;
-            const status = edgeStatuses.get(edge.id)
+            const rawStatus = edgeStatuses.get(edge.id)
                 ?? (parentId ? (() => {
                     const ps = nodeStatuses.get(parentId) ?? resolveStatus(parentId);
                     if (ps !== "completed") return undefined;
                     return "traversed";
                 })() : undefined);
+            const status = (rawStatus === "traversed" && nodeStatuses.get(edge.target) === "error")
+                ? "error" : rawStatus;
             const conditional = edge.data?.conditional ?? false;
             const className = conditional ? `conditional ${status}` : status;
             const color = status === "error" ? "#ef4444" : status === "active" ? "#22c55e" : status === "traversed" ? "#3b82f6" : undefined;
