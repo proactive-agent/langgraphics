@@ -4141,13 +4141,12 @@
   },
   "command-a-plus-05-2026": {
     "reasoning": true,
-    "tool_call": false,
+    "tool_call": true,
     "attachment": true,
-    "temperature": false,
+    "temperature": true,
     "limit": {
       "output": 64000,
-      "context": 128000,
-      "input": 128000
+      "context": 128000
     },
     "cost": {
       "input": 2.5,
@@ -16475,7 +16474,7 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 128000,
+      "output": 32768,
       "context": 128000
     },
     "cost": {
@@ -21079,6 +21078,22 @@
       "cache_write": 18.75
     }
   },
+  "claude-fable-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 10,
+      "output": 50,
+      "cache_read": 1,
+      "cache_write": 12.5
+    }
+  },
   "claude-3-7-sonnet-20250219": {
     "reasoning": true,
     "tool_call": true,
@@ -21254,6 +21269,22 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "mimo-v2.5-pro-ultraspeed": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 1.305,
+      "output": 2.61,
+      "cache_read": 0.0108,
       "cache_write": 0
     }
   },
@@ -23688,6 +23719,22 @@
       "cache_write": 0
     }
   },
+  "north-mini-code-1-0": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "command-r-08-2024": {
     "reasoning": false,
     "tool_call": true,
@@ -24764,22 +24811,6 @@
       "cache_write": 0
     }
   },
-  "z-ai/glm-4.5-air:free": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 96000,
-      "context": 131072
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "nousresearch/hermes-3-llama-3.1-405b:free": {
     "reasoning": false,
     "tool_call": false,
@@ -24801,6 +24832,22 @@
     "tool_call": true,
     "attachment": true,
     "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 10,
+      "output": 50,
+      "cache_read": 1,
+      "cache_write": 12.5
+    }
+  },
+  "anthropic/claude-fable-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
     "limit": {
       "output": 128000,
       "context": 1000000
@@ -25181,6 +25228,22 @@
       "output": 0,
       "cache_read": 0,
       "cache_write": 0
+    }
+  },
+  "~anthropic/claude-fable-latest": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 10,
+      "output": 50,
+      "cache_read": 1,
+      "cache_write": 12.5
     }
   },
   "gemma-3-27b": {
@@ -35946,6 +36009,38 @@
       "cache_write": 0
     }
   },
+  "global.anthropic.claude-fable-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 10,
+      "output": 50,
+      "cache_read": 1,
+      "cache_write": 12.5
+    }
+  },
+  "eu.anthropic.claude-fable-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 11,
+      "output": 55,
+      "cache_read": 1.1,
+      "cache_write": 13.75
+    }
+  },
   "us.meta.llama4-maverick-17b-instruct-v1:0": {
     "reasoning": false,
     "tool_call": true,
@@ -36120,6 +36215,22 @@
       "output": 15,
       "cache_read": 0.3,
       "cache_write": 3.75
+    }
+  },
+  "us.anthropic.claude-fable-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 10,
+      "output": 50,
+      "cache_read": 1,
+      "cache_write": 12.5
     }
   },
   "zai.glm-4.7-flash": {
@@ -41104,6 +41215,22 @@
     "limit": {
       "output": 64000,
       "context": 1048576
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "north-mini-code-free": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 256000
     },
     "cost": {
       "input": 0,

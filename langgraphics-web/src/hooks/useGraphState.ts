@@ -47,7 +47,9 @@ export function computeStatuses(events: ExecutionEvent[], subgraphContainers: Se
                 if (status === "active") edgeStatuses.set(id, "traversed");
             }
             for (const [id, status] of nodeStatuses) {
-                if (status === "active") nodeStatuses.set(id, "error");
+                if (status === "active") {
+                    nodeStatuses.set(id, id === event.source ? "completed" : "error");
+                }
             }
             if (event.edge_id) edgeStatuses.set(event.edge_id, "error");
             nodeStatuses.set(event.target, "error");

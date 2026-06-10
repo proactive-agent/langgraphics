@@ -89,13 +89,12 @@ export function useFocus({nodes, edges, activeNodeIds, rankDir = "TB", initialMo
         let focusKey: string;
 
         if (activeContainers.length > 0) {
-            const deepest = activeContainers.reduce((best, curr) =>
-                (curr.id.match(/:/g) ?? []).length > (best.id.match(/:/g) ?? []).length ? curr : best,
-            );
-            focusKey = `c:${deepest.id}`;
+            const maxDepth = Math.max(...activeContainers.map(n => (n.id.match(/:/g) ?? []).length));
+            const deepest = activeContainers.filter(n => (n.id.match(/:/g) ?? []).length === maxDepth);
+            focusKey = `c:${deepest.map(n => n.id).sort().join(",")}`;
             if (focusKey !== prevFocusKey.current) {
                 prevFocusKey.current = focusKey;
-                fitView({nodes: [{id: deepest.id}], padding: 0.15, duration: FIT_VIEW_DURATION}).then();
+                fitView({nodes: deepest.map(n => ({id: n.id})), padding: 0.15, duration: FIT_VIEW_DURATION}).then();
             }
         } else {
             focusKey = [...activeNodeIds].sort().join(",");
