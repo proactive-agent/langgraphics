@@ -3839,6 +3839,22 @@
       "cache_write": 0
     }
   },
+  "moonshotai/kimi-k2.7-code": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.19,
+      "cache_write": 0
+    }
+  },
   "moonshotai/kimi-k2.6": {
     "reasoning": true,
     "tool_call": true,
@@ -8892,13 +8908,13 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 8192,
-      "context": 32000
+      "output": 128000,
+      "context": 128000
     },
     "cost": {
-      "input": 0.25,
-      "output": 0.75,
-      "cache_read": 0,
+      "input": 0.8,
+      "output": 1,
+      "cache_read": 0.4,
       "cache_write": 0
     }
   },
@@ -9673,6 +9689,22 @@
       "cache_write": 0
     }
   },
+  "kimi-k2.7-code": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.19,
+      "cache_write": 0
+    }
+  },
   "kimi-k2-0711-preview": {
     "reasoning": false,
     "tool_call": true,
@@ -9721,6 +9753,22 @@
       "cache_write": 0
     }
   },
+  "accounts/fireworks/routers/kimi-k2p7-code-fast": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262000,
+      "context": 262000
+    },
+    "cost": {
+      "input": 2,
+      "output": 8,
+      "cache_read": 0.38,
+      "cache_write": 0
+    }
+  },
   "accounts/fireworks/routers/glm-5p1-fast": {
     "reasoning": true,
     "tool_call": true,
@@ -9740,7 +9788,7 @@
   "accounts/fireworks/routers/kimi-k2p6-fast": {
     "reasoning": true,
     "tool_call": true,
-    "attachment": false,
+    "attachment": true,
     "temperature": true,
     "limit": {
       "output": 262000,
@@ -9766,38 +9814,6 @@
       "input": 0.14,
       "output": 0.28,
       "cache_read": 0.03,
-      "cache_write": 0
-    }
-  },
-  "accounts/fireworks/models/kimi-k2p5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 256000,
-      "context": 256000
-    },
-    "cost": {
-      "input": 0.6,
-      "output": 3,
-      "cache_read": 0.1,
-      "cache_write": 0
-    }
-  },
-  "accounts/fireworks/models/qwen3p6-plus": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 65536,
-      "context": 262144
-    },
-    "cost": {
-      "input": 0.5,
-      "output": 3,
-      "cache_read": 0.1,
       "cache_write": 0
     }
   },
@@ -9833,6 +9849,22 @@
       "cache_write": 0
     }
   },
+  "accounts/fireworks/models/minimax-m3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 512000,
+      "context": 512000
+    },
+    "cost": {
+      "input": 0.3,
+      "output": 1.2,
+      "cache_read": 0.06,
+      "cache_write": 0
+    }
+  },
   "accounts/fireworks/models/kimi-k2p6": {
     "reasoning": true,
     "tool_call": true,
@@ -9846,6 +9878,22 @@
       "input": 0.95,
       "output": 4,
       "cache_read": 0.16,
+      "cache_write": 0
+    }
+  },
+  "accounts/fireworks/models/qwen3p7-plus": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.4,
+      "output": 1.6,
+      "cache_read": 0.08,
       "cache_write": 0
     }
   },
@@ -9881,22 +9929,6 @@
       "cache_write": 0
     }
   },
-  "accounts/fireworks/models/minimax-m2p5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 196608,
-      "context": 196608
-    },
-    "cost": {
-      "input": 0.3,
-      "output": 1.2,
-      "cache_read": 0.03,
-      "cache_write": 0
-    }
-  },
   "accounts/fireworks/models/gpt-oss-20b": {
     "reasoning": true,
     "tool_call": true,
@@ -9910,6 +9942,22 @@
       "input": 0.07,
       "output": 0.3,
       "cache_read": 0.035,
+      "cache_write": 0
+    }
+  },
+  "accounts/fireworks/models/kimi-k2p7-code": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262000,
+      "context": 262000
+    },
+    "cost": {
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.19,
       "cache_write": 0
     }
   },
@@ -12517,6 +12565,22 @@
       "input": 0.017,
       "output": 0.112,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "@cf/moonshotai/kimi-k2.7-code": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.19,
       "cache_write": 0
     }
   },
@@ -15523,6 +15587,22 @@
       "input": 0.56,
       "output": 2.24,
       "cache_read": 0.11,
+      "cache_write": 0
+    }
+  },
+  "moonshotai/kimi-k2.7-code-free": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -26775,6 +26855,22 @@
       "cache_write": 0
     }
   },
+  "k2p7": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 32768,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "k2p5": {
     "reasoning": true,
     "tool_call": true,
@@ -26906,19 +27002,35 @@
       "cache_write": 0
     }
   },
+  "umans-kimi-k2.7": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 32768,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.19,
+      "cache_write": 0
+    }
+  },
   "umans-kimi-k2.6": {
     "reasoning": true,
     "tool_call": true,
     "attachment": true,
     "temperature": false,
     "limit": {
-      "output": 262144,
+      "output": 32768,
       "context": 262144
     },
     "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.2,
       "cache_write": 0
     }
   },
@@ -26932,9 +27044,9 @@
       "context": 204800
     },
     "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
+      "input": 1.4,
+      "output": 4.4,
+      "cache_read": 0.29,
       "cache_write": 0
     }
   },
@@ -26944,13 +27056,13 @@
     "attachment": true,
     "temperature": false,
     "limit": {
-      "output": 262144,
+      "output": 32768,
       "context": 262144
     },
     "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.2,
       "cache_write": 0
     }
   },
@@ -26960,13 +27072,13 @@
     "attachment": true,
     "temperature": false,
     "limit": {
-      "output": 262144,
+      "output": 32768,
       "context": 262144
     },
     "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
+      "input": 0.15,
+      "output": 1,
+      "cache_read": 0.05,
       "cache_write": 0
     }
   },
@@ -27726,12 +27838,12 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 131072,
+      "output": 26215,
       "context": 131072
     },
     "cost": {
-      "input": 0.484,
-      "output": 0.03,
+      "input": 0.02,
+      "output": 0.06,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -29194,13 +29306,13 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 262144,
-      "context": 262144
+      "output": 262142,
+      "context": 262142
     },
     "cost": {
-      "input": 0.67,
-      "output": 3.39,
-      "cache_read": 0.14,
+      "input": 0.68,
+      "output": 3.41,
+      "cache_read": 0.34,
       "cache_write": 0
     }
   },
@@ -29645,12 +29757,12 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 131072,
-      "context": 131072
+      "output": 262140,
+      "context": 262140
     },
     "cost": {
-      "input": 0.289,
-      "output": 2.4,
+      "input": 0.2885,
+      "output": 3.17,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -30062,7 +30174,7 @@
     "temperature": true,
     "limit": {
       "output": 16384,
-      "context": 32768
+      "context": 163840
     },
     "cost": {
       "input": 0.2,
