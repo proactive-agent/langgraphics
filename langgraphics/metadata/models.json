@@ -1873,7 +1873,7 @@
     }
   },
   "xiaomi/mimo-v2-flash": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": false,
     "attachment": false,
     "temperature": false,
@@ -3849,9 +3849,9 @@
       "context": 262144
     },
     "cost": {
-      "input": 0.95,
-      "output": 4,
-      "cache_read": 0.19,
+      "input": 0.75,
+      "output": 3.5,
+      "cache_read": 0.16,
       "cache_write": 0
     }
   },
@@ -5966,22 +5966,6 @@
       "output": 25.007,
       "cache_read": 0.4998,
       "cache_write": 0
-    }
-  },
-  "anthropic/claude-fable-5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 128000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 10,
-      "output": 50,
-      "cache_read": 1,
-      "cache_write": 12.5
     }
   },
   "anthropic/claude-opus-4.5": {
@@ -9699,9 +9683,9 @@
       "context": 262144
     },
     "cost": {
-      "input": 0.95,
-      "output": 4,
-      "cache_read": 0.19,
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -15119,6 +15103,22 @@
       }
     }
   },
+  "minimax-m3-preview": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": false,
+    "limit": {
+      "output": 65536,
+      "context": 524288
+    },
+    "cost": {
+      "input": 0.3,
+      "output": 1.2,
+      "cache_read": 0.06,
+      "cache_write": 0
+    }
+  },
   "gemini-3-1-pro-preview": {
     "reasoning": true,
     "tool_call": true,
@@ -15900,7 +15900,7 @@
     }
   },
   "xiaomi/mimo-v2-omni": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": true,
     "attachment": true,
     "temperature": false,
@@ -16058,6 +16058,22 @@
       "output": 15,
       "cache_read": 0.3,
       "cache_write": 3.75
+    }
+  },
+  "anthropic/claude-fable-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 10,
+      "output": 50,
+      "cache_read": 1,
+      "cache_write": 12.5
     }
   },
   "tencent/hy3-preview": {
@@ -23276,6 +23292,22 @@
     "cost": {
       "input": 2.25,
       "output": 2.75,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "glm-5.2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -32058,6 +32090,22 @@
       "cache_write": 0
     }
   },
+  "minimaxai/minimax-m3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 250000,
+      "context": 524288
+    },
+    "cost": {
+      "input": 0.3,
+      "output": 1.2,
+      "cache_read": 0.06,
+      "cache_write": 0
+    }
+  },
   "minimax-m2-5": {
     "reasoning": false,
     "tool_call": true,
@@ -39335,7 +39383,7 @@
     }
   },
   "xiaomi/mimo-v2-flash-original": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": false,
     "attachment": false,
     "temperature": false,
@@ -39352,7 +39400,7 @@
     }
   },
   "xiaomi/mimo-v2-flash-thinking-original": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": false,
     "attachment": false,
     "temperature": false,
@@ -39369,7 +39417,7 @@
     }
   },
   "xiaomi/mimo-v2-flash-thinking": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": false,
     "attachment": false,
     "temperature": false,
