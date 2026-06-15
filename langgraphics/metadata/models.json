@@ -8687,8 +8687,8 @@
       "context": 16384
     },
     "cost": {
-      "input": 0,
-      "output": 0,
+      "input": 0.02,
+      "output": 0.02,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -13053,6 +13053,22 @@
       "cache_write": 0
     }
   },
+  "gemma-4-e4b-it": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "gemini-embedding-001": {
     "reasoning": false,
     "tool_call": false,
@@ -13114,6 +13130,22 @@
       "input": 0.1,
       "output": 0.4,
       "cache_read": 0.025,
+      "cache_write": 0
+    }
+  },
+  "gemma-4-e2b-it": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -13310,18 +13342,18 @@
     }
   },
   "nemotron-3-ultra-550b": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": true,
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 8192,
-      "context": 131072
+      "output": 128000,
+      "context": 1000000
     },
     "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
+      "input": 0.5,
+      "output": 2.5,
+      "cache_read": 0.15,
       "cache_write": 0
     }
   },
@@ -15255,7 +15287,7 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 65536,
+      "output": 256000,
       "context": 256000
     },
     "cost": {
@@ -17808,38 +17840,6 @@
       "cache_write": 0
     }
   },
-  "inclusionai/ling-mini-2.0": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 131000,
-      "context": 131000
-    },
-    "cost": {
-      "input": 0.07,
-      "output": 0.28,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "inclusionai/ring-flash-2.0": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 131000,
-      "context": 131000
-    },
-    "cost": {
-      "input": 0.14,
-      "output": 0.57,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "pro/moonshotai/kimi-k2-thinking": {
     "reasoning": true,
     "tool_call": true,
@@ -18465,22 +18465,6 @@
     "cost": {
       "input": 3,
       "output": 7,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "ascend-tribe/pangu-pro-moe": {
-    "reasoning": true,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 128000,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.2,
-      "output": 0.6,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -20938,12 +20922,12 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 4000,
-      "context": 33000
+      "output": 4096,
+      "context": 128000
     },
     "cost": {
-      "input": 0.06,
-      "output": 0.06,
+      "input": 0.02,
+      "output": 0.05,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -26984,23 +26968,6 @@
       "cache_write": 0
     }
   },
-  "nex-agi/deepseek-v3.1-nex-n1": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": false,
-    "limit": {
-      "output": 8192,
-      "context": 128000,
-      "input": 128000
-    },
-    "cost": {
-      "input": 0.27999999999999997,
-      "output": 0.42000000000000004,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "zai-org/glm-5v-turbo": {
     "reasoning": true,
     "tool_call": true,
@@ -29279,6 +29246,23 @@
     "cost": {
       "input": 0.2,
       "output": 1.1,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "nex-agi/deepseek-v3.1-nex-n1": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": false,
+    "limit": {
+      "output": 8192,
+      "context": 128000,
+      "input": 128000
+    },
+    "cost": {
+      "input": 0.27999999999999997,
+      "output": 0.42000000000000004,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -42748,6 +42732,22 @@
     "cost": {
       "input": 0.6,
       "output": 3,
+      "cache_read": 0.6,
+      "cache_write": 0
+    }
+  },
+  "hf:minimaxai/minimax-m3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 524288
+    },
+    "cost": {
+      "input": 0.6,
+      "output": 1.2,
       "cache_read": 0.6,
       "cache_write": 0
     }
