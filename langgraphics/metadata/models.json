@@ -3871,6 +3871,22 @@
       "cache_write": 0
     }
   },
+  "moonshotai/kimi-k2.7-code-highspeed": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 0,
+      "context": 262144
+    },
+    "cost": {
+      "input": 1.9,
+      "output": 8,
+      "cache_read": 0.38,
+      "cache_write": 0
+    }
+  },
   "klingai/kling-v3.0-motion-control": {
     "reasoning": false,
     "tool_call": false,
@@ -5417,6 +5433,22 @@
       "cache_write": 0
     }
   },
+  "zai/glm-5.2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 1.4,
+      "output": 4.4,
+      "cache_read": 0.26,
+      "cache_write": 0
+    }
+  },
   "zai/glm-4.6v": {
     "reasoning": true,
     "tool_call": true,
@@ -6920,7 +6952,7 @@
     }
   },
   "alibaba/qwen3-coder": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": true,
     "attachment": false,
     "temperature": true,
@@ -6936,7 +6968,7 @@
     }
   },
   "alibaba/qwen-3-235b": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": true,
     "attachment": false,
     "temperature": true,
@@ -8957,7 +8989,7 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 262144,
+      "output": 81920,
       "context": 262144
     },
     "cost": {
@@ -9683,9 +9715,9 @@
       "context": 262144
     },
     "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.19,
       "cache_write": 0
     }
   },
@@ -9721,6 +9753,22 @@
       "cache_write": 0
     }
   },
+  "kimi-k2.7-code-highspeed": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 1.9,
+      "output": 8,
+      "cache_read": 0.38,
+      "cache_write": 0
+    }
+  },
   "accounts/fireworks/routers/kimi-k2p6-turbo": {
     "reasoning": true,
     "tool_call": true,
@@ -9747,7 +9795,7 @@
       "context": 262000
     },
     "cost": {
-      "input": 2,
+      "input": 1.9,
       "output": 8,
       "cache_read": 0.38,
       "cache_write": 0
@@ -9797,7 +9845,7 @@
     "cost": {
       "input": 0.14,
       "output": 0.28,
-      "cache_read": 0.03,
+      "cache_read": 0.028,
       "cache_write": 0
     }
   },
@@ -9889,6 +9937,22 @@
     "limit": {
       "output": 131072,
       "context": 202800
+    },
+    "cost": {
+      "input": 1.4,
+      "output": 4.4,
+      "cache_read": 0.26,
+      "cache_write": 0
+    }
+  },
+  "accounts/fireworks/models/glm-5p2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1048576
     },
     "cost": {
       "input": 1.4,
@@ -11345,6 +11409,22 @@
       "cache_write": 3.75
     }
   },
+  "llama-4-maverick": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0.15,
+      "output": 0.6,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "claude-4-5-sonnet": {
     "reasoning": true,
     "tool_call": true,
@@ -11948,9 +12028,9 @@
       "input": 256000
     },
     "cost": {
-      "input": 0.096,
-      "output": 0.288,
-      "cache_read": 0.019,
+      "input": 0.1,
+      "output": 0.3,
+      "cache_read": 0.02,
       "cache_write": 0
     }
   },
@@ -12661,6 +12741,22 @@
       "input": 0.5,
       "output": 1.5,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "@cf/zai-org/glm-5.2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 1.4,
+      "output": 4.4,
+      "cache_read": 0.26,
       "cache_write": 0
     }
   },
@@ -13418,22 +13514,6 @@
     "cost": {
       "input": 0.04,
       "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "llama-4-maverick": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 131072
-    },
-    "cost": {
-      "input": 0.15,
-      "output": 0.6,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -14782,6 +14862,22 @@
       "cache_write": 0
     }
   },
+  "kimi-k2-7-code": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 65536,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0.9,
+      "output": 4.3,
+      "cache_read": 0.2,
+      "cache_write": 0
+    }
+  },
   "openai-gpt-4o-mini-2024-07-18": {
     "reasoning": false,
     "tool_call": true,
@@ -15070,6 +15166,22 @@
       "output": 50,
       "cache_read": 1,
       "cache_write": 12.5
+    }
+  },
+  "zai-org-glm-5-2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 24000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 1.75,
+      "output": 5.5,
+      "cache_read": 0.325,
+      "cache_write": 0
     }
   },
   "nvidia-nemotron-3-nano-30b-a3b": {
@@ -27516,22 +27628,6 @@
       "cache_write": 0
     }
   },
-  "duo-chat-fable-5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 128000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "duo-chat-gpt-5-5": {
     "reasoning": true,
     "tool_call": true,
@@ -32317,6 +32413,22 @@
       "cache_write": 0
     }
   },
+  "z-ai/glm-5.2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 1.4,
+      "output": 4.4,
+      "cache_read": 0.26,
+      "cache_write": 0
+    }
+  },
   "openai/gpt-oss-120b:free": {
     "reasoning": true,
     "tool_call": true,
@@ -32484,7 +32596,7 @@
     "temperature": false,
     "limit": {
       "output": 128000,
-      "context": 128000
+      "context": 1000000
     },
     "cost": {
       "input": 0,
@@ -33570,6 +33682,22 @@
       "input": 0.6,
       "output": 2.4,
       "cache_read": 0.12,
+      "cache_write": 0
+    }
+  },
+  "zai-org/glm-5.2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 131072
+    },
+    "cost": {
+      "input": 1.5,
+      "output": 4.5,
+      "cache_read": 0.3,
       "cache_write": 0
     }
   },
