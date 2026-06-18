@@ -4368,6 +4368,22 @@
       "cache_write": 0
     }
   },
+  "mistral/mistral-small": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 256000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0.15,
+      "output": 0.6,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "mistral/ministral-8b": {
     "reasoning": false,
     "tool_call": true,
@@ -4380,22 +4396,6 @@
     "cost": {
       "input": 0.1,
       "output": 0.1,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "mistral/mistral-small": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 256000,
-      "context": 256000
-    },
-    "cost": {
-      "input": 0.15,
-      "output": 0.6,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -5796,8 +5796,8 @@
     },
     "cost": {
       "input": 0.5,
-      "output": 2.5,
-      "cache_read": 0.15,
+      "output": 2.2,
+      "cache_read": 0.1,
       "cache_write": 0
     }
   },
@@ -13293,6 +13293,22 @@
       "cache_write": 0.383
     }
   },
+  "glm-5.2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "mimo-v2.5": {
     "reasoning": true,
     "tool_call": true,
@@ -15999,13 +16015,13 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 131070,
-      "context": 131070
+      "output": 98304,
+      "context": 131072
     },
     "cost": {
-      "input": 0.125,
+      "input": 0.13,
       "output": 0.85,
-      "cache_read": 0.06,
+      "cache_read": 0.025,
       "cache_write": 0
     }
   },
@@ -17799,22 +17815,6 @@
     "cost": {
       "input": 0.69,
       "output": 4.14,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "mistralai/devstral-small-2-24b-instruct-2512": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": false,
-    "limit": {
-      "output": 32768,
-      "context": 32768
-    },
-    "cost": {
-      "input": 0.12,
-      "output": 0.47,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -23392,22 +23392,6 @@
       "cache_write": 0
     }
   },
-  "glm-5.2": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 131072,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "baai/bge-m3": {
     "reasoning": false,
     "tool_call": false,
@@ -24370,6 +24354,22 @@
     "cost": {
       "input": 0.35,
       "output": 1.42,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "mistralai/devstral-small-2-24b-instruct-2512": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": false,
+    "limit": {
+      "output": 32768,
+      "context": 32768
+    },
+    "cost": {
+      "input": 0.12,
+      "output": 0.47,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -32419,8 +32419,8 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 131072,
-      "context": 1048576
+      "output": 262144,
+      "context": 262144
     },
     "cost": {
       "input": 1.4,
