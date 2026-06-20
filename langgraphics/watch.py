@@ -14,6 +14,9 @@ from .streamer import Viewport
 from .topology import extract
 from .upstream import sync
 
+DEFAULT_HTTP_PORT = 8764
+DEFAULT_WS_PORT = 8765
+
 
 def start_http_server(host: str, port: int) -> TCPServer:
     static = Path(__file__).parent / "static"
@@ -41,8 +44,8 @@ def watch(
     graph: Any,
     *,
     host: str = "localhost",
-    port: int = 8764,
-    ws_port: int = 8765,
+    port: int = DEFAULT_HTTP_PORT,
+    ws_port: int = DEFAULT_WS_PORT,
     open_browser: bool = True,
     direction: Literal["TB", "LR"] = "TB",
     mode: Literal["auto", "manual"] = "auto",
@@ -73,6 +76,7 @@ def watch(
             ("theme", theme, "system"),
             ("inspect", inspect, "off"),
             ("direction", direction, "TB"),
+            ("ws_port", ws_port, DEFAULT_WS_PORT),
         )
         params = [f"{k}={v}" for k, v, default in defaults if v != default]
         query = ("?" + "&".join(params)) if params else ""

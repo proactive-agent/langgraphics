@@ -10,9 +10,7 @@ import type {RankDir} from "./layout";
 import "@xyflow/react/dist/style.css";
 import "./index.css";
 
-const WS_URL = "ws://localhost:8765";
-
-function parseParams(): {theme: ColorMode; direction: RankDir, mode: ViewMode, inspect: InspectorMode} {
+function parseParams(): {theme: ColorMode; direction: RankDir, mode: ViewMode, inspect: InspectorMode, ws_url: string} {
     const p = new URLSearchParams(window.location.search);
     const mode = p.get("mode") ?? "auto";
     const theme = p.get("theme") ?? "system";
@@ -23,14 +21,15 @@ function parseParams(): {theme: ColorMode; direction: RankDir, mode: ViewMode, i
         theme: (["system", "light", "dark"].includes(theme) ? theme : "system") as ColorMode,
         direction: (["TB", "LR"].includes(direction) ? direction : "TB") as RankDir,
         mode: (["auto", "manual"].includes(mode) ? mode : "auto") as ViewMode,
+        ws_url: "ws://localhost:" + (p.get("ws_port") ?? "8765"),
     };
 }
 
-const {theme, mode, inspect, direction} = parseParams();
+const {theme, mode, inspect, direction, ws_url} = parseParams();
 
 function Index() {
     const [rankDir, setRankDir] = useState<RankDir>(direction);
-    const {topology, events, nodeEntries} = useWebSocket(WS_URL);
+    const {topology, events, nodeEntries} = useWebSocket(ws_url);
     const [displayEvents, setDisplayEvents] = useState<ExecutionEvent[]>([]);
     const [displayNodeEntries, setDisplayNodeEntries] = useState<typeof nodeEntries>([]);
 
