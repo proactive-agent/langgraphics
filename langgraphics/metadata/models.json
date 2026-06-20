@@ -4213,12 +4213,12 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 131072,
-      "context": 131072
+      "output": 128000,
+      "context": 128000
     },
     "cost": {
-      "input": 0.02,
-      "output": 0.04,
+      "input": 0.15,
+      "output": 0.15,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -4374,12 +4374,12 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 256000,
-      "context": 256000
+      "output": 4000,
+      "context": 32000
     },
     "cost": {
-      "input": 0.15,
-      "output": 0.6,
+      "input": 0.1,
+      "output": 0.3,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -5444,9 +5444,9 @@
       "context": 1000000
     },
     "cost": {
-      "input": 1.4,
-      "output": 4.4,
-      "cache_read": 0.26,
+      "input": 1.5,
+      "output": 4.5,
+      "cache_read": 0.3,
       "cache_write": 0
     }
   },
@@ -7575,7 +7575,7 @@
       "context": 256000
     },
     "cost": {
-      "input": 0.03,
+      "input": 0.3,
       "output": 1.2,
       "cache_read": 0.06,
       "cache_write": 0
@@ -8990,13 +8990,13 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 81920,
+      "output": 262144,
       "context": 262144
     },
     "cost": {
       "input": 0.14,
       "output": 1,
-      "cache_read": 0.05,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -9594,6 +9594,22 @@
       "cache_write": 0
     }
   },
+  "kimi-k2.7-code": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.55,
+      "output": 2.25,
+      "cache_read": 0.05,
+      "cache_write": 0
+    }
+  },
   "wan2.7-image-pro": {
     "reasoning": false,
     "tool_call": false,
@@ -9719,22 +9735,6 @@
       "input": 1.15,
       "output": 8,
       "cache_read": 0.15,
-      "cache_write": 0
-    }
-  },
-  "kimi-k2.7-code": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 262144,
-      "context": 262144
-    },
-    "cost": {
-      "input": 0.55,
-      "output": 2.25,
-      "cache_read": 0.05,
       "cache_write": 0
     }
   },
@@ -13166,22 +13166,6 @@
       "cache_write": 0
     }
   },
-  "gemma-4-e4b-it": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 131072
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "gemini-embedding-001": {
     "reasoning": false,
     "tool_call": false,
@@ -13243,22 +13227,6 @@
       "input": 0.1,
       "output": 0.4,
       "cache_read": 0.025,
-      "cache_write": 0
-    }
-  },
-  "gemma-4-e2b-it": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 131072
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -15191,13 +15159,13 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 24000,
+      "output": 131072,
       "context": 1000000
     },
     "cost": {
-      "input": 1.75,
-      "output": 5.5,
-      "cache_read": 0.325,
+      "input": 1.4,
+      "output": 4.4,
+      "cache_read": 0.26,
       "cache_write": 0
     }
   },
@@ -18379,6 +18347,22 @@
       "input": 0.14,
       "output": 0.57,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "zai-org/glm-5.2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 131072
+    },
+    "cost": {
+      "input": 1.5,
+      "output": 4.5,
+      "cache_read": 0.3,
       "cache_write": 0
     }
   },
@@ -29332,13 +29316,13 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 262142,
-      "context": 262142
+      "output": 262144,
+      "context": 262144
     },
     "cost": {
-      "input": 0.68,
-      "output": 3.41,
-      "cache_read": 0.34,
+      "input": 0.67,
+      "output": 3.5,
+      "cache_read": 0.2,
       "cache_write": 0
     }
   },
@@ -32365,13 +32349,13 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 262144,
-      "context": 262144
+      "output": 131072,
+      "context": 1048576
     },
     "cost": {
-      "input": 1.4,
-      "output": 4.4,
-      "cache_read": 0.26,
+      "input": 1.2,
+      "output": 4.1,
+      "cache_read": 0.2,
       "cache_write": 0
     }
   },
@@ -33644,22 +33628,6 @@
       "input": 0.6,
       "output": 2.4,
       "cache_read": 0.12,
-      "cache_write": 0
-    }
-  },
-  "zai-org/glm-5.2": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 131072,
-      "context": 131072
-    },
-    "cost": {
-      "input": 1.5,
-      "output": 4.5,
-      "cache_read": 0.3,
       "cache_write": 0
     }
   },
