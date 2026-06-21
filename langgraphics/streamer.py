@@ -215,18 +215,20 @@ class Viewport:
                 )
         self.generation[target] = self.generation.get(target, -1) + 1
 
-    async def _emit_error(self, last_node: str) -> None:
+    async def _emit_error(self, source: str) -> None:
+        target, edge_id = source, None
         for (src, tgt), eid in self.edge_lookup.items():
-            if src == last_node and tgt == self.node_current:
-                await self.broadcast(
-                    {
-                        "type": "error",
-                        "edge_id": eid,
-                        "source": last_node,
-                        "target": self.node_current,
-                    }
-                )
+            if src == source:
+                target, edge_id = tgt, eid
                 break
+        await self.broadcast(
+            {
+                "type": "error",
+                "source": source,
+                "target": target,
+                "edge_id": edge_id,
+            }
+        )
 
     def _make_config(self, config: Any) -> dict[str, Any]:
         tracer = BroadcastingTracer(self)
