@@ -3877,7 +3877,7 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 0,
+      "output": 32768,
       "context": 262144
     },
     "cost": {
@@ -9789,16 +9789,16 @@
   "accounts/fireworks/routers/kimi-k2p6-turbo": {
     "reasoning": true,
     "tool_call": true,
-    "attachment": false,
+    "attachment": true,
     "temperature": true,
     "limit": {
       "output": 262000,
       "context": 262000
     },
     "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
+      "input": 2,
+      "output": 8,
+      "cache_read": 0.3,
       "cache_write": 0
     }
   },
@@ -11504,22 +11504,6 @@
       "output": 28.198,
       "cache_read": 0.563,
       "cache_write": 7.049
-    }
-  },
-  "devstral-small-2512": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 262000,
-      "context": 262000
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
     }
   },
   "qwen-2.5-72b-instruct": {
@@ -15463,7 +15447,7 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": true,
-    "temperature": false,
+    "temperature": true,
     "limit": {
       "output": 32768,
       "context": 256000
@@ -29316,13 +29300,13 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 262144,
-      "context": 262144
+      "output": 262142,
+      "context": 262142
     },
     "cost": {
-      "input": 0.67,
+      "input": 0.66,
       "output": 3.5,
-      "cache_read": 0.2,
+      "cache_read": 0.33,
       "cache_write": 0
     }
   },
@@ -43051,6 +43035,22 @@
       "input": 0.5,
       "output": 2,
       "cache_read": 0.15,
+      "cache_write": 0
+    }
+  },
+  "claudius": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 64000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 3,
+      "output": 8,
+      "cache_read": 0.9,
       "cache_write": 0
     }
   }
