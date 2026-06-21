@@ -5,8 +5,7 @@ from functools import partial
 from http.server import SimpleHTTPRequestHandler
 from pathlib import Path
 from socketserver import TCPServer
-from typing import Any, Literal
-
+from typing import Literal, TypeVar, cast
 from websockets.asyncio.server import serve
 
 from .broadcaster import Broadcaster
@@ -14,6 +13,7 @@ from .streamer import Viewport
 from .topology import extract
 from .upstream import sync
 
+ANY_GRAPH = TypeVar("ANY_GRAPH")
 DEFAULT_HTTP_PORT = 8764
 DEFAULT_WS_PORT = 8765
 
@@ -41,7 +41,7 @@ def start_ws_server(manager: Broadcaster, host: str, port: int) -> None:
 
 
 def watch(
-    graph: Any,
+    graph: ANY_GRAPH,
     *,
     host: str = "localhost",
     port: int = DEFAULT_HTTP_PORT,
@@ -51,7 +51,7 @@ def watch(
     mode: Literal["auto", "manual"] = "auto",
     inspect: Literal["off", "tree", "full"] = "off",
     theme: Literal["system", "dark", "light"] = "system",
-) -> Viewport:
+) -> ANY_GRAPH:
     sync()
     topology = extract(graph)
     manager = Broadcaster(topology)
@@ -82,4 +82,4 @@ def watch(
         query = ("?" + "&".join(params)) if params else ""
         webbrowser.open(f"http://{host}:{port}{query}")
 
-    return Viewport(graph, manager, edge_lookup, http_server)
+    return cast(ANY_GRAPH, Viewport(graph, manager, edge_lookup, http_server))
