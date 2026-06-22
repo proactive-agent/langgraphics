@@ -35,11 +35,23 @@ export function computeStatuses(events: ExecutionEvent[], subgraphContainers: Se
                     edgeStatuses.set(id, "traversed");
                 }
             }
-            edgeStatuses.set(event.edge_id, "active");
+            const colonIdx = event.target.lastIndexOf(":");
+            const parentId = colonIdx > -1 ? event.target.slice(0, colonIdx) : undefined;
+            const parentCompleted = parentId !== undefined && nodeStatuses.get(parentId) === "completed";
+            edgeStatuses.set(event.edge_id, parentCompleted ? "traversed" : "active");
             if (nodeStatuses.get(event.target) !== "error") {
-                nodeStatuses.set(event.target, "active");
-                if (subgraphContainers.has(event.target)) {
+                nodeStatuses.set(event.target, parentCompleted ? "completed" : "active");
+                if (!parentCompleted && subgraphContainers.has(event.target)) {
                     nodeStatuses.set(`${event.target}:__start__`, "active");
+                }
+            }
+        } else if (event.type === "node_output" && event.status === "ok") {
+            if (nodeStatuses.get(event.node_id) === "active") {
+                nodeStatuses.set(event.node_id, "completed");
+                for (const [id, info] of edgeInfo) {
+                    if (info.target === event.node_id && edgeStatuses.get(id) === "active") {
+                        edgeStatuses.set(id, "traversed");
+                    }
                 }
             }
         } else if (event.type === "error") {

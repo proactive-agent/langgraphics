@@ -58,16 +58,21 @@ function Index() {
         let parentIndex = 0;
 
         const batches: ExecutionEvent[][] = [];
+        const pending: ExecutionEvent[] = [];
         for (const event of events) {
+            if (event.type === "node_output") { pending.push(event); continue; }
+            if (event.type === "run_start") pending.length = 0;
             const last = batches[batches.length - 1];
             const prev = last?.[last.length - 1];
             if (last &&
                 prev?.type === "edge_active" &&
                 event.type === "edge_active" &&
                 ((event as any).source === (prev as any).source ||
-                 (event as any).target === (prev as any).target)) last.push(event);
-            else batches.push([event]);
+                 (event as any).target === (prev as any).target)) last.push(...pending, event);
+            else batches.push([...pending, event]);
+            pending.length = 0;
         }
+        if (pending.length > 0 && batches.length > 0) batches[batches.length - 1].push(...pending);
 
         for (const batch of batches) {
             for (const event of batch) {

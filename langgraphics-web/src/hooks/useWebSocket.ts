@@ -51,6 +51,9 @@ export function useWebSocket(url: string) {
                     } else if (msg.type === "node_output") {
                         const {type: _, ...entry} = msg;
                         setNodeEntries((prev) => [...prev, entry]);
+                        if (msg.status === "ok" && !msg.parent_run_id) {
+                            setEvents((prev) => [...prev, msg]);
+                        }
                     } else {
                         if (msg.type === "run_end" || msg.type === "error") runDone = true;
                         setEvents((prev) => [...prev, msg as ExecutionEvent]);

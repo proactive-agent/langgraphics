@@ -87,6 +87,7 @@ class BroadcastingTracer(AsyncBaseTracer):
                 self.run_map.get(str(run.parent_run_id)) if run.parent_run_id else None
             )
             if parent is None or parent.name not in self.viewport.node_names:
+                self.viewport.completed_nodes.add(run.name)
                 state = self.states.get(run.name)
                 await self.viewport.broadcast(
                     {
@@ -178,6 +179,7 @@ class Viewport:
             n for pair in edge_lookup for n in pair
             if ":" not in n and n not in {"__start__", "__end__"}
         }
+        self.completed_nodes: set[str] = set()
         self.linked: set[tuple[str, int, str]] = set()
 
     def __getattr__(self, name: str) -> Any:
@@ -215,20 +217,29 @@ class Viewport:
                 )
         self.generation[target] = self.generation.get(target, -1) + 1
 
-    async def _emit_error(self, source: str) -> None:
-        target, edge_id = source, None
+    async def _emit_error(self, last_node: str) -> None:
+        for target in {tgt for src, gen, tgt in self.linked if all([
+            tgt in self.node_names, tgt not in self.completed_nodes,
+        ])}:
+            for source in self.predecessors.get(target, set()):
+                if any(k[0] == source and k[2] == target for k in self.linked):
+                    if eid := self.edge_lookup.get((source, target)):
+                        await self.broadcast({
+                            "type": "error",
+                            "edge_id": eid,
+                            "source": source,
+                            "target": target,
+                        })
+                        return
         for (src, tgt), eid in self.edge_lookup.items():
-            if src == source:
-                target, edge_id = tgt, eid
+            if src == last_node:
+                await self.broadcast({
+                    "type": "error",
+                    "edge_id": eid,
+                    "source": last_node,
+                    "target": tgt,
+                })
                 break
-        await self.broadcast(
-            {
-                "type": "error",
-                "source": source,
-                "target": target,
-                "edge_id": edge_id,
-            }
-        )
 
     def _make_config(self, config: Any) -> dict[str, Any]:
         tracer = BroadcastingTracer(self)
