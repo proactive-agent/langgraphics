@@ -5658,22 +5658,6 @@
       "cache_write": 0
     }
   },
-  "bytedance/seedance-v1.0-lite-t2v": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 0,
-      "context": 0
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "bytedance/seedance-v1.0-pro-fast": {
     "reasoning": false,
     "tool_call": false,
@@ -5735,22 +5719,6 @@
       "input": 0.25,
       "output": 2,
       "cache_read": 0.05,
-      "cache_write": 0
-    }
-  },
-  "bytedance/seedance-v1.0-lite-i2v": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 0,
-      "context": 0
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -15865,6 +15833,22 @@
       "cache_write": 0
     }
   },
+  "z-ai/glm-5.2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 1,
+      "output": 4,
+      "cache_read": 0.18,
+      "cache_write": 0
+    }
+  },
   "z-ai/glm-4.6v-flash-free": {
     "reasoning": true,
     "tool_call": true,
@@ -15889,6 +15873,22 @@
     "limit": {
       "output": 64000,
       "context": 200000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "z-ai/glm-5.2-free": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1000000
     },
     "cost": {
       "input": 0,
@@ -29300,8 +29300,8 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 262142,
-      "context": 262142
+      "output": 65535,
+      "context": 262144
     },
     "cost": {
       "input": 0.66,
@@ -32327,22 +32327,6 @@
       "cache_write": 0
     }
   },
-  "z-ai/glm-5.2": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 131072,
-      "context": 1048576
-    },
-    "cost": {
-      "input": 1.2,
-      "output": 4.1,
-      "cache_read": 0.2,
-      "cache_write": 0
-    }
-  },
   "openai/gpt-oss-120b:free": {
     "reasoning": true,
     "tool_call": true,
@@ -32503,13 +32487,29 @@
       "cache_write": 0
     }
   },
+  "nex-agi/nex-n2-pro": {
+    "reasoning": true,
+    "tool_call": false,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.5,
+      "output": 2.5,
+      "cache_read": 0.25,
+      "cache_write": 0
+    }
+  },
   "nex-agi/nex-n2-pro:free": {
     "reasoning": true,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 262144,
+      "output": 256000,
       "context": 262144
     },
     "cost": {
