@@ -1,13 +1,20 @@
+import sys
+
+import pytest
+
 from examples import (
     basic_agent,
-    deep_agent,
     error_agent,
     react_agent,
-    sub1_agent,
     sub2_agent,
     sync_agent,
 )
 from langgraphics.topology import extract
+
+if sys.version_info >= (3, 11):
+    from examples import deep_agent, sub1_agent
+
+requires_deepagents = pytest.mark.skipif(sys.version_info < (3, 11), reason="deepagents requires py311+")
 
 
 def test_linear_graph_nodes(simple_graph):
@@ -238,12 +245,14 @@ _DEEP_NODES = {
 }
 
 
+@requires_deepagents
 def test_deep_agent_node_names():
     topo = extract(deep_agent.graph)
     assert topo["type"] == "graph"
     assert {n["name"] for n in topo["nodes"]} == _DEEP_NODES
 
 
+@requires_deepagents
 def test_deep_agent_node_types():
     topo = extract(deep_agent.graph)
     types = {n["name"]: n["node_type"] for n in topo["nodes"]}
@@ -253,6 +262,7 @@ def test_deep_agent_node_types():
         assert types[node] == "node"
 
 
+@requires_deepagents
 def test_deep_agent_entry_edge():
     topo = extract(deep_agent.graph)
     edges = {(e["source"], e["target"]): e["conditional"] for e in topo["edges"]}
@@ -261,6 +271,7 @@ def test_deep_agent_entry_edge():
     assert edges[("model", "TodoListMiddleware.after_model")] is False
 
 
+@requires_deepagents
 def test_deep_agent_after_model_has_three_conditional_edges():
     topo = extract(deep_agent.graph)
     outgoing = [e for e in topo["edges"] if e["source"] == "TodoListMiddleware.after_model"]
@@ -269,11 +280,13 @@ def test_deep_agent_after_model_has_three_conditional_edges():
     assert {e["target"] for e in outgoing} == {"model", "tools", "__end__"}
 
 
+@requires_deepagents
 def test_deep_agent_edge_count():
     topo = extract(deep_agent.graph)
     assert len(topo["edges"]) == 7
 
 
+@requires_deepagents
 def test_sub1_agent_node_names():
     topo = extract(sub1_agent.graph)
     assert topo["type"] == "graph"
@@ -282,6 +295,7 @@ def test_sub1_agent_node_names():
     }
 
 
+@requires_deepagents
 def test_sub1_agent_subgraph_node_types():
     topo = extract(sub1_agent.graph)
     types = {n["name"]: n["node_type"] for n in topo["nodes"]}
@@ -293,6 +307,7 @@ def test_sub1_agent_subgraph_node_types():
     assert types["deep_agent"] == "subgraph"
 
 
+@requires_deepagents
 def test_sub1_agent_parallel_branches_from_router():
     topo = extract(sub1_agent.graph)
     edges = {(e["source"], e["target"]): e["conditional"] for e in topo["edges"]}
@@ -300,6 +315,7 @@ def test_sub1_agent_parallel_branches_from_router():
     assert edges[("router", "deep_agent")] is False
 
 
+@requires_deepagents
 def test_sub1_agent_fan_in_to_summarizer():
     topo = extract(sub1_agent.graph)
     edges = {(e["source"], e["target"]): e["conditional"] for e in topo["edges"]}
@@ -308,6 +324,7 @@ def test_sub1_agent_fan_in_to_summarizer():
     assert edges[("summarizer", "__end__")] is False
 
 
+@requires_deepagents
 def test_sub1_agent_error_subgraph_structure():
     topo = extract(sub1_agent.graph)
     error_node = next(n for n in topo["nodes"] if n["name"] == "error")
@@ -315,6 +332,7 @@ def test_sub1_agent_error_subgraph_structure():
     assert {"plan", "select_tool", "call_tool", "reflect", "check_progress"} <= sub_names
 
 
+@requires_deepagents
 def test_sub1_agent_deep_subgraph_structure():
     topo = extract(sub1_agent.graph)
     da_node = next(n for n in topo["nodes"] if n["name"] == "deep_agent")
@@ -323,6 +341,7 @@ def test_sub1_agent_deep_subgraph_structure():
             "PatchToolCallsMiddleware.before_agent"} <= sub_names
 
 
+@requires_deepagents
 def test_sub1_agent_edge_count():
     topo = extract(sub1_agent.graph)
     assert len(topo["edges"]) == 6
