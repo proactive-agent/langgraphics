@@ -11,7 +11,7 @@ orchestration frameworks such as LangGraph and DeepAgents. It's especially usefu
 graphs with many nodes, branching conditions, and cycles are hard to reason about from the logs alone.
 
 <p align="center">
-  <img alt="Demo" src="https://github.com/user-attachments/assets/1db519fb-0dd9-4fee-8bc8-f6b12cbf1342" width="800px">
+  <img alt="Workflow Visualization Demo" src="https://github.com/user-attachments/assets/1db519fb-0dd9-4fee-8bc8-f6b12cbf1342" width="800px">
 </p>
 
 ## Why it helps
@@ -19,6 +19,10 @@ graphs with many nodes, branching conditions, and cycles are hard to reason abou
 Seeing the execution path visually makes it immediately obvious which branches were taken, where loops occurred, and
 where the agent got stuck or failed. It also helps when onboarding to an unfamiliar graph - a single run tells you more
 about the workflow than reading the graph definition ever could.
+
+<p align="center">
+  <img alt="Full Window Demo" src="https://github.com/user-attachments/assets/32d63519-9622-4908-b0fd-67d0119cd3eb" width="800px">
+</p>
 
 ## How to use
 
