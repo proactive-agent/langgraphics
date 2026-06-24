@@ -27,8 +27,8 @@ jobs:
       - name: Build frontend
         working-directory: langgraphics-web
         run: |
-          yarn install
-          yarn build
+          npm install
+          npm run build
 
       - name: Build package
         run: uv build
