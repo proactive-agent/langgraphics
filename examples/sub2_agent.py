@@ -49,7 +49,7 @@ def route_after_respond(state: State) -> Literal["tools", "__end__"]:
 
 def example_node(state: State) -> dict:
     time.sleep(2)
-    return
+    return {}
 
 
 def create_sub_subgraph():
