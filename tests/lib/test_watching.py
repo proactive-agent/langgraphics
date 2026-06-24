@@ -1,5 +1,7 @@
 import pytest
+from langchain_core.messages import HumanMessage, SystemMessage
 
+from examples import basic_agent, error_agent, sync_agent
 from langgraphics import watch
 from langgraphics.topology import extract
 from tests.lib.conftest import find_free_port, safe_ainvoke, ws_collect
@@ -110,3 +112,133 @@ async def test_all_edge_ids_exist_in_topology(simple_graph):
         assert event["edge_id"] in valid_edge_ids, (
             f"edge_id '{event['edge_id']}' not found in topology edges {valid_edge_ids}"
         )
+
+
+async def test_basic_agent_edge_sequence():
+    ws_port = find_free_port()
+    viewport = watch(
+        basic_agent.graph, port=find_free_port(), ws_port=ws_port, open_browser=False
+    )
+
+    async with ws_collect(ws_port, timeout=30.0) as (messages, done):
+        await safe_ainvoke(
+            viewport, {"messages": [HumanMessage(content="What is the meaning of life?")]}
+        )
+
+    assert messages[0]["type"] == "graph"
+    assert messages[1]["type"] == "run_start"
+    assert messages[-1]["type"] == "run_end"
+
+    edge_events = [m for m in messages if m["type"] == "edge_active"]
+    path = [(e["source"], e["target"]) for e in edge_events]
+
+    assert path == [
+        ("__start__", "summariser_runner"),
+        ("summariser_runner", "responder"),
+        ("responder", "tools"),
+        ("tools", "responder"),
+        ("responder", "__end__"),
+    ]
+
+
+async def test_basic_agent_edge_ids_match_topology():
+    ws_port = find_free_port()
+    viewport = watch(
+        basic_agent.graph, port=find_free_port(), ws_port=ws_port, open_browser=False
+    )
+
+    async with ws_collect(ws_port, timeout=30.0) as (messages, done):
+        await safe_ainvoke(
+            viewport, {"messages": [HumanMessage(content="What is the meaning of life?")]}
+        )
+
+    valid_ids = {e["id"] for e in messages[0]["edges"]}
+    for event in (m for m in messages if m["type"] == "edge_active"):
+        assert event["edge_id"] in valid_ids
+
+
+async def test_sync_agent_all_edges_fire():
+    ws_port = find_free_port()
+    viewport = watch(
+        sync_agent.graph, port=find_free_port(), ws_port=ws_port, open_browser=False
+    )
+
+    async with ws_collect(ws_port, timeout=20.0) as (messages, done):
+        await safe_ainvoke(
+            viewport, {"messages": [HumanMessage(content="Run sync analysis.")]}
+        )
+
+    assert messages[0]["type"] == "graph"
+    assert messages[1]["type"] == "run_start"
+    assert messages[-1]["type"] == "run_end"
+
+    edge_events = [m for m in messages if m["type"] == "edge_active"]
+    assert len(edge_events) == 8
+
+    pairs = [(e["source"], e["target"]) for e in edge_events]
+
+    assert pairs[0] == ("__start__", "initial")
+
+    assert set(pairs[1:4]) == {
+        ("initial", "sync_a"), ("initial", "sync_b"), ("initial", "sync_c")
+    }
+
+    assert set(pairs[4:7]) == {
+        ("sync_a", "final"), ("sync_b", "final"), ("sync_c", "final")
+    }
+
+    assert pairs[7] == ("final", "__end__")
+
+
+async def test_error_agent_emits_error_event():
+    ws_port = find_free_port()
+    viewport = watch(
+        error_agent.graph, port=find_free_port(), ws_port=ws_port, open_browser=False
+    )
+
+    async with ws_collect(ws_port, timeout=30.0) as (messages, done):
+        with pytest.raises(Exception):
+            await viewport.ainvoke({
+                "messages": [
+                    SystemMessage(content="You are a helpful research assistant."),
+                    HumanMessage(content="demo request"),
+                ]
+            })
+
+    assert messages[0]["type"] == "graph"
+    assert messages[1]["type"] == "run_start"
+    assert any(m["type"] == "error" for m in messages)
+
+    error_msg = next(m for m in messages if m["type"] == "error")
+    assert error_msg["source"] == "check_progress"
+    assert error_msg["target"] == "reflect"
+
+
+async def test_error_agent_edge_sequence_before_error():
+    ws_port = find_free_port()
+    viewport = watch(
+        error_agent.graph, port=find_free_port(), ws_port=ws_port, open_browser=False
+    )
+
+    async with ws_collect(ws_port, timeout=30.0) as (messages, done):
+        with pytest.raises(Exception):
+            await viewport.ainvoke({
+                "messages": [
+                    SystemMessage(content="You are a helpful research assistant."),
+                    HumanMessage(content="demo request"),
+                ]
+            })
+
+    edge_events = [m for m in messages if m["type"] == "edge_active"]
+    assert len(edge_events) == 8
+    pairs = [(e["source"], e["target"]) for e in edge_events]
+    assert pairs == [
+        ("__start__", "plan"),
+        ("plan", "select_tool"),
+        ("select_tool", "call_tool"),
+        ("call_tool", "check_progress"),
+        ("check_progress", "select_tool"),
+        ("select_tool", "call_tool"),
+        ("call_tool", "check_progress"),
+        ("check_progress", "reflect"),
+    ]
