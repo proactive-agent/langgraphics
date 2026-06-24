@@ -1,0 +1,122 @@
+import asyncio
+import time
+from typing import Literal
+
+from langchain_core.messages import AIMessage, HumanMessage, ToolCall
+from langgraph.graph import END, START, StateGraph
+from langgraph.prebuilt import ToolNode
+
+from __common__ import knowledge_base, State, FakeMessageChatModel
+from langgraphics import watch
+
+llm = FakeMessageChatModel(messages=[
+    AIMessage(
+        content="",
+        tool_calls=[
+            ToolCall(
+                name="knowledge_base",
+                args={"query": "meaning of life"},
+                id="call-kb-1"
+            )
+        ],
+    ),
+    AIMessage(
+        content="Based on the knowledge base, the answer to life is 42."
+    )
+])
+
+
+def summariser_runner(state: State) -> dict:
+    time.sleep(2)
+    return {
+        "messages": [
+            AIMessage(content="[summary] the user asked about life and got the answer 42.")
+        ]
+    }
+
+
+def responder(state: State) -> dict:
+    time.sleep(2)
+    return {"messages": [llm.invoke(state["messages"])]}
+
+
+def route_after_respond(state: State) -> Literal["tools", "__end__"]:
+    last = state["messages"][-1]
+    if getattr(last, "tool_calls", None):
+        return "tools"
+    return "__end__"
+
+
+def example_node(state: State) -> dict:
+    time.sleep(2)
+    return {}
+
+
+def create_sub_subgraph():
+    builder = StateGraph(State)
+    builder.add_node("node1", example_node)
+    builder.add_node("node2", example_node)
+    builder.add_node("node3", example_node)
+    builder.add_edge(START, "node1")
+    builder.add_edge("node1", "node2")
+    builder.add_edge("node2", "node3")
+    builder.add_edge("node3", END)
+    return builder.compile()
+
+
+def create_sub_subgraph_b():
+    builder = StateGraph(State)
+    builder.add_node("node1", example_node)
+    builder.add_node("node2", example_node)
+    builder.add_edge(START, "node1")
+    builder.add_edge("node1", "node2")
+    builder.add_edge("node2", END)
+    return builder.compile()
+
+
+def create_subgraph():
+    builder = StateGraph(State)
+    builder.add_node("node1", example_node)
+    builder.add_node("node2a", create_sub_subgraph())
+    builder.add_node("node2b", create_sub_subgraph_b())
+    builder.add_node("node3", example_node)
+    builder.add_edge(START, "node1")
+    builder.add_edge("node1", "node2a")
+    builder.add_edge("node1", "node2b")
+    builder.add_edge("node2a", "node3")
+    builder.add_edge("node2b", "node3")
+    builder.add_edge("node3", END)
+    return builder.compile()
+
+
+builder = StateGraph(State)
+
+builder.add_node("subgraph", create_subgraph())
+builder.add_node("summariser_runner", summariser_runner)
+builder.add_node("responder", responder)
+builder.add_node("tools", ToolNode([knowledge_base]))
+
+builder.add_edge(START, "summariser_runner")
+builder.add_edge("summariser_runner", "subgraph")
+builder.add_edge("subgraph", "responder")
+
+builder.add_conditional_edges(
+    "responder",
+    route_after_respond,
+    {"tools": "tools", "__end__": END},
+)
+
+builder.add_edge("tools", "responder")
+
+graph = builder.compile()
+
+
+async def main() -> None:
+    agent = watch(graph, open_browser=False)
+    await agent.ainvoke({
+        "messages": [HumanMessage(content="What is the meaning of life?")]
+    })
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

@@ -5,14 +5,17 @@ from functools import partial
 from http.server import SimpleHTTPRequestHandler
 from pathlib import Path
 from socketserver import TCPServer
-from typing import Any, Literal
-
+from typing import Literal, TypeVar, cast
 from websockets.asyncio.server import serve
 
 from .broadcaster import Broadcaster
 from .streamer import Viewport
 from .topology import extract
 from .upstream import sync
+
+ANY_GRAPH = TypeVar("ANY_GRAPH")
+DEFAULT_HTTP_PORT = 8764
+DEFAULT_WS_PORT = 8765
 
 
 def start_http_server(host: str, port: int) -> TCPServer:
@@ -38,21 +41,31 @@ def start_ws_server(manager: Broadcaster, host: str, port: int) -> None:
 
 
 def watch(
-    graph: Any,
+    graph: ANY_GRAPH,
     *,
     host: str = "localhost",
-    port: int = 8764,
-    ws_port: int = 8765,
+    port: int = DEFAULT_HTTP_PORT,
+    ws_port: int = DEFAULT_WS_PORT,
     open_browser: bool = True,
     direction: Literal["TB", "LR"] = "TB",
     mode: Literal["auto", "manual"] = "auto",
     inspect: Literal["off", "tree", "full"] = "off",
     theme: Literal["system", "dark", "light"] = "system",
-) -> Viewport:
+) -> ANY_GRAPH:
     sync()
     topology = extract(graph)
     manager = Broadcaster(topology)
+
+    def collect_subgraph_edges(nodes: list, prefix: str) -> None:
+        for node in nodes:
+            if node.get("node_type") == "subgraph" and node.get("subgraph"):
+                pid = f"{prefix}:{node['id']}" if prefix else node["id"]
+                for e in node["subgraph"]["edges"]:
+                    edge_lookup[(f"{pid}:{e['source']}", f"{pid}:{e['target']}")] = f"{pid}:{e['id']}"
+                collect_subgraph_edges(node["subgraph"]["nodes"], pid)
+
     edge_lookup = {(e["source"], e["target"]): e["id"] for e in topology["edges"]}
+    collect_subgraph_edges(topology["nodes"], "")
 
     http_server = start_http_server(host, port)
     start_ws_server(manager, host, ws_port)
@@ -63,9 +76,10 @@ def watch(
             ("theme", theme, "system"),
             ("inspect", inspect, "off"),
             ("direction", direction, "TB"),
+            ("ws_port", ws_port, DEFAULT_WS_PORT),
         )
         params = [f"{k}={v}" for k, v, default in defaults if v != default]
         query = ("?" + "&".join(params)) if params else ""
         webbrowser.open(f"http://{host}:{port}{query}")
 
-    return Viewport(graph, manager, edge_lookup, http_server)
+    return cast(ANY_GRAPH, Viewport(graph, manager, edge_lookup, http_server))

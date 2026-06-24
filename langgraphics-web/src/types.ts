@@ -25,7 +25,7 @@ export interface NodeData extends Record<string, unknown> {
     label: string;
     status: NodeStatus;
     handles: NodeHandle[];
-    nodeType: "start" | "end" | "node";
+    nodeType: "start" | "end" | "node" | "subgraph";
 }
 
 export interface EdgeData extends Record<string, unknown> {
@@ -34,10 +34,16 @@ export interface EdgeData extends Record<string, unknown> {
     status: EdgeStatus;
 }
 
+export interface SubgraphTopology {
+    nodes: ProtocolNode[];
+    edges: ProtocolEdge[];
+}
+
 export interface ProtocolNode {
     id: string;
     name: string;
-    node_type: "start" | "end" | "node";
+    node_type: "start" | "end" | "node" | "subgraph";
+    subgraph?: SubgraphTopology;
 }
 
 export interface ProtocolEdge {

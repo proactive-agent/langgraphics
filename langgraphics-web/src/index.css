@@ -16,6 +16,7 @@ html, body, #root {
     --xy-background-color-default: #ffffff;
     --xy-node-border-default: 1px solid #c8c8c8;
     --xy-node-tag-background: #C8C8C81A;
+    --xy-parent-border-color: #c8c8c8;
     --xy-node-border-color: #C8C8C880;
     --xy-node-tag-color: #3c3c3ccc;
 }
@@ -31,6 +32,7 @@ html, body, #root {
     --xy-node-color-default: #c8c8c8;
     --xy-node-border-default: 1px solid #3c3c3c;
     --xy-node-tag-background: #3C3C3C1A;
+    --xy-parent-border-color: #3c3c3c;
     --xy-node-border-color: #3C3C3C80;
     --xy-node-tag-color: #c8c8c8cc;
 }
@@ -430,4 +432,57 @@ html, body, #root {
 
 .inspect-wrapper-tree .inspect-tree-pane {
     border-right: none;
+}
+
+.react-flow__node .subgraph-group {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background: var(--xy-node-tag-background);
+    border: 1px dashed var(--xy-parent-border-color);
+}
+
+.subgraph-group-label {
+    top: 14px;
+    left: 18px;
+    opacity: 0.85;
+    font-size: 18px;
+    font-weight: 600;
+    position: absolute;
+    pointer-events: none;
+    color: var(--xy-node-color-default);
+}
+
+.react-flow__node.error .subgraph-group {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.04);
+}
+
+.react-flow__node.active .subgraph-group {
+    border-color: #22c55e;
+    background: rgba(34, 197, 94, 0.04);
+}
+
+.react-flow__node.completed .subgraph-group {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.04);
+}
+
+.react-flow__node.error .subgraph-group-label {
+    color: #ef4444;
+}
+
+.react-flow__node.active .subgraph-group-label {
+    color: #22c55e;
+}
+
+.react-flow__node.completed .subgraph-group-label {
+    color: #3b82f6;
+}
+
+.react-flow__node.completed .subgraph-group,
+.react-flow__nodes .react-flow__node:first-child .subgraph-group {
+    border-color: #3b82f6;
 }

@@ -82,21 +82,25 @@ export function useFocus({nodes, edges, activeNodeIds, rankDir = "TB", initialMo
 
         if (mode !== "auto") return;
 
-        const focusKey = [...activeNodeIds].sort().join(",");
-        if (activeNodeIds.length > 0 && focusKey !== prevFocusKey.current) {
-            prevFocusKey.current = focusKey;
+        const containerIds = new Set(nodes.map(n => n.parentId).filter(Boolean));
 
-            const activeNodes = nodes.filter(
-                (n) => activeNodeIds.includes(n.id) && n.data.nodeType === "node",
-            );
-            if (activeNodes.length > 0) {
-                const neighbours = activeNodes.flatMap((n) =>
-                    getNeighbourIds(n.id, nodes, edges, isHorizontal),
-                );
-                fitView({
-                    nodes: [...activeNodes.map((n) => ({id: n.id})), ...neighbours],
-                    duration: FIT_VIEW_DURATION,
-                }).then();
+        const activeContainers = nodes.filter((n) => n.className === "active" && containerIds.has(n.id));
+
+        let focusKey: string;
+
+        if (activeContainers.length > 0) {
+            const maxDepth = Math.max(...activeContainers.map(n => (n.id.match(/:/g) ?? []).length));
+            const deepest = activeContainers.filter(n => (n.id.match(/:/g) ?? []).length === maxDepth);
+            focusKey = `c:${deepest.map(n => n.id).sort().join(",")}`;
+            if (focusKey !== prevFocusKey.current) {
+                prevFocusKey.current = focusKey;
+                fitView({nodes: deepest.map(n => ({id: n.id})), padding: 0.15, duration: FIT_VIEW_DURATION}).then();
+            }
+        } else {
+            focusKey = [...activeNodeIds].sort().join(",");
+            if (activeNodeIds.length > 0 && focusKey !== prevFocusKey.current) {
+                prevFocusKey.current = focusKey;
+                fitContent().then();
             }
         }
     }, [nodes, edges, activeNodeIds, fitView, mode, isHorizontal]);

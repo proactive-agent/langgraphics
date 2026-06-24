@@ -10,9 +10,7 @@ import type {RankDir} from "./layout";
 import "@xyflow/react/dist/style.css";
 import "./index.css";
 
-const WS_URL = "ws://localhost:8765";
-
-function parseParams(): {theme: ColorMode; direction: RankDir, mode: ViewMode, inspect: InspectorMode} {
+function parseParams(): {theme: ColorMode; direction: RankDir, mode: ViewMode, inspect: InspectorMode, ws_url: string} {
     const p = new URLSearchParams(window.location.search);
     const mode = p.get("mode") ?? "auto";
     const theme = p.get("theme") ?? "system";
@@ -23,14 +21,15 @@ function parseParams(): {theme: ColorMode; direction: RankDir, mode: ViewMode, i
         theme: (["system", "light", "dark"].includes(theme) ? theme : "system") as ColorMode,
         direction: (["TB", "LR"].includes(direction) ? direction : "TB") as RankDir,
         mode: (["auto", "manual"].includes(mode) ? mode : "auto") as ViewMode,
+        ws_url: "ws://localhost:" + (p.get("ws_port") ?? "8765"),
     };
 }
 
-const {theme, mode, inspect, direction} = parseParams();
+const {theme, mode, inspect, direction, ws_url} = parseParams();
 
 function Index() {
     const [rankDir, setRankDir] = useState<RankDir>(direction);
-    const {topology, events, nodeEntries} = useWebSocket(WS_URL);
+    const {topology, events, nodeEntries} = useWebSocket(ws_url);
     const [displayEvents, setDisplayEvents] = useState<ExecutionEvent[]>([]);
     const [displayNodeEntries, setDisplayNodeEntries] = useState<typeof nodeEntries>([]);
 
@@ -57,14 +56,35 @@ function Index() {
         setDisplayEvents([]);
         setDisplayNodeEntries([]);
         let parentIndex = 0;
+
+        const batches: ExecutionEvent[][] = [];
+        const pending: ExecutionEvent[] = [];
         for (const event of events) {
-            parentIndex = Math.max(parentIndex, nodeEntries.findIndex(
-                ({node_id}) => node_id === (event as any).source
-            ));
-            setDisplayEvents(prev => [...prev!, event]);
-            setDisplayNodeEntries(nodeEntries.slice(0, parentIndex + 1));
-            await new Promise<void>(r => setTimeout(r, 1000));
+            if (event.type === "node_output") { pending.push(event); continue; }
+            if (event.type === "run_start") pending.length = 0;
+            const last = batches[batches.length - 1];
+            const prev = last?.[last.length - 1];
+            if (last &&
+                prev?.type === "edge_active" &&
+                event.type === "edge_active" &&
+                ((event as any).source === (prev as any).source ||
+                 (event as any).target === (prev as any).target)) last.push(...pending, event);
+            else batches.push([...pending, event]);
+            pending.length = 0;
         }
+        if (pending.length > 0 && batches.length > 0) batches[batches.length - 1].push(...pending);
+
+        for (const batch of batches) {
+            for (const event of batch) {
+                parentIndex = Math.max(parentIndex, nodeEntries.findIndex(
+                    ({node_id}) => node_id === (event as any).source
+                ));
+            }
+            setDisplayEvents(prev => [...prev, ...batch]);
+            setDisplayNodeEntries(nodeEntries.slice(0, parentIndex + 1));
+            await new Promise<void>(r => setTimeout(r, 1500));
+        }
+
         setDisplayEvents([]);
         setDisplayNodeEntries([]);
     }, [events, nodeEntries]);

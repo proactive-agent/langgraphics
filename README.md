@@ -6,12 +6,12 @@
   </picture>
 </p>
 
-**LangGraphics** is a live visualization tool for [LangGraph](https://github.com/langchain-ai/langgraph) agents. It's
-especially useful when working with large networks: graphs with many nodes, branching conditions, and cycles are hard to
-reason about from the logs alone.
+**LangGraphics** is a live visualization tool for [LangGraph](https://github.com/langchain-ai/langgraph)-based agent
+orchestration frameworks such as LangGraph and DeepAgents. It's especially useful when working with large networks:
+graphs with many nodes, branching conditions, and cycles are hard to reason about from the logs alone.
 
 <p align="center">
-  <img alt="Demo" src="https://github.com/user-attachments/assets/1db519fb-0dd9-4fee-8bc8-f6b12cbf1342" width="800px">
+  <img alt="Workflow Visualization Demo" src="https://github.com/user-attachments/assets/1db519fb-0dd9-4fee-8bc8-f6b12cbf1342" width="800px">
 </p>
 
 ## Why it helps
@@ -20,10 +20,15 @@ Seeing the execution path visually makes it immediately obvious which branches w
 where the agent got stuck or failed. It also helps when onboarding to an unfamiliar graph - a single run tells you more
 about the workflow than reading the graph definition ever could.
 
+<p align="center">
+  <img alt="Full Window Demo" src="https://github.com/user-attachments/assets/32d63519-9622-4908-b0fd-67d0119cd3eb" width="800px">
+</p>
+
 ## How to use
 
 One line is all it takes - wrap the compiled graph of your agent workflow with LangGraphics' `watch` function before
-invoking it, and the visualization opens in your browser automatically, tracking the agent in real time.
+invoking it, the visualization opens in your browser automatically, tracks the agent in real time, and makes tracing
+easy using the inspect panel.
 
 ```python
 from langgraph.graph import StateGraph, MessagesState
@@ -38,8 +43,8 @@ graph = watch(workflow.compile())
 await graph.ainvoke({"messages": [...]})
 ```
 
-Works with any LangGraph agent, no matter how simple or complex the graph is. Add it during a debugging session, or keep
-it in while you're actively building - it has no effect on how the agent behaves or what it returns.
+Works with LangGraph-based agents of any level of complexity. Just add it during a debugging session, or keep it in
+while you're actively building - it does not affect how the agent behaves or what it returns.
 
 ## Features
 
@@ -47,11 +52,13 @@ it in while you're actively building - it has no effect on how the agent behaves
 |-------------------------|----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
 | Fully local             | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
 | Standalone              | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
+| Replay mode             | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
 | Easy to learn           | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
 | One-line setup          | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
 | Data stays local        | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
 | No API key required     | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
 | Live execution graph    | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
+| Subgraph visualization  | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
 | No refactoring required | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
 | Self-hosted             | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
 | No vendor lock-in       | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![✅](https://github.com/user-attachments/assets/b3c25b41-567c-4c26-bc02-ee3e40fd57c1)  | ![🟥](https://github.com/user-attachments/assets/ebe12afc-ae2e-42b1-a058-e93353ff87c4) |
