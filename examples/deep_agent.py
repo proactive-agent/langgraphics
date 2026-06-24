@@ -1,8 +1,9 @@
 import asyncio
 
-from _common import FakeMessageChatModel
 from deepagents import create_deep_agent
 from langchain_core.messages import AIMessage, HumanMessage, ToolCall
+
+from __common__ import FakeMessageChatModel
 from langgraphics import watch
 
 llm = FakeMessageChatModel(messages=[

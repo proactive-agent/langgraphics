@@ -2,10 +2,11 @@ import asyncio
 import time
 from typing import Literal
 
-from _common import knowledge_base, State, FakeMessageChatModel
 from langchain_core.messages import AIMessage, HumanMessage, ToolCall
 from langgraph.graph import END, START, StateGraph
 from langgraph.prebuilt import ToolNode
+
+from __common__ import knowledge_base, State, FakeMessageChatModel
 from langgraphics import watch
 
 llm = FakeMessageChatModel(messages=[
