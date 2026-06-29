@@ -15823,22 +15823,6 @@
       "cache_write": 0
     }
   },
-  "claude-opus-4-6-fast": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 128000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 36,
-      "output": 180,
-      "cache_read": 3.6,
-      "cache_write": 45
-    }
-  },
   "qwen-3-7-max": {
     "reasoning": true,
     "tool_call": true,
@@ -29494,9 +29478,9 @@
       "context": 262144
     },
     "cost": {
-      "input": 0.66,
-      "output": 3.41,
-      "cache_read": 0.144,
+      "input": 0.55,
+      "output": 3.2,
+      "cache_read": 0.11,
       "cache_write": 0
     }
   },
@@ -31537,6 +31521,22 @@
       "output": 5,
       "cache_read": 0.1,
       "cache_write": 1.25
+    }
+  },
+  "xai.grok-4.3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 1.25,
+      "output": 2.5,
+      "cache_read": 0.2,
+      "cache_write": 0
     }
   },
   "mistral.voxtral-mini-3b-2507": {
