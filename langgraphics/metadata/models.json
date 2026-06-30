@@ -1365,9 +1365,9 @@
       "context": 262144
     },
     "cost": {
-      "input": 0.1,
-      "output": 0.3,
-      "cache_read": 0.01,
+      "input": 0.14,
+      "output": 0.28,
+      "cache_read": 0.0028,
       "cache_write": 0
     }
   },
@@ -1895,13 +1895,13 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 16384,
+      "output": 65536,
       "context": 262144
     },
     "cost": {
-      "input": 0.09,
+      "input": 0.1,
       "output": 0.3,
-      "cache_read": 0.02,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -3947,7 +3947,7 @@
     "cost": {
       "input": 1.9,
       "output": 8,
-      "cache_read": 0,
+      "cache_read": 0.38,
       "cache_write": 0
     }
   },
@@ -11797,7 +11797,7 @@
     "temperature": true,
     "limit": {
       "output": 98304,
-      "context": 128000
+      "context": 131072
     },
     "cost": {
       "input": 0,
@@ -15032,6 +15032,23 @@
       "cache_write": 0
     }
   },
+  "subconscious/tim-qwen3.6-27b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 5000,
+      "context": 8192,
+      "input": 8192
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "z-ai-glm-5-turbo": {
     "reasoning": true,
     "tool_call": true,
@@ -16385,7 +16402,7 @@
       "context": 1048576
     },
     "cost": {
-      "input": 0.95,
+      "input": 0.94,
       "output": 3,
       "cache_read": 0.18,
       "cache_write": 0
@@ -18196,23 +18213,71 @@
     "cost": {
       "input": 0.52,
       "output": 2.59,
-      "cache_read": 0,
+      "cache_read": 0.13,
       "cache_write": 0
     }
   },
-  "glm-5-fast": {
+  "kimi-k2.6-flex": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262128,
+      "context": 262128
+    },
+    "cost": {
+      "input": 0.345,
+      "output": 1.61,
+      "cache_read": 0.08625,
+      "cache_write": 0
+    }
+  },
+  "glm-5.2-short-fast-flex": {
     "reasoning": false,
     "tool_call": true,
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 202736,
-      "context": 202736
+      "output": 199984,
+      "context": 199984
     },
     "cost": {
-      "input": 1.1,
-      "output": 3.6,
-      "cache_read": 0,
+      "input": 0.725,
+      "output": 2.25,
+      "cache_read": 0.18125,
+      "cache_write": 0
+    }
+  },
+  "glm-5.2-flex": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 1048560,
+      "context": 1048560
+    },
+    "cost": {
+      "input": 0.725,
+      "output": 2.25,
+      "cache_read": 0.18125,
+      "cache_write": 0
+    }
+  },
+  "glm-5.2-short-fast": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 199984,
+      "context": 199984
+    },
+    "cost": {
+      "input": 1.45,
+      "output": 4.5,
+      "cache_read": 0.3625,
       "cache_write": 0
     }
   },
@@ -18228,23 +18293,7 @@
     "cost": {
       "input": 0.69,
       "output": 4.14,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "glm-5.1-fast": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 202736,
-      "context": 202736
-    },
-    "cost": {
-      "input": 1.1,
-      "output": 3.6,
-      "cache_read": 0,
+      "cache_read": 0.1725,
       "cache_write": 0
     }
   },
@@ -18260,7 +18309,7 @@
     "cost": {
       "input": 0.69,
       "output": 3.22,
-      "cache_read": 0,
+      "cache_read": 0.1725,
       "cache_write": 0
     }
   },
@@ -18276,7 +18325,39 @@
     "cost": {
       "input": 0.29,
       "output": 1.15,
-      "cache_read": 0,
+      "cache_read": 0.0725,
+      "cache_write": 0
+    }
+  },
+  "glm-5.2-short-flex": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 199984,
+      "context": 199984
+    },
+    "cost": {
+      "input": 0.725,
+      "output": 2.25,
+      "cache_read": 0.18125,
+      "cache_write": 0
+    }
+  },
+  "glm-5.2-fast": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 1048560,
+      "context": 1048560
+    },
+    "cost": {
+      "input": 1.45,
+      "output": 4.5,
+      "cache_read": 0.3625,
       "cache_write": 0
     }
   },
@@ -18286,13 +18367,29 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 200000,
-      "context": 200000
+      "output": 199984,
+      "context": 199984
     },
     "cost": {
       "input": 1.45,
       "output": 4.5,
-      "cache_read": 0,
+      "cache_read": 0.3625,
+      "cache_write": 0
+    }
+  },
+  "kimi-k2.7-code-flex": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.475,
+      "output": 2,
+      "cache_read": 0.11875,
       "cache_write": 0
     }
   },
@@ -18308,7 +18405,7 @@
     "cost": {
       "input": 0.69,
       "output": 4.14,
-      "cache_read": 0,
+      "cache_read": 0.1725,
       "cache_write": 0
     }
   },
@@ -20633,22 +20730,6 @@
       "cache_write": 0
     }
   },
-  "glm-4.7-flash-free": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 200000,
-      "context": 200000
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "claude-3-opus": {
     "reasoning": false,
     "tool_call": true,
@@ -20761,6 +20842,22 @@
       "cache_write": 3.75
     }
   },
+  "claude-haiku-4-5-free": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 200000,
+      "context": 200000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "minimax-m2.1-lightning": {
     "reasoning": true,
     "tool_call": false,
@@ -20853,22 +20950,6 @@
     "cost": {
       "input": 0.07,
       "output": 0.33,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "glm-4.6v-flash": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 16000,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -24420,12 +24501,12 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 131072,
-      "context": 131072
+      "output": 4096,
+      "context": 128000
     },
     "cost": {
-      "input": 0.12,
-      "output": 0.38,
+      "input": 1.15,
+      "output": 1.15,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -25361,6 +25442,22 @@
       "cache_write": 0
     }
   },
+  "moonshotai/kimi-k2.6-fast": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 1.32,
+      "output": 7,
+      "cache_read": 0.4,
+      "cache_write": 0
+    }
+  },
   "llama-4-scout-17b-16e-instruct-fp8": {
     "reasoning": false,
     "tool_call": true,
@@ -25825,8 +25922,8 @@
       "input": 256000
     },
     "cost": {
-      "input": 0.19,
-      "output": 1.13,
+      "input": 0.2,
+      "output": 1.15,
       "cache_read": 0.04,
       "cache_write": 0
     }
@@ -27360,6 +27457,22 @@
       "input": 1,
       "output": 3.2,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "zai-org/glm-5.2-fp8": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0.979,
+      "output": 3.08,
+      "cache_read": 0.182,
       "cache_write": 0
     }
   },
@@ -42411,9 +42524,9 @@
       "context": 196608
     },
     "cost": {
-      "input": 0.06,
-      "output": 0.4,
-      "cache_read": 0.06,
+      "input": 0.1,
+      "output": 0.5,
+      "cache_read": 0.1,
       "cache_write": 0
     }
   },
@@ -42423,13 +42536,29 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 64000,
-      "context": 200000
+      "output": 65536,
+      "context": 202752
     },
     "cost": {
-      "input": 0.55,
+      "input": 0.45,
       "output": 2.19,
-      "cache_read": 0,
+      "cache_read": 0.45,
+      "cache_write": 0
+    }
+  },
+  "hf:zai-org/glm-5.2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 524288
+    },
+    "cost": {
+      "input": 1.4,
+      "output": 4.4,
+      "cache_read": 1.4,
       "cache_write": 0
     }
   },
@@ -42472,19 +42601,35 @@
     "temperature": true,
     "limit": {
       "output": 32768,
-      "context": 128000
+      "context": 131072
     },
     "cost": {
       "input": 0.1,
       "output": 0.1,
-      "cache_read": 0,
+      "cache_read": 0.1,
+      "cache_write": 0
+    }
+  },
+  "hf:qwen/qwen3.6-27b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.45,
+      "output": 3.6,
+      "cache_read": 0.45,
       "cache_write": 0
     }
   },
   "hf:qwen/qwen3.5-397b-a17b": {
     "reasoning": true,
     "tool_call": true,
-    "attachment": false,
+    "attachment": true,
     "temperature": true,
     "limit": {
       "output": 65536,
@@ -42492,7 +42637,7 @@
     },
     "cost": {
       "input": 0.6,
-      "output": 3,
+      "output": 3.6,
       "cache_read": 0.6,
       "cache_write": 0
     }
