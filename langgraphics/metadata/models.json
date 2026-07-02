@@ -2073,13 +2073,13 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 196608,
-      "context": 196608
+      "output": 131072,
+      "context": 204800
     },
     "cost": {
       "input": 0.255,
-      "output": 1,
-      "cache_read": 0.03,
+      "output": 1.02,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -6255,6 +6255,22 @@
       "output": 25.007,
       "cache_read": 0.4998,
       "cache_write": 0
+    }
+  },
+  "anthropic/claude-fable-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 10,
+      "output": 50,
+      "cache_read": 1,
+      "cache_write": 12.5
     }
   },
   "anthropic/claude-opus-4.5": {
@@ -14811,15 +14827,15 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": false,
-    "temperature": false,
+    "temperature": true,
     "limit": {
-      "output": 65536,
+      "output": 128000,
       "context": 256000
     },
     "cost": {
-      "input": 0.3125,
-      "output": 1.125,
-      "cache_read": 0.075,
+      "input": 0.25,
+      "output": 0.9,
+      "cache_read": 0.06,
       "cache_write": 0
     }
   },
@@ -15418,6 +15434,22 @@
       "output": 0.75,
       "cache_read": 0.09375,
       "cache_write": 0
+    }
+  },
+  "claude-sonnet-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 2,
+      "output": 10,
+      "cache_read": 0.2,
+      "cache_write": 2.5
     }
   },
   "openai-gpt-53-codex": {
@@ -16746,22 +16778,6 @@
       "output": 15,
       "cache_read": 0.3,
       "cache_write": 3.75
-    }
-  },
-  "anthropic/claude-fable-5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 128000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 10,
-      "output": 50,
-      "cache_read": 1,
-      "cache_write": 12.5
     }
   },
   "tencent/hy3-preview": {
@@ -19448,13 +19464,13 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 131072,
-      "context": 131072
+      "output": 32768,
+      "context": 81920
     },
     "cost": {
-      "input": 0.08,
-      "output": 0.4,
-      "cache_read": 0.08,
+      "input": 0.13,
+      "output": 1.56,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -20679,22 +20695,6 @@
       "output": 12,
       "cache_read": 0.2,
       "cache_write": 0
-    }
-  },
-  "claude-sonnet-5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 128000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 2,
-      "output": 10,
-      "cache_read": 0.2,
-      "cache_write": 2.5
     }
   },
   "grok-4-20-beta-0309-reasoning": {
@@ -23603,6 +23603,22 @@
     "cost": {
       "input": 2.68,
       "output": 3.54,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "gemma-4-31b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 40960,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0.99,
+      "output": 1.49,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -30587,8 +30603,8 @@
       "context": 163840
     },
     "cost": {
-      "input": 0.2,
-      "output": 0.77,
+      "input": 0.24,
+      "output": 0.9,
       "cache_read": 0.135,
       "cache_write": 0
     }
@@ -31426,6 +31442,22 @@
       "output": 2.2,
       "cache_read": 0,
       "cache_write": 0
+    }
+  },
+  "anthropic.claude-fable-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 10,
+      "output": 50,
+      "cache_read": 1,
+      "cache_write": 12.5
     }
   },
   "writer.palmyra-x4-v1:0": {
