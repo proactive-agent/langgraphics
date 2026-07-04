@@ -2481,6 +2481,22 @@
       "cache_write": 0
     }
   },
+  "glm-5.2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 1.2,
+      "output": 4.1,
+      "cache_read": 0.2,
+      "cache_write": 0
+    }
+  },
   "qwen3.6-flash": {
     "reasoning": true,
     "tool_call": true,
@@ -8133,7 +8149,7 @@
     "cost": {
       "input": 0.285,
       "output": 2.4,
-      "cache_read": 0,
+      "cache_read": 0.15,
       "cache_write": 0
     }
   },
@@ -10101,22 +10117,6 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "glm-5.2": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 131072,
-      "context": 1048576
-    },
-    "cost": {
-      "input": 1.2,
-      "output": 4.1,
-      "cache_read": 0.2,
       "cache_write": 0
     }
   },
@@ -15804,9 +15804,9 @@
       "context": 256000
     },
     "cost": {
-      "input": 0.1625,
-      "output": 0.5,
-      "cache_read": 0,
+      "input": 0.13,
+      "output": 0.4,
+      "cache_read": 0.05,
       "cache_write": 0
     }
   },
@@ -15884,9 +15884,9 @@
       "context": 1000000
     },
     "cost": {
-      "input": 0.175,
-      "output": 0.35,
-      "cache_read": 0.0625,
+      "input": 0.14,
+      "output": 0.28,
+      "cache_read": 0.05,
       "cache_write": 0
     }
   },
@@ -16020,7 +16020,7 @@
   "minimax-m3-preview": {
     "reasoning": true,
     "tool_call": true,
-    "attachment": false,
+    "attachment": true,
     "temperature": false,
     "limit": {
       "output": 65536,
@@ -16124,9 +16124,9 @@
       "context": 200000
     },
     "cost": {
-      "input": 0.14,
-      "output": 0.8,
-      "cache_read": 0,
+      "input": 0.07,
+      "output": 0.4,
+      "cache_read": 0.035,
       "cache_write": 0
     }
   },
@@ -16271,9 +16271,9 @@
       "context": 200000
     },
     "cost": {
-      "input": 1.75,
-      "output": 5.5,
-      "cache_read": 0.325,
+      "input": 1.54,
+      "output": 4.84,
+      "cache_read": 0.286,
       "cache_write": 0
     }
   },
@@ -16352,9 +16352,9 @@
       "context": 198000
     },
     "cost": {
-      "input": 0.34,
-      "output": 1.19,
-      "cache_read": 0.04,
+      "input": 0.27,
+      "output": 0.95,
+      "cache_read": 0.03,
       "cache_write": 0
     }
   },
@@ -17913,6 +17913,22 @@
         "output": 18,
         "cache_read": 0.4
       }
+    }
+  },
+  "hy3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
     }
   },
   "ai21-labs/ai21-jamba-1.5-mini": {
