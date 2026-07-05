@@ -8354,7 +8354,7 @@
   "xiaomimimo/mimo-v2.5-pro": {
     "reasoning": true,
     "tool_call": true,
-    "attachment": false,
+    "attachment": true,
     "temperature": true,
     "limit": {
       "output": 16384,
@@ -8364,23 +8364,7 @@
       "input": 1,
       "output": 3,
       "cache_read": 0.2,
-      "cache_write": 0,
-      "tiers": [
-        {
-          "input": 2,
-          "output": 6,
-          "cache_read": 0.4,
-          "tier": {
-            "type": "context",
-            "size": 256000
-          }
-        }
-      ],
-      "context_over_200k": {
-        "input": 2,
-        "output": 6,
-        "cache_read": 0.4
-      }
+      "cache_write": 0
     }
   },
   "xiaomimimo/mimo-v2-flash": {
@@ -13130,7 +13114,7 @@
     }
   },
   "mistral-medium-latest": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
@@ -13139,8 +13123,8 @@
       "context": 262144
     },
     "cost": {
-      "input": 0.4,
-      "output": 2,
+      "input": 1.5,
+      "output": 7.5,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -16656,13 +16640,13 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 32768,
-      "context": 1048576
+      "output": 128000,
+      "context": 1024000
     },
     "cost": {
-      "input": 0.93,
-      "output": 3,
-      "cache_read": 0.18,
+      "input": 0.77,
+      "output": 2.42,
+      "cache_read": 0.143,
       "cache_write": 0
     }
   },
@@ -19297,7 +19281,7 @@
     }
   },
   "mistral/mistral-medium-latest": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
@@ -22875,7 +22859,7 @@
     "cost": {
       "input": 0.3,
       "output": 1,
-      "cache_read": 0,
+      "cache_read": 0.1,
       "cache_write": 0
     }
   },
@@ -22892,23 +22876,40 @@
       "input": 0.4,
       "output": 2,
       "cache_read": 0.08,
-      "cache_write": 0,
-      "tiers": [
-        {
-          "input": 0.8,
-          "output": 4,
-          "cache_read": 0.16,
-          "tier": {
-            "type": "context",
-            "size": 256000
-          }
-        }
-      ],
-      "context_over_200k": {
-        "input": 0.8,
-        "output": 4,
-        "cache_read": 0.16
-      }
+      "cache_write": 0
+    }
+  },
+  "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 256000,
+      "input": 256000
+    },
+    "cost": {
+      "input": 0.105,
+      "output": 0.42,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "nvidia/llama-3.3-nemotron-super-49b-v1.5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 16384,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0.4,
+      "output": 0.4,
+      "cache_read": 0,
+      "cache_write": 0
     }
   },
   "claude-haiku-4-5@20251001": {
@@ -24266,23 +24267,6 @@
     "cost": {
       "input": 0,
       "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 65536,
-      "context": 256000,
-      "input": 256000
-    },
-    "cost": {
-      "input": 0.105,
-      "output": 0.42,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -26391,6 +26375,22 @@
       "input": 0.028,
       "output": 0.111,
       "cache_read": 0.017,
+      "cache_write": 0
+    }
+  },
+  "longcat-2.0": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0.75,
+      "output": 2.95,
+      "cache_read": 0.015,
       "cache_write": 0
     }
   },
@@ -29896,22 +29896,6 @@
     "cost": {
       "input": 0,
       "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "nvidia/llama-3.3-nemotron-super-49b-v1.5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 16384,
-      "context": 131072
-    },
-    "cost": {
-      "input": 0.4,
-      "output": 0.4,
       "cache_read": 0,
       "cache_write": 0
     }
