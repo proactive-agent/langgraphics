@@ -7096,6 +7096,22 @@
       "cache_write": 0.5
     }
   },
+  "alibaba/wan-v2.7-r2v": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 0,
+      "context": 0
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "alibaba/qwen3-vl-instruct": {
     "reasoning": false,
     "tool_call": true,
@@ -7354,6 +7370,22 @@
     }
   },
   "alibaba/wan-v2.6-i2v": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 0,
+      "context": 0
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "alibaba/wan-v2.7-t2v": {
     "reasoning": false,
     "tool_call": false,
     "attachment": false,
@@ -15244,6 +15276,22 @@
       "cache_write": 0
     }
   },
+  "subconscious/glm-5.2": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 1.4,
+      "output": 4.4,
+      "cache_read": 0.26,
+      "cache_write": 0
+    }
+  },
   "subconscious/tim-qwen3.6-27b": {
     "reasoning": true,
     "tool_call": true,
@@ -15255,9 +15303,9 @@
       "input": 8192
     },
     "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
+      "input": 0.3,
+      "output": 3,
+      "cache_read": 0.15,
       "cache_write": 0
     }
   },
@@ -16612,9 +16660,9 @@
       "context": 1048576
     },
     "cost": {
-      "input": 0.686,
-      "output": 2.156,
-      "cache_read": 0.1274,
+      "input": 0.9086,
+      "output": 2.8556,
+      "cache_read": 0.16874,
       "cache_write": 0
     }
   },
@@ -31045,6 +31093,22 @@
       "cache_write": 3.75
     }
   },
+  "jp.anthropic.claude-haiku-4-5-20251001-v1:0": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 200000
+    },
+    "cost": {
+      "input": 1,
+      "output": 5,
+      "cache_read": 0.1,
+      "cache_write": 1.25
+    }
+  },
   "us.meta.llama4-scout-17b-instruct-v1:0": {
     "reasoning": false,
     "tool_call": true,
@@ -33190,6 +33254,38 @@
       "cache_write": 12.5
     }
   },
+  "tencent/hy3:free": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "tencent/hy3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 202752
+    },
+    "cost": {
+      "input": 0.14,
+      "output": 0.58,
+      "cache_read": 0.035,
+      "cache_write": 0
+    }
+  },
   "cohere/north-mini-code:free": {
     "reasoning": true,
     "tool_call": true,
@@ -33203,6 +33299,22 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "nex-agi/nex-n2-mini": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.025,
+      "output": 0.1,
+      "cache_read": 0.0025,
       "cache_write": 0
     }
   },
