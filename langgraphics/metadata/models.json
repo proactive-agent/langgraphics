@@ -10452,7 +10452,7 @@
     "cost": {
       "input": 1.4,
       "output": 4.4,
-      "cache_read": 0.26,
+      "cache_read": 0.14,
       "cache_write": 0
     }
   },
@@ -10504,22 +10504,6 @@
       "cache_write": 0
     }
   },
-  "nvidia/llama-3.1-nemotron-safety-guard-8b-v3": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 4096,
-      "context": 8192
-    },
-    "cost": {
-      "input": 0.01,
-      "output": 0.01,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning-bf16": {
     "reasoning": true,
     "tool_call": true,
@@ -10568,19 +10552,19 @@
       "cache_write": 0
     }
   },
-  "zai-org/glm-5.1-fp8": {
+  "zai-org/glm-5.2-fp8": {
     "reasoning": true,
     "tool_call": true,
     "attachment": false,
     "temperature": true,
     "limit": {
       "output": 131072,
-      "context": 202752
+      "context": 1000000
     },
     "cost": {
-      "input": 1.4,
-      "output": 4.4,
-      "cache_read": 0,
+      "input": 0.979,
+      "output": 3.08,
+      "cache_read": 0.182,
       "cache_write": 0
     }
   },
@@ -14056,9 +14040,9 @@
       "context": 262144
     },
     "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
+      "input": 0.14,
+      "output": 0.28,
+      "cache_read": 0.0028,
       "cache_write": 0
     }
   },
@@ -16656,13 +16640,13 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 131072,
+      "output": 32768,
       "context": 1048576
     },
     "cost": {
-      "input": 0.9086,
-      "output": 2.8556,
-      "cache_read": 0.16874,
+      "input": 0.93,
+      "output": 3,
+      "cache_read": 0.18,
       "cache_write": 0
     }
   },
@@ -20731,6 +20715,22 @@
       "output_audio": 2.3
     }
   },
+  "zai-org/glm-5.1-fp8": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 202752
+    },
+    "cost": {
+      "input": 1.4,
+      "output": 4.4,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "black-forest-labs/flux.2-klein-4b": {
     "reasoning": false,
     "tool_call": false,
@@ -20745,22 +20745,6 @@
       "output": 1,
       "cache_read": 0,
       "cache_write": 0
-    }
-  },
-  "claude-3-7-sonnet": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 200000
-    },
-    "cost": {
-      "input": 3,
-      "output": 15,
-      "cache_read": 0.3,
-      "cache_write": 3.75
     }
   },
   "qwen-coder-plus": {
@@ -21246,22 +21230,6 @@
       "cache_write": 0
     }
   },
-  "claude-3-7-sonnet-20250219": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 200000
-    },
-    "cost": {
-      "input": 3,
-      "output": 15,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "claude-haiku-4-5-free": {
     "reasoning": false,
     "tool_call": true,
@@ -21531,6 +21499,22 @@
     "cost": {
       "input": 2.7,
       "output": 13.5,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "claude-3-7-sonnet-20250219": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 200000
+    },
+    "cost": {
+      "input": 3,
+      "output": 15,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -25637,6 +25621,22 @@
       "cache_write": 0
     }
   },
+  "hy3-free": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "minimax-m2.5-free": {
     "reasoning": true,
     "tool_call": true,
@@ -27829,22 +27829,6 @@
       "cache_write": 0
     }
   },
-  "zai-org/glm-5.2-fp8": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 131072,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 0.979,
-      "output": 3.08,
-      "cache_read": 0.182,
-      "cache_write": 0
-    }
-  },
   "z-code": {
     "reasoning": true,
     "tool_call": true,
@@ -28582,7 +28566,7 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": true,
-    "temperature": false,
+    "temperature": true,
     "limit": {
       "output": 128000,
       "context": 1000000
@@ -29352,8 +29336,8 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 32768,
-      "context": 32768
+      "output": 65536,
+      "context": 65536
     },
     "cost": {
       "input": 0.25,
@@ -33280,9 +33264,9 @@
       "context": 202752
     },
     "cost": {
-      "input": 0.14,
-      "output": 0.58,
-      "cache_read": 0.035,
+      "input": 0.2,
+      "output": 0.8,
+      "cache_read": 0.5,
       "cache_write": 0
     }
   },
@@ -33320,7 +33304,7 @@
   },
   "nex-agi/nex-n2-pro": {
     "reasoning": true,
-    "tool_call": false,
+    "tool_call": true,
     "attachment": true,
     "temperature": true,
     "limit": {
@@ -33379,6 +33363,38 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "aion-labs/aion-3.0-mini": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0.7,
+      "output": 1.4,
+      "cache_read": 0.18,
+      "cache_write": 0
+    }
+  },
+  "aion-labs/aion-3.0": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 131072
+    },
+    "cost": {
+      "input": 3,
+      "output": 6,
+      "cache_read": 0.75,
       "cache_write": 0
     }
   },
