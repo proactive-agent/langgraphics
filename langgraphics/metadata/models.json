@@ -14757,6 +14757,22 @@
       "cache_write": 0
     }
   },
+  "k3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "k2p6": {
     "reasoning": true,
     "tool_call": true,
@@ -17519,6 +17535,38 @@
       "input": 0.845,
       "output": 3.38,
       "cache_read": 0.183112,
+      "cache_write": 0
+    }
+  },
+  "kimi-k2.7-code-highspeed": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 1.9,
+      "output": 8,
+      "cache_read": 0.38,
+      "cache_write": 0
+    }
+  },
+  "hy3-preview": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -21267,22 +21315,6 @@
       "cache_write": 0
     }
   },
-  "kimi-k2.7-code-highspeed": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 262144,
-      "context": 262144
-    },
-    "cost": {
-      "input": 1.9,
-      "output": 8,
-      "cache_read": 0.38,
-      "cache_write": 0
-    }
-  },
   "minimax-m2.1": {
     "reasoning": true,
     "tool_call": true,
@@ -24956,6 +24988,22 @@
       "input": 0.6,
       "output": 2.5,
       "cache_read": 0.15,
+      "cache_write": 0
+    }
+  },
+  "kimi-k3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 3,
+      "output": 15,
+      "cache_read": 0.3,
       "cache_write": 0
     }
   },
@@ -30852,6 +30900,22 @@
       "cache_write": 0
     }
   },
+  "inkling": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 256000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 3.74,
+      "output": 9.36,
+      "cache_read": 0.748,
+      "cache_write": 0
+    }
+  },
   "qwen/qwen3-next-80b-a3b-thinking-fast": {
     "reasoning": true,
     "tool_call": true,
@@ -34631,15 +34695,15 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": true,
-    "temperature": true,
+    "temperature": false,
     "limit": {
       "output": 262144,
-      "context": 262144
+      "context": 1048576
     },
     "cost": {
-      "input": 0.66,
-      "output": 3.41,
-      "cache_read": 0.15,
+      "input": 3,
+      "output": 15,
+      "cache_read": 0.3,
       "cache_write": 0
     }
   },
@@ -35128,7 +35192,7 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": true,
-    "temperature": false,
+    "temperature": true,
     "limit": {
       "output": 128000,
       "context": 1000000
@@ -36408,22 +36472,6 @@
       "cache_write": 0
     }
   },
-  "hy3-preview": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 256000
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "qwen/qwen3-coder-480b-a35b-instruct-turbo": {
     "reasoning": false,
     "tool_call": true,
@@ -36549,6 +36597,22 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "meta/muse-spark-1.1": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 1048576,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 1.25,
+      "output": 4.25,
+      "cache_read": 0.15,
       "cache_write": 0
     }
   },
@@ -36828,7 +36892,7 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": true,
-    "temperature": false,
+    "temperature": true,
     "limit": {
       "output": 128000,
       "context": 1000000
@@ -36838,6 +36902,22 @@
       "output": 50,
       "cache_read": 1,
       "cache_write": 12.5
+    }
+  },
+  "moonshotai/kimi-k3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 3,
+      "output": 15,
+      "cache_read": 0.3,
+      "cache_write": 0
     }
   },
   "openrouter/fusion": {
@@ -39181,22 +39261,6 @@
       "cache_write": 0
     }
   },
-  "meta/muse-spark-1.1": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 1048576,
-      "context": 1048576
-    },
-    "cost": {
-      "input": 1.25,
-      "output": 4.25,
-      "cache_read": 0.15,
-      "cache_write": 0
-    }
-  },
   "meta/llama-3.2-3b": {
     "reasoning": false,
     "tool_call": false,
@@ -39354,6 +39418,22 @@
       "input": 1.5,
       "output": 3.5,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "thinkingmachines/inkling": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 256000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 1,
+      "output": 4.05,
+      "cache_read": 0.17,
       "cache_write": 0
     }
   },
@@ -41081,6 +41161,22 @@
       "output": 1536,
       "context": 8192,
       "input": 6656
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "openai/gpt-realtime-whisper": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 0,
+      "context": 0
     },
     "cost": {
       "input": 0,
