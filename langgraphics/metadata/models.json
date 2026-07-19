@@ -179,6 +179,38 @@
       "cache_write": 0
     }
   },
+  "xiaomi/mimo-v2.5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 0.4,
+      "output": 2,
+      "cache_read": 0.08,
+      "cache_write": 0,
+      "tiers": [
+        {
+          "input": 0.8,
+          "output": 4,
+          "cache_read": 0.16,
+          "tier": {
+            "type": "context",
+            "size": 256000
+          }
+        }
+      ],
+      "context_over_200k": {
+        "input": 0.8,
+        "output": 4,
+        "cache_read": 0.16
+      }
+    }
+  },
   "stepfun/step-3.7-flash": {
     "reasoning": true,
     "tool_call": true,
@@ -257,6 +289,22 @@
       "input": 0.66,
       "output": 3.5,
       "cache_read": 0.2,
+      "cache_write": 0
+    }
+  },
+  "deepseek/deepseek-v4-flash": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 384000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0.14,
+      "output": 0.28,
+      "cache_read": 0.0028,
       "cache_write": 0
     }
   },
@@ -2723,22 +2771,6 @@
       "input": 0.4,
       "output": 2,
       "cache_read": 0.04,
-      "cache_write": 0
-    }
-  },
-  "deepseek/deepseek-v4-flash": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 384000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 0.14,
-      "output": 0.28,
-      "cache_read": 0.0028,
       "cache_write": 0
     }
   },
@@ -8932,38 +8964,6 @@
       "cache_write": 0
     }
   },
-  "xiaomi/mimo-v2.5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 131072,
-      "context": 1048576
-    },
-    "cost": {
-      "input": 0.4,
-      "output": 2,
-      "cache_read": 0.08,
-      "cache_write": 0,
-      "tiers": [
-        {
-          "input": 0.8,
-          "output": 4,
-          "cache_read": 0.16,
-          "tier": {
-            "type": "context",
-            "size": 256000
-          }
-        }
-      ],
-      "context_over_200k": {
-        "input": 0.8,
-        "output": 4,
-        "cache_read": 0.16
-      }
-    }
-  },
   "xiaomi/mimo-v2-flash-thinking": {
     "reasoning": true,
     "tool_call": false,
@@ -12715,12 +12715,12 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 16384,
+      "output": 8192,
       "context": 131072
     },
     "cost": {
-      "input": 0.12,
-      "output": 0.5,
+      "input": 0.13,
+      "output": 0.52,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -12926,11 +12926,11 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 40960,
+      "output": 16384,
       "context": 131702
     },
     "cost": {
-      "input": 0.1,
+      "input": 0.12,
       "output": 0.24,
       "cache_read": 0,
       "cache_write": 0
@@ -14729,7 +14729,7 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": false,
-    "temperature": true,
+    "temperature": false,
     "limit": {
       "output": 131072,
       "context": 1048576
@@ -21335,7 +21335,7 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": true,
-    "temperature": true,
+    "temperature": false,
     "limit": {
       "output": 131072,
       "context": 1048576
@@ -34427,8 +34427,8 @@
       "context": 8000
     },
     "cost": {
-      "input": 0.75,
-      "output": 1,
+      "input": 0.5,
+      "output": 0.75,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -36824,6 +36824,22 @@
       "cache_write": 0
     }
   },
+  "thinkingmachines/inkling": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 256000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 1,
+      "output": 4.05,
+      "cache_read": 0.17,
+      "cache_write": 0
+    }
+  },
   "tencent/hy3": {
     "reasoning": true,
     "tool_call": true,
@@ -36876,7 +36892,7 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": true,
-    "temperature": true,
+    "temperature": false,
     "limit": {
       "output": 131072,
       "context": 1048576
@@ -37420,22 +37436,6 @@
       "input": 0.3,
       "output": 0.75,
       "cache_read": 0.06,
-      "cache_write": 0
-    }
-  },
-  "thinkingmachines/inkling": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 256000,
-      "context": 256000
-    },
-    "cost": {
-      "input": 1,
-      "output": 4.05,
-      "cache_read": 0.17,
       "cache_write": 0
     }
   },
