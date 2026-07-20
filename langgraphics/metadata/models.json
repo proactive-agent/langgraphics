@@ -12926,12 +12926,12 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 16384,
+      "output": 8192,
       "context": 131702
     },
     "cost": {
-      "input": 0.12,
-      "output": 0.24,
+      "input": 0.2275,
+      "output": 0.91,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -14983,6 +14983,22 @@
       "output": 4.16,
       "cache_read": 0.18,
       "cache_write": 1
+    }
+  },
+  "moonshot/kimi-k3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 1048576,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 3,
+      "output": 15,
+      "cache_read": 0.3,
+      "cache_write": 3
     }
   },
   "moonshot/kimi-k2.6": {
@@ -22246,13 +22262,13 @@
     "cost": {
       "input": 2.27,
       "output": 6.8,
-      "cache_read": 0.57,
+      "cache_read": 0.34,
       "cache_write": 0,
       "tiers": [
         {
           "input": 4.53,
           "output": 13.6,
-          "cache_read": 1.13,
+          "cache_read": 0.68,
           "tier": {
             "type": "context",
             "size": 200000
@@ -22262,7 +22278,7 @@
       "context_over_200k": {
         "input": 4.53,
         "output": 13.6,
-        "cache_read": 1.13
+        "cache_read": 0.68
       }
     }
   },
@@ -36628,7 +36644,7 @@
     "cost": {
       "input": 2,
       "output": 6,
-      "cache_read": 0.5,
+      "cache_read": 0.3,
       "cache_write": 0
     }
   },
@@ -39213,74 +39229,10 @@
       "cache_write": 0
     }
   },
-  "meta/llama-3.2-1b": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.1,
-      "output": 0.1,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "meta/llama-3.1-70b": {
     "reasoning": false,
     "tool_call": true,
     "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.72,
-      "output": 0.72,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "meta/llama-3.2-3b": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.15,
-      "output": 0.15,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "meta/llama-3.2-11b": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.16,
-      "output": 0.16,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "meta/llama-3.2-90b": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": true,
     "temperature": true,
     "limit": {
       "output": 8192,
