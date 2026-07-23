@@ -96,3 +96,6 @@ dist-ssr
 .cursor
 .cursorignore
 .cursorindexingignore
+
+# Metadata sync
+langgraphics/metadata/.sync_time
