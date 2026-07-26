@@ -2108,6 +2108,22 @@
       "cache_write": 2.5
     }
   },
+  "anthropic/claude-opus-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 5,
+      "output": 25,
+      "cache_read": 0.5,
+      "cache_write": 6.25
+    }
+  },
   "z-ai/glm-5": {
     "reasoning": true,
     "tool_call": true,
@@ -22196,8 +22212,8 @@
     }
   },
   "o1-mini": {
-    "reasoning": true,
-    "tool_call": true,
+    "reasoning": false,
+    "tool_call": false,
     "attachment": false,
     "temperature": false,
     "limit": {
@@ -26334,38 +26350,6 @@
       "cache_write": 0
     }
   },
-  "llama-3.2-11b-vision-instruct": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.37,
-      "output": 0.37,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "phi-3-medium-128k-instruct": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 4096,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.17,
-      "output": 0.68,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "cohere-command-a": {
     "reasoning": true,
     "tool_call": true,
@@ -26378,38 +26362,6 @@
     "cost": {
       "input": 2.5,
       "output": 10,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "meta-llama-3.1-70b-instruct": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 32768,
-      "context": 128000
-    },
-    "cost": {
-      "input": 2.68,
-      "output": 3.54,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "meta-llama-3.1-405b-instruct": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 32768,
-      "context": 128000
-    },
-    "cost": {
-      "input": 5.33,
-      "output": 16,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -26478,54 +26430,6 @@
       "cache_write": 0
     }
   },
-  "meta-llama-3-8b-instruct": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 2048,
-      "context": 8192
-    },
-    "cost": {
-      "input": 0.3,
-      "output": 0.61,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "gpt-3.5-turbo-0301": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 4096,
-      "context": 4096
-    },
-    "cost": {
-      "input": 1.5,
-      "output": 2,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "cohere-command-r-plus-08-2024": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 4000,
-      "context": 128000
-    },
-    "cost": {
-      "input": 2.5,
-      "output": 10,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "phi-4-mini": {
     "reasoning": false,
     "tool_call": true,
@@ -26538,38 +26442,6 @@
     "cost": {
       "input": 0.075,
       "output": 0.3,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "meta-llama-3.1-8b-instruct": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 32768,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.3,
-      "output": 0.61,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "llama-3.2-90b-vision-instruct": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 128000
-    },
-    "cost": {
-      "input": 2.04,
-      "output": 2.04,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -26590,54 +26462,6 @@
       "cache_write": 0
     }
   },
-  "phi-3-small-8k-instruct": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 2048,
-      "context": 8192
-    },
-    "cost": {
-      "input": 0.15,
-      "output": 0.6,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "phi-3-small-128k-instruct": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 4096,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.15,
-      "output": 0.6,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "phi-3-mini-128k-instruct": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 4096,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.13,
-      "output": 0.52,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "mistral-small-2503": {
     "reasoning": false,
     "tool_call": true,
@@ -26650,38 +26474,6 @@
     "cost": {
       "input": 0.1,
       "output": 0.3,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "meta-llama-3-70b-instruct": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 2048,
-      "context": 8192
-    },
-    "cost": {
-      "input": 2.68,
-      "output": 3.54,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "gpt-4-32k": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 32768,
-      "context": 32768
-    },
-    "cost": {
-      "input": 60,
-      "output": 120,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -26699,22 +26491,6 @@
       "input": 0.12,
       "output": 0,
       "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "gpt-5.2-chat": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 16384,
-      "context": 128000
-    },
-    "cost": {
-      "input": 1.75,
-      "output": 14,
-      "cache_read": 0.175,
       "cache_write": 0
     }
   },
@@ -26746,70 +26522,6 @@
     "cost": {
       "input": 10,
       "output": 30,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "deepseek-r1-0528": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 164000,
-      "context": 164000
-    },
-    "cost": {
-      "input": 0.585,
-      "output": 2.307,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "phi-3-mini-4k-instruct": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 1024,
-      "context": 4096
-    },
-    "cost": {
-      "input": 0.13,
-      "output": 0.52,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "gpt-5.1-chat": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 16384,
-      "context": 128000
-    },
-    "cost": {
-      "input": 1.25,
-      "output": 10,
-      "cache_read": 0.125,
-      "cache_write": 0
-    }
-  },
-  "phi-3.5-moe-instruct": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 4096,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.16,
-      "output": 0.64,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -26862,22 +26574,6 @@
       "cache_write": 0
     }
   },
-  "gpt-3.5-turbo-0613": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 16384,
-      "context": 16384
-    },
-    "cost": {
-      "input": 3,
-      "output": 4,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "ministral-3b": {
     "reasoning": false,
     "tool_call": true,
@@ -26890,22 +26586,6 @@
     "cost": {
       "input": 0.04,
       "output": 0.04,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "cohere-command-r-08-2024": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 4000,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.15,
-      "output": 0.6,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -26974,38 +26654,6 @@
       "cache_write": 0
     }
   },
-  "phi-3-medium-4k-instruct": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 1024,
-      "context": 4096
-    },
-    "cost": {
-      "input": 0.17,
-      "output": 0.68,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "phi-3.5-mini-instruct": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 4096,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.13,
-      "output": 0.52,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "text-embedding-ada-002": {
     "reasoning": false,
     "tool_call": false,
@@ -27039,22 +26687,6 @@
       "input_audio": 4
     }
   },
-  "gpt-5-chat": {
-    "reasoning": true,
-    "tool_call": false,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 16384,
-      "context": 128000
-    },
-    "cost": {
-      "input": 1.25,
-      "output": 10,
-      "cache_read": 0.13,
-      "cache_write": 0
-    }
-  },
   "codex-mini": {
     "reasoning": true,
     "tool_call": true,
@@ -27068,22 +26700,6 @@
       "input": 1.5,
       "output": 6,
       "cache_read": 0.375,
-      "cache_write": 0
-    }
-  },
-  "deepseek-v3.1": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 32000,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -30235,22 +29851,6 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "gpt-5.3-chat": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 16384,
-      "context": 128000
-    },
-    "cost": {
-      "input": 1.75,
-      "output": 14,
-      "cache_read": 0.175,
       "cache_write": 0
     }
   },
@@ -41405,22 +41005,6 @@
       "cache_write": 12.5
     }
   },
-  "anthropic/claude-opus-5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 128000,
-      "context": 1000000
-    },
-    "cost": {
-      "input": 5,
-      "output": 25,
-      "cache_read": 0.5,
-      "cache_write": 6.25
-    }
-  },
   "openai/whisper-1": {
     "reasoning": false,
     "tool_call": false,
@@ -41870,6 +41454,22 @@
     "cost": {
       "input": 0,
       "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "deepseek-r1-0528": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 164000,
+      "context": 164000
+    },
+    "cost": {
+      "input": 0.585,
+      "output": 2.307,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -44450,6 +44050,22 @@
     "temperature": true,
     "limit": {
       "output": 4096,
+      "context": 128000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "deepseek-v3.1": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 32000,
       "context": 128000
     },
     "cost": {
