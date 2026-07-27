@@ -2112,7 +2112,7 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": true,
-    "temperature": true,
+    "temperature": false,
     "limit": {
       "output": 128000,
       "context": 1000000
@@ -2166,9 +2166,9 @@
       "context": 1048576
     },
     "cost": {
-      "input": 0.7966,
-      "output": 2.5036,
-      "cache_read": 0.14794,
+      "input": 0.7182,
+      "output": 2.2572,
+      "cache_read": 0.13338,
       "cache_write": 0
     }
   },
@@ -16685,12 +16685,12 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 80000,
+      "output": 262144,
       "context": 262144
     },
     "cost": {
-      "input": 0.25,
-      "output": 0.8,
+      "input": 0.22,
+      "output": 0.85,
       "cache_read": 0.06,
       "cache_write": 0
     }
