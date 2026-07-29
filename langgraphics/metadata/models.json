@@ -373,8 +373,8 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 64000,
-      "context": 1000000
+      "output": 65536,
+      "context": 1048576
     },
     "cost": {
       "input": 2,
@@ -2538,13 +2538,14 @@
     "temperature": true,
     "limit": {
       "output": 128000,
-      "context": 1000000
+      "context": 200000
     },
     "cost": {
-      "input": 3,
-      "output": 15,
-      "cache_read": 0.3,
-      "cache_write": 3.75
+      "input": 0.9,
+      "output": 5.55,
+      "cache_read": 0.09,
+      "cache_write": 0,
+      "reasoning": 5.55
     }
   },
   "openai-gpt-5.6-terra": {
@@ -2607,10 +2608,10 @@
     },
     "cost": {
       "input": 3,
-      "output": 18,
+      "output": 18.5,
       "cache_read": 0.3,
       "cache_write": 0,
-      "reasoning": 18
+      "reasoning": 18.5
     }
   },
   "gemini-3.1-pro": {
@@ -2636,13 +2637,14 @@
     "temperature": false,
     "limit": {
       "output": 128000,
-      "context": 1000000
+      "context": 200000
     },
     "cost": {
-      "input": 5,
-      "output": 25,
-      "cache_read": 0.5,
-      "cache_write": 6.25
+      "input": 1.5,
+      "output": 9.25,
+      "cache_read": 0.15,
+      "cache_write": 0,
+      "reasoning": 9.25
     }
   },
   "openai-gpt-5.1": {
@@ -5432,7 +5434,7 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 524288,
+      "output": 262144,
       "context": 524288
     },
     "cost": {
@@ -7196,32 +7198,14 @@
     "temperature": false,
     "limit": {
       "output": 128000,
-      "context": 1050000,
-      "input": 922000
+      "context": 372000
     },
     "cost": {
-      "input": 5,
-      "output": 30,
-      "cache_read": 0.5,
-      "cache_write": 6.25,
-      "tiers": [
-        {
-          "input": 10,
-          "output": 45,
-          "cache_read": 1,
-          "cache_write": 12.5,
-          "tier": {
-            "type": "context",
-            "size": 272000
-          }
-        }
-      ],
-      "context_over_200k": {
-        "input": 10,
-        "output": 45,
-        "cache_read": 1,
-        "cache_write": 12.5
-      }
+      "input": 1.5,
+      "output": 12,
+      "cache_read": 0.15,
+      "cache_write": 0,
+      "reasoning": 12
     }
   },
   "gemini-3.1-flash-lite-preview": {
@@ -7248,30 +7232,14 @@
     "temperature": false,
     "limit": {
       "output": 128000,
-      "context": 1050000,
-      "input": 922000
+      "context": 1050000
     },
     "cost": {
-      "input": 5,
-      "output": 30,
-      "cache_read": 0.5,
+      "input": 1.5,
+      "output": 12,
+      "cache_read": 0.15,
       "cache_write": 0,
-      "tiers": [
-        {
-          "input": 10,
-          "output": 45,
-          "cache_read": 1,
-          "tier": {
-            "type": "context",
-            "size": 272000
-          }
-        }
-      ],
-      "context_over_200k": {
-        "input": 10,
-        "output": 45,
-        "cache_read": 1
-      }
+      "reasoning": 12
     }
   },
   "gpt-5.4": {
@@ -7346,14 +7314,14 @@
     "temperature": false,
     "limit": {
       "output": 128000,
-      "context": 400000,
-      "input": 272000
+      "context": 272000
     },
     "cost": {
-      "input": 0.75,
-      "output": 4.5,
-      "cache_read": 0.075,
-      "cache_write": 0
+      "input": 0.375,
+      "output": 4,
+      "cache_read": 0.0375,
+      "cache_write": 0,
+      "reasoning": 4
     }
   },
   "gpt-5.6-luna": {
@@ -7480,32 +7448,14 @@
     "temperature": false,
     "limit": {
       "output": 128000,
-      "context": 1050000,
-      "input": 922000
+      "context": 372000
     },
     "cost": {
-      "input": 2.5,
-      "output": 15,
-      "cache_read": 0.25,
-      "cache_write": 3.125,
-      "tiers": [
-        {
-          "input": 5,
-          "output": 22.5,
-          "cache_read": 0.5,
-          "cache_write": 6.25,
-          "tier": {
-            "type": "context",
-            "size": 272000
-          }
-        }
-      ],
-      "context_over_200k": {
-        "input": 5,
-        "output": 22.5,
-        "cache_read": 0.5,
-        "cache_write": 6.25
-      }
+      "input": 1.5,
+      "output": 2,
+      "cache_read": 0.15,
+      "cache_write": 0,
+      "reasoning": 2
     }
   },
   "gpt-5.1-codex-max": {
@@ -7658,15 +7608,15 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 65536,
-      "context": 1048576
+      "output": 128000,
+      "context": 1000000
     },
     "cost": {
-      "input": 1.5,
-      "output": 9,
-      "cache_read": 0.15,
+      "input": 1.55,
+      "output": 12.2,
+      "cache_read": 0.155,
       "cache_write": 0,
-      "input_audio": 1.5
+      "reasoning": 12.2
     }
   },
   "gemini-2.5-flash": {
@@ -7913,19 +7863,19 @@
     }
   },
   "gemma-4-26b-a4b-it": {
-    "reasoning": true,
+    "reasoning": false,
     "tool_call": true,
-    "attachment": true,
+    "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 16384,
+      "output": 25600,
       "context": 256000
     },
     "cost": {
-      "input": 0.25,
-      "output": 0.5,
+      "input": 0.13,
+      "output": 0.424,
       "cache_read": 0,
-      "cache_write": 0
+      "cache_write": 0.065
     }
   },
   "gemini-embedding-001": {
@@ -17685,8 +17635,25 @@
       "cache_write": 0
     }
   },
+  "abliterated-model-large": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 999990,
+      "context": 1000000,
+      "input": 1000000
+    },
+    "cost": {
+      "input": 5,
+      "output": 5,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "abliterated-model": {
-    "reasoning": false,
+    "reasoning": true,
     "tool_call": true,
     "attachment": true,
     "temperature": true,
@@ -23691,6 +23658,22 @@
       "cache_write": 3.75
     }
   },
+  "gemini-embedding": {
+    "reasoning": false,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": false,
+    "limit": {
+      "output": 1,
+      "context": 2048
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "anthropic--claude-4-sonnet": {
     "reasoning": true,
     "tool_call": true,
@@ -26738,17 +26721,17 @@
   "llama-4-maverick-17b-128e-instruct-fp8": {
     "reasoning": false,
     "tool_call": true,
-    "attachment": true,
+    "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 4096,
-      "context": 128000
+      "output": 43000,
+      "context": 430000
     },
     "cost": {
-      "input": 0,
-      "output": 0,
+      "input": 0.284,
+      "output": 0.934,
       "cache_read": 0,
-      "cache_write": 0
+      "cache_write": 0.142
     }
   },
   "ministral-3b": {
@@ -27578,22 +27561,6 @@
       "input": 0.35,
       "output": 1.5,
       "cache_read": 0.04,
-      "cache_write": 0
-    }
-  },
-  "nvidia-nemotron-cascade-2-30b-a3b": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 32768,
-      "context": 256000
-    },
-    "cost": {
-      "input": 0.14,
-      "output": 0.8,
-      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -30061,6 +30028,22 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "thinkingmachines/inkling-nvfp4": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 1.2,
+      "output": 5,
+      "cache_read": 0.27,
       "cache_write": 0
     }
   },
@@ -32644,6 +32627,22 @@
       "input": 0.95,
       "output": 4,
       "cache_read": 0.95,
+      "cache_write": 0
+    }
+  },
+  "hf:moonshotai/kimi-k3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 524288
+    },
+    "cost": {
+      "input": 3,
+      "output": 15,
+      "cache_read": 0.45,
       "cache_write": 0
     }
   },
@@ -37725,6 +37724,38 @@
       "output": 0,
       "cache_read": 0,
       "cache_write": 0
+    }
+  },
+  "qwen3.6-max": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 2,
+      "output": 12,
+      "cache_read": 0.2,
+      "cache_write": 2.5
+    }
+  },
+  "qwen3-coder-480b-a35b-instruct-int4-mixed-ar": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 10600,
+      "context": 106000
+    },
+    "cost": {
+      "input": 0.569,
+      "output": 2.135,
+      "cache_read": 0,
+      "cache_write": 0.2845
     }
   },
   "qwen-mt-plus": {
@@ -44968,32 +44999,14 @@
     "temperature": false,
     "limit": {
       "output": 128000,
-      "context": 1050000,
-      "input": 922000
+      "context": 372000
     },
     "cost": {
-      "input": 5,
-      "output": 30,
-      "cache_read": 0.5,
-      "cache_write": 6.25,
-      "tiers": [
-        {
-          "input": 10,
-          "output": 45,
-          "cache_read": 1,
-          "cache_write": 12.5,
-          "tier": {
-            "type": "context",
-            "size": 272000
-          }
-        }
-      ],
-      "context_over_200k": {
-        "input": 10,
-        "output": 45,
-        "cache_read": 1,
-        "cache_write": 12.5
-      }
+      "input": 1.5,
+      "output": 12,
+      "cache_read": 0.15,
+      "cache_write": 0,
+      "reasoning": 12
     }
   },
   "gpt-4o-2024-08-06": {
