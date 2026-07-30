@@ -240,7 +240,7 @@ def test_error_agent_edge_count():
 
 _DEEP_NODES = {
     "__start__", "model", "tools",
-    "TodoListMiddleware.after_model", "PatchToolCallsMiddleware.before_agent",
+    "PatchToolCallsMiddleware.before_agent",
     "__end__",
 }
 
@@ -268,22 +268,21 @@ def test_deep_agent_entry_edge():
     edges = {(e["source"], e["target"]): e["conditional"] for e in topo["edges"]}
     assert edges[("__start__", "PatchToolCallsMiddleware.before_agent")] is False
     assert edges[("PatchToolCallsMiddleware.before_agent", "model")] is False
-    assert edges[("model", "TodoListMiddleware.after_model")] is False
 
 
 @requires_deepagents
-def test_deep_agent_after_model_has_three_conditional_edges():
+def test_deep_agent_model_has_two_conditional_edges():
     topo = extract(deep_agent.graph)
-    outgoing = [e for e in topo["edges"] if e["source"] == "TodoListMiddleware.after_model"]
-    assert len(outgoing) == 3
+    outgoing = [e for e in topo["edges"] if e["source"] == "model"]
+    assert len(outgoing) == 2
     assert all(e["conditional"] for e in outgoing)
-    assert {e["target"] for e in outgoing} == {"model", "tools", "__end__"}
+    assert {e["target"] for e in outgoing} == {"tools", "__end__"}
 
 
 @requires_deepagents
 def test_deep_agent_edge_count():
     topo = extract(deep_agent.graph)
-    assert len(topo["edges"]) == 7
+    assert len(topo["edges"]) == 5
 
 
 @requires_deepagents
@@ -337,8 +336,7 @@ def test_sub1_agent_deep_subgraph_structure():
     topo = extract(sub1_agent.graph)
     da_node = next(n for n in topo["nodes"] if n["name"] == "deep_agent")
     sub_names = {n["name"] for n in da_node["subgraph"]["nodes"]}
-    assert {"model", "tools", "TodoListMiddleware.after_model",
-            "PatchToolCallsMiddleware.before_agent"} <= sub_names
+    assert {"model", "tools", "PatchToolCallsMiddleware.before_agent"} <= sub_names
 
 
 @requires_deepagents
