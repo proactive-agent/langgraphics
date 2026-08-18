@@ -1338,7 +1338,7 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 32768,
+      "output": 163840,
       "context": 163840
     },
     "cost": {
@@ -2462,7 +2462,7 @@
     "temperature": true,
     "limit": {
       "output": 1048576,
-      "context": 1048576
+      "context": 1310720
     },
     "cost": {
       "input": 0.44,
@@ -4719,8 +4719,8 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 262144,
-      "context": 262144
+      "output": 131072,
+      "context": 1048576
     },
     "cost": {
       "input": 1.4,
@@ -6822,6 +6822,23 @@
       "cache_write": 4.078
     }
   },
+  "qwen3.8-27b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 262144,
+      "input": 262144
+    },
+    "cost": {
+      "input": 0.2,
+      "output": 1.4,
+      "cache_read": 0.04,
+      "cache_write": 0
+    }
+  },
   "gpt-oss-safeguard-120b": {
     "reasoning": true,
     "tool_call": true,
@@ -7454,22 +7471,6 @@
       "input": 2,
       "output": 6,
       "cache_read": 1,
-      "cache_write": 0
-    }
-  },
-  "doubao-seed-1-8-251215": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 224000
-    },
-    "cost": {
-      "input": 0.114,
-      "output": 0.286,
-      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -8813,23 +8814,6 @@
       "cache_write": 0
     }
   },
-  "mirothinker-1-7-deepresearch": {
-    "reasoning": true,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": false,
-    "limit": {
-      "output": 16384,
-      "context": 262144,
-      "input": 262144
-    },
-    "cost": {
-      "input": 4,
-      "output": 25,
-      "cache_read": 2,
-      "cache_write": 0
-    }
-  },
   "claude-sonnet-4-thinking:64000": {
     "reasoning": true,
     "tool_call": true,
@@ -8911,23 +8895,6 @@
       "input": 0.782,
       "output": 3.893,
       "cache_read": 0.391,
-      "cache_write": 0
-    }
-  },
-  "step-2-mini": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": false,
-    "limit": {
-      "output": 4096,
-      "context": 8000,
-      "input": 8000
-    },
-    "cost": {
-      "input": 0.2006,
-      "output": 0.408,
-      "cache_read": 0.1003,
       "cache_write": 0
     }
   },
@@ -9145,9 +9112,9 @@
       "input": 262144
     },
     "cost": {
-      "input": 0.4,
-      "output": 3,
-      "cache_read": 0.2,
+      "input": 0.2,
+      "output": 1.4,
+      "cache_read": 0.04,
       "cache_write": 0
     }
   },
@@ -9403,23 +9370,6 @@
       "cache_write": 0
     }
   },
-  "step-3": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 8192,
-      "context": 65536,
-      "input": 65536
-    },
-    "cost": {
-      "input": 0.2499,
-      "output": 0.6494,
-      "cache_read": 0.12495,
-      "cache_write": 0
-    }
-  },
   "deepseek-reasoner": {
     "reasoning": true,
     "tool_call": true,
@@ -9501,23 +9451,6 @@
       "input": 0.15,
       "output": 3.5,
       "cache_read": 0.015,
-      "cache_write": 0
-    }
-  },
-  "step-2-16k-exp": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": false,
-    "limit": {
-      "output": 8192,
-      "context": 16000,
-      "input": 16000
-    },
-    "cost": {
-      "input": 7.004,
-      "output": 19.992,
-      "cache_read": 3.502,
       "cache_write": 0
     }
   },
@@ -9617,23 +9550,6 @@
       "input": 5,
       "output": 5,
       "cache_read": 0,
-      "cache_write": 0
-    }
-  },
-  "qwen3.8-27b": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 32768,
-      "context": 262144,
-      "input": 262144
-    },
-    "cost": {
-      "input": 0.4,
-      "output": 3,
-      "cache_read": 0.2,
       "cache_write": 0
     }
   },
@@ -9903,23 +9819,6 @@
       "input": 3,
       "output": 15,
       "cache_read": 0.3,
-      "cache_write": 0
-    }
-  },
-  "mirothinker-1-7-deepresearch-mini": {
-    "reasoning": true,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": false,
-    "limit": {
-      "output": 16384,
-      "context": 262144,
-      "input": 262144
-    },
-    "cost": {
-      "input": 1.25,
-      "output": 10,
-      "cache_read": 0.625,
       "cache_write": 0
     }
   },
@@ -10947,16 +10846,15 @@
     "reasoning": true,
     "tool_call": true,
     "attachment": false,
-    "temperature": false,
+    "temperature": true,
     "limit": {
       "output": 384000,
-      "context": 1048576,
-      "input": 1048576
+      "context": 1048576
     },
     "cost": {
       "input": 0.14,
       "output": 0.28,
-      "cache_read": 0.014,
+      "cache_read": 0.028,
       "cache_write": 0
     }
   },
@@ -16045,6 +15943,38 @@
       "cache_write": 0
     }
   },
+  "qwen3-vl-235b-a22b-instruct": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 8192,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.2,
+      "output": 0.88,
+      "cache_read": 0.11,
+      "cache_write": 0
+    }
+  },
+  "hy3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "abliterated-model-large": {
     "reasoning": true,
     "tool_call": true,
@@ -16546,22 +16476,6 @@
       "input": 0.17,
       "output": 0.566661,
       "cache_read": 0.051,
-      "cache_write": 0
-    }
-  },
-  "hy3": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 64000,
-      "context": 256000
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -18532,6 +18446,22 @@
       "cache_write": 0
     }
   },
+  "qwen/qwen3-vl-235b-a22b-thinking": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0.4,
+      "output": 4,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "qwen/qwen3-embedding-8b": {
     "reasoning": false,
     "tool_call": false,
@@ -19846,10 +19776,10 @@
       "context": 1050000
     },
     "cost": {
-      "input": 5,
-      "output": 30,
-      "cache_read": 0.5,
-      "cache_write": 6.25
+      "input": 2.5,
+      "output": 15,
+      "cache_read": 0.25,
+      "cache_write": 3.125
     }
   },
   "~openai/gpt-mini-latest": {
@@ -19880,6 +19810,22 @@
     "cost": {
       "input": 0.07,
       "output": 0.14,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "z-ai/glm-5.2:free": {
+    "reasoning": true,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 128000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -20947,22 +20893,6 @@
       "cache_write": 0
     }
   },
-  "qwen/qwen3-vl-235b-a22b-thinking": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 32768,
-      "context": 131072
-    },
-    "cost": {
-      "input": 0.4,
-      "output": 4,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "qwen/qwen-plus": {
     "reasoning": false,
     "tool_call": true,
@@ -21407,9 +21337,9 @@
       "context": 262144
     },
     "cost": {
-      "input": 0.0603,
-      "output": 0.1206,
-      "cache_read": 0.01206,
+      "input": 0.0783,
+      "output": 0.1566,
+      "cache_read": 0.01566,
       "cache_write": 0
     }
   },
@@ -21723,12 +21653,12 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 1048576,
-      "context": 1048576
+      "output": 974842,
+      "context": 974842
     },
     "cost": {
-      "input": 2.8,
-      "output": 14,
+      "input": 2.6,
+      "output": 13,
       "cache_read": 0.29,
       "cache_write": 0
     }
@@ -31786,6 +31716,22 @@
       }
     }
   },
+  "sakana-namazu": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.15,
+      "cache_write": 0
+    }
+  },
   "fugu-ultra": {
     "reasoning": true,
     "tool_call": true,
@@ -32985,6 +32931,22 @@
       "input": 0.038,
       "output": 0.1,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "trinity-large-thinking": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.25,
+      "output": 0.8,
+      "cache_read": 0.06,
       "cache_write": 0
     }
   },
@@ -34350,22 +34312,6 @@
       "cache_write": 0
     }
   },
-  "qwen3-vl-235b-a22b-instruct": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 8192,
-      "context": 262144
-    },
-    "cost": {
-      "input": 0.2,
-      "output": 0.88,
-      "cache_read": 0.11,
-      "cache_write": 0
-    }
-  },
   "mistral-small": {
     "reasoning": false,
     "tool_call": true,
@@ -35200,6 +35146,22 @@
     "cost": {
       "input": 0.343,
       "output": 1.372,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "doubao-seed-1-8-251215": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 64000,
+      "context": 224000
+    },
+    "cost": {
+      "input": 0.114,
+      "output": 0.286,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -37228,7 +37190,7 @@
   "zai-org/glm-5.2-fast": {
     "reasoning": true,
     "tool_call": true,
-    "attachment": false,
+    "attachment": true,
     "temperature": true,
     "limit": {
       "output": 262144,
@@ -40897,22 +40859,6 @@
       "cache_write": 0
     }
   },
-  "zai-glm-4.7": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 40960,
-      "context": 131072
-    },
-    "cost": {
-      "input": 2.25,
-      "output": 2.75,
-      "cache_read": 2.25,
-      "cache_write": 0
-    }
-  },
   "ling-1t": {
     "reasoning": false,
     "tool_call": true,
@@ -43158,6 +43104,22 @@
       "cache_write": 0
     }
   },
+  "alibaba/qwen3.8-27b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262133,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "alibaba/qwen3.6-plus": {
     "reasoning": true,
     "tool_call": true,
@@ -44452,7 +44414,7 @@
     "cost": {
       "input": 0.3,
       "output": 0.9,
-      "cache_read": 0,
+      "cache_read": 0.3,
       "cache_write": 0
     }
   },
@@ -44468,7 +44430,7 @@
     "cost": {
       "input": 1,
       "output": 3,
-      "cache_read": 0,
+      "cache_read": 1,
       "cache_write": 0
     }
   },
@@ -44484,7 +44446,7 @@
     "cost": {
       "input": 0.15,
       "output": 0.6,
-      "cache_read": 0,
+      "cache_read": 0.15,
       "cache_write": 0
     }
   },
@@ -44500,7 +44462,7 @@
     "cost": {
       "input": 0.13,
       "output": 0.4,
-      "cache_read": 0,
+      "cache_read": 0.13,
       "cache_write": 0
     }
   },
@@ -44960,6 +44922,22 @@
       "cache_write": 0
     }
   },
+  "qwen/deepseek-v4-pro-0813": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 384000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 1.32,
+      "output": 3.96,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "qwen/qwq-plus": {
     "reasoning": true,
     "tool_call": false,
@@ -45082,8 +45060,8 @@
       "context": 131072
     },
     "cost": {
-      "input": 0.173505,
-      "output": 0.751855,
+      "input": 0.173895,
+      "output": 0.753545,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -45098,8 +45076,8 @@
       "context": 128000
     },
     "cost": {
-      "input": 0.751855,
-      "output": 0.751855,
+      "input": 0.753545,
+      "output": 0.753545,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -45114,8 +45092,8 @@
       "context": 128000
     },
     "cost": {
-      "input": 1.04103,
-      "output": 1.04103,
+      "input": 1.043371,
+      "output": 1.043371,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -45130,8 +45108,8 @@
       "context": 128000
     },
     "cost": {
-      "input": 0.173505,
-      "output": 0.69402,
+      "input": 0.173895,
+      "output": 0.69558,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -45146,8 +45124,8 @@
       "context": 256000
     },
     "cost": {
-      "input": 0.46268,
-      "output": 0.92536,
+      "input": 0.46372,
+      "output": 0.927441,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -45367,7 +45345,7 @@
     "temperature": true,
     "limit": {
       "output": 384000,
-      "context": 1048576
+      "context": 1310720
     },
     "cost": {
       "input": 0.44,
@@ -45614,6 +45592,54 @@
       "input": 0.075,
       "output": 0.3,
       "cache_read": 0.0375,
+      "cache_write": 0
+    }
+  },
+  "tensorx/deepseek/deepseek-v4-flash-0731": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 384000,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 0.25,
+      "output": 0.3,
+      "cache_read": 0.0625,
+      "cache_write": 0
+    }
+  },
+  "tensorx/moonshotai/kimi-k2.5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.5,
+      "output": 2.8,
+      "cache_read": 0.125,
+      "cache_write": 0
+    }
+  },
+  "tensorx/qwen/qwen3.8-27b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.4,
+      "output": 2.4,
+      "cache_read": 0.1,
       "cache_write": 0
     }
   },
@@ -47928,22 +47954,6 @@
       "cache_read": 0,
       "cache_write": 0,
       "reasoning": 0
-    }
-  },
-  "z-ai/glm-5.2:free": {
-    "reasoning": true,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 128000,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cache_read": 0,
-      "cache_write": 0
     }
   },
   "deepseek/deepseek-v4-pro:discounted": {
