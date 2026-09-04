@@ -271,18 +271,18 @@ def test_deep_agent_entry_edge():
 
 
 @requires_deepagents
-def test_deep_agent_model_has_two_conditional_edges():
+def test_deep_agent_model_has_conditional_edges():
     topo = extract(deep_agent.graph)
     outgoing = [e for e in topo["edges"] if e["source"] == "model"]
-    assert len(outgoing) == 2
+    assert len(outgoing) == 3
     assert all(e["conditional"] for e in outgoing)
-    assert {e["target"] for e in outgoing} == {"tools", "__end__"}
+    assert {e["target"] for e in outgoing} == {"tools", "model", "__end__"}
 
 
 @requires_deepagents
 def test_deep_agent_edge_count():
     topo = extract(deep_agent.graph)
-    assert len(topo["edges"]) == 5
+    assert len(topo["edges"]) == 6
 
 
 @requires_deepagents
