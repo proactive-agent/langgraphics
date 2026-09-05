@@ -1273,12 +1273,12 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 40000,
-      "context": 40000
+      "output": 32000,
+      "context": 32000
     },
     "cost": {
-      "input": 0.099,
-      "output": 0.299,
+      "input": 0.089,
+      "output": 0.312,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -1357,8 +1357,8 @@
       "context": 32000
     },
     "cost": {
-      "input": 0.25,
-      "output": 0.747,
+      "input": 1.014,
+      "output": 1.014,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -3427,8 +3427,8 @@
     "temperature": false,
     "limit": {
       "output": 115200,
-      "context": 128000,
-      "input": 128000
+      "context": 32000,
+      "input": 32000
     },
     "cost": {
       "input": 0.69989,
@@ -6518,8 +6518,8 @@
     "temperature": false,
     "limit": {
       "output": 65536,
-      "context": 131072,
-      "input": 131072
+      "context": 32768,
+      "input": 32768
     },
     "cost": {
       "input": 0.1,
@@ -8315,12 +8315,12 @@
       "context": 1048576
     },
     "cost": {
-      "input": 1.5,
-      "output": 7.5,
-      "cache_read": 0.15,
-      "cache_write": 0.083333,
-      "reasoning": 7.5,
-      "input_audio": 1.5
+      "input": 0.75,
+      "output": 3.75,
+      "cache_read": 0.075,
+      "cache_write": 0.041667,
+      "reasoning": 3.75,
+      "input_audio": 0.75
     }
   },
   "google/gemini-3.7-flash": {
@@ -8680,23 +8680,6 @@
       "output": 16384,
       "context": 32768,
       "input": 32768
-    },
-    "cost": {
-      "input": 0.493,
-      "output": 0.493,
-      "cache_read": 0.2465,
-      "cache_write": 0
-    }
-  },
-  "steelskull/l3.3-ms-evayale-70b": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": false,
-    "limit": {
-      "output": 16384,
-      "context": 16384,
-      "input": 16384
     },
     "cost": {
       "input": 0.493,
@@ -9198,6 +9181,23 @@
       "cache_write": 0
     }
   },
+  "tee/qwen3-8b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": false,
+    "limit": {
+      "output": 8192,
+      "context": 40960,
+      "input": 40960
+    },
+    "cost": {
+      "input": 0.11,
+      "output": 0.45,
+      "cache_read": 0.11,
+      "cache_write": 0
+    }
+  },
   "tee/glm-5.1": {
     "reasoning": true,
     "tool_call": true,
@@ -9648,22 +9648,6 @@
       "input": 0.493,
       "output": 0.493,
       "cache_read": 0.2465,
-      "cache_write": 0
-    }
-  },
-  "ibm-granite/granite-4.1-8b": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 117964,
-      "context": 131072
-    },
-    "cost": {
-      "input": 0.05,
-      "output": 0.1,
-      "cache_read": 0.05,
       "cache_write": 0
     }
   },
@@ -10473,6 +10457,40 @@
       "cache_write": 0
     }
   },
+  "openai/gpt-6-astra-pro": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1050000
+    },
+    "cost": {
+      "input": 10,
+      "output": 50,
+      "cache_read": 1,
+      "cache_write": 12.5,
+      "tiers": [
+        {
+          "input": 20,
+          "output": 75,
+          "cache_read": 2,
+          "cache_write": 25,
+          "tier": {
+            "type": "context",
+            "size": 272000
+          }
+        }
+      ],
+      "context_over_200k": {
+        "input": 20,
+        "output": 75,
+        "cache_read": 2,
+        "cache_write": 25
+      }
+    }
+  },
   "openai/gpt-5.1-codex": {
     "reasoning": true,
     "tool_call": true,
@@ -10605,6 +10623,41 @@
         "output": 30,
         "cache_read": 0.8,
         "cache_write": 10
+      }
+    }
+  },
+  "openai/gpt-6-astra": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1050000,
+      "input": 922000
+    },
+    "cost": {
+      "input": 10,
+      "output": 50,
+      "cache_read": 1,
+      "cache_write": 12.5,
+      "tiers": [
+        {
+          "input": 20,
+          "output": 75,
+          "cache_read": 2,
+          "cache_write": 25,
+          "tier": {
+            "type": "context",
+            "size": 272000
+          }
+        }
+      ],
+      "context_over_200k": {
+        "input": 20,
+        "output": 75,
+        "cache_read": 2,
+        "cache_write": 25
       }
     }
   },
@@ -11459,8 +11512,8 @@
     "temperature": false,
     "limit": {
       "output": 26214,
-      "context": 32768,
-      "input": 32768
+      "context": 8192,
+      "input": 8192
     },
     "cost": {
       "input": 0.493,
@@ -18397,6 +18450,22 @@
       "cache_write": 0
     }
   },
+  "google-ai-studio/gemini-3.8-flash": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 0.75,
+      "output": 3.75,
+      "cache_read": 0.075,
+      "cache_write": 0.08333
+    }
+  },
   "google-ai-studio/gemini-3.7-flash": {
     "reasoning": true,
     "tool_call": true,
@@ -19052,6 +19121,22 @@
       "input": 0.845,
       "output": 3.38,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "novita/glm-5.3-flash": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 0.075,
+      "output": 0.25,
+      "cache_read": 0.015,
       "cache_write": 0
     }
   },
@@ -19850,8 +19935,8 @@
       "context": 524288
     },
     "cost": {
-      "input": 0.13,
-      "output": 0.27,
+      "input": 0.08,
+      "output": 0.16,
       "cache_read": 0.02,
       "cache_write": 0
     }
@@ -19869,6 +19954,22 @@
       "input": 0.04,
       "output": 0.19,
       "cache_read": 0.01,
+      "cache_write": 0
+    }
+  },
+  "consensusprotocol/glm-5.3-flash": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 0.1,
+      "output": 0.25,
+      "cache_read": 0.02,
       "cache_write": 0
     }
   },
@@ -20445,6 +20546,22 @@
       "input": 30,
       "output": 60,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "meta-contributor/muse-spark-1.2-contributor": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 0.1,
+      "output": 0.2,
+      "cache_read": 0.002,
       "cache_write": 0
     }
   },
@@ -23460,12 +23577,12 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 202752,
-      "context": 202752
+      "output": 131072,
+      "context": 204800
     },
     "cost": {
-      "input": 0.78,
-      "output": 2.785,
+      "input": 3.5,
+      "output": 14,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -34398,10 +34515,10 @@
       "context": 1048576
     },
     "cost": {
-      "input": 1.5,
-      "output": 7.5,
-      "cache_read": 0.15,
-      "cache_write": 1.5
+      "input": 0.75,
+      "output": 3.75,
+      "cache_read": 0.075,
+      "cache_write": 0.75
     }
   },
   "gemini/gemini-3.5-flash": {
@@ -36502,6 +36619,22 @@
       "input": 2.1,
       "output": 6.6,
       "cache_read": 0.21,
+      "cache_write": 0
+    }
+  },
+  "zai-org/glm-5.3-fast": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 2.1,
+      "output": 6.6,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -39069,6 +39202,38 @@
       "cache_write": 0
     }
   },
+  "inclusionai/ling-3.0-flash-sante": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": false,
+    "limit": {
+      "output": 32000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "inclusionai/ling-3.0-flash-sante-free": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": false,
+    "limit": {
+      "output": 32000,
+      "context": 256000
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
   "inclusionai/ling-3.0-flash-fin-free": {
     "reasoning": true,
     "tool_call": true,
@@ -39183,6 +39348,41 @@
       "output": 0,
       "cache_read": 0,
       "cache_write": 0
+    }
+  },
+  "openai/gpt-6-astra-fast": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1050000,
+      "input": 922000
+    },
+    "cost": {
+      "input": 20,
+      "output": 100,
+      "cache_read": 2,
+      "cache_write": 12.5,
+      "tiers": [
+        {
+          "input": 40,
+          "output": 150,
+          "cache_read": 4,
+          "cache_write": 25,
+          "tier": {
+            "type": "context",
+            "size": 272001
+          }
+        }
+      ],
+      "context_over_200k": {
+        "input": 40,
+        "output": 150,
+        "cache_read": 4,
+        "cache_write": 25
+      }
     }
   },
   "openai/gpt-realtime-2": {
@@ -40244,6 +40444,22 @@
       "cache_write": 0
     }
   },
+  "ibm-granite/granite-4.1-8b": {
+    "reasoning": false,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0.05,
+      "output": 0.1,
+      "cache_read": 0.05,
+      "cache_write": 0
+    }
+  },
   "meta-llama/llama-3.1-70b-instruct": {
     "reasoning": false,
     "tool_call": true,
@@ -40330,13 +40546,13 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 235929,
+      "output": 16384,
       "context": 262144
     },
     "cost": {
-      "input": 0.0875,
-      "output": 0.35,
-      "cache_read": 0.0175,
+      "input": 0.09,
+      "output": 0.55,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -40742,6 +40958,41 @@
       "output": 18.8,
       "cache_read": 0.313,
       "cache_write": 0
+    }
+  },
+  "openai-gpt-6-astra": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1050000,
+      "input": 922000
+    },
+    "cost": {
+      "input": 10,
+      "output": 50,
+      "cache_read": 1,
+      "cache_write": 12.5,
+      "tiers": [
+        {
+          "input": 20,
+          "output": 75,
+          "cache_read": 2,
+          "cache_write": 25,
+          "tier": {
+            "type": "context",
+            "size": 272000
+          }
+        }
+      ],
+      "context_over_200k": {
+        "input": 20,
+        "output": 75,
+        "cache_read": 2,
+        "cache_write": 25
+      }
     }
   },
   "z-ai-glm-5-turbo": {
@@ -41976,6 +42227,41 @@
       "cache_write": 0
     }
   },
+  "gpt-6-astra": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1050000,
+      "input": 922000
+    },
+    "cost": {
+      "input": 10,
+      "output": 50,
+      "cache_read": 1,
+      "cache_write": 12.5,
+      "tiers": [
+        {
+          "input": 20,
+          "output": 75,
+          "cache_read": 2,
+          "cache_write": 25,
+          "tier": {
+            "type": "context",
+            "size": 272000
+          }
+        }
+      ],
+      "context_over_200k": {
+        "input": 20,
+        "output": 75,
+        "cache_read": 2,
+        "cache_write": 25
+      }
+    }
+  },
   "seed-1-6-flash-250715": {
     "reasoning": true,
     "tool_call": true,
@@ -42997,57 +43283,6 @@
       "cache_write": 0
     }
   },
-  "claude-opus-4.6": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 32000,
-      "context": 200000,
-      "input": 168000
-    },
-    "cost": {
-      "input": 5,
-      "output": 25,
-      "cache_read": 0.5,
-      "cache_write": 6.25
-    }
-  },
-  "claude-sonnet-4.5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 32000,
-      "context": 200000,
-      "input": 168000
-    },
-    "cost": {
-      "input": 3,
-      "output": 15,
-      "cache_read": 0.3,
-      "cache_write": 3.75
-    }
-  },
-  "claude-opus-4.5": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 32000,
-      "context": 200000,
-      "input": 168000
-    },
-    "cost": {
-      "input": 5,
-      "output": 25,
-      "cache_read": 0.5,
-      "cache_write": 6.25
-    }
-  },
   "glm-4.5-flash": {
     "reasoning": true,
     "tool_call": true,
@@ -43317,6 +43552,22 @@
       "input": 0.15,
       "output": 0.5,
       "cache_read": 0.03,
+      "cache_write": 0
+    }
+  },
+  "accounts/fireworks/models/qwen3p8-2p4t-a95b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 262144
+    },
+    "cost": {
+      "input": 2,
+      "output": 6,
+      "cache_read": 0.25,
       "cache_write": 0
     }
   },
@@ -43656,6 +43907,22 @@
       "cache_write": 0
     }
   },
+  "nvidia/nvidia-nemotron-3-nano-30b-a3b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.05,
+      "output": 0.2,
+      "cache_read": 0.03,
+      "cache_write": 0
+    }
+  },
   "nvidia/nemotron-3-nano-omni-reasoning-30b-a3b": {
     "reasoning": true,
     "tool_call": true,
@@ -43671,6 +43938,22 @@
       "cache_read": 0.3,
       "cache_write": 0,
       "input_audio": 0.5
+    }
+  },
+  "nvidia/nvidia-nemotron-3-super-120b-a12b": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 262144,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.3,
+      "output": 2.4,
+      "cache_read": 0.15,
+      "cache_write": 0
     }
   },
   "kimi-k2-7-code-highspeed": {
@@ -45996,13 +46279,13 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 393216,
+      "output": 131072,
       "context": 1310720
     },
     "cost": {
-      "input": 0.05,
-      "output": 0.16,
-      "cache_read": 0.013,
+      "input": 0.04998,
+      "output": 0.09996,
+      "cache_read": 0.009996,
       "cache_write": 0
     }
   },
@@ -46908,6 +47191,22 @@
     }
   },
   "inclusionai/ling-3.0-flash-fin:free": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "inclusionai/ling-3.0-flash-sante:free": {
     "reasoning": true,
     "tool_call": true,
     "attachment": false,
@@ -51296,6 +51595,22 @@
       "cache_write": 0
     }
   },
+  "cline-pass/glm-5.3-flash": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 0.15,
+      "output": 0.5,
+      "cache_read": 0.03,
+      "cache_write": 0
+    }
+  },
   "cline-pass/qwen3.8-max": {
     "reasoning": true,
     "tool_call": true,
@@ -53285,7 +53600,7 @@
     "temperature": false,
     "limit": {
       "output": 0,
-      "context": 8000
+      "context": 16000
     },
     "cost": {
       "input": 0,
@@ -53333,7 +53648,7 @@
     "temperature": false,
     "limit": {
       "output": 0,
-      "context": 8000
+      "context": 64000
     },
     "cost": {
       "input": 0,
@@ -53349,7 +53664,7 @@
     "temperature": false,
     "limit": {
       "output": 0,
-      "context": 8000
+      "context": 16000
     },
     "cost": {
       "input": 0,
@@ -55360,22 +55675,6 @@
       "cache_write": 0
     }
   },
-  "hermes-4-70b": {
-    "reasoning": false,
-    "tool_call": true,
-    "attachment": false,
-    "temperature": true,
-    "limit": {
-      "output": 128000,
-      "context": 128000
-    },
-    "cost": {
-      "input": 0.129,
-      "output": 0.399,
-      "cache_read": 0,
-      "cache_write": 0
-    }
-  },
   "nemotron-nano-v2-12b": {
     "reasoning": true,
     "tool_call": true,
@@ -55571,7 +55870,7 @@
   "k3-256k": {
     "reasoning": true,
     "tool_call": true,
-    "attachment": false,
+    "attachment": true,
     "temperature": false,
     "limit": {
       "output": 131072,
@@ -55603,7 +55902,7 @@
   "k3": {
     "reasoning": true,
     "tool_call": true,
-    "attachment": false,
+    "attachment": true,
     "temperature": false,
     "limit": {
       "output": 131072,
@@ -55677,6 +55976,22 @@
       "input": 0,
       "output": 0,
       "cache_read": 0,
+      "cache_write": 0
+    }
+  },
+  "omen-alpha": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 128000,
+      "context": 500000
+    },
+    "cost": {
+      "input": 0.2,
+      "output": 0.66,
+      "cache_read": 0.04,
       "cache_write": 0
     }
   },
@@ -56343,8 +56658,8 @@
       "context": 256000
     },
     "cost": {
-      "input": 0.4646,
-      "output": 0.9292,
+      "input": 0.46488,
+      "output": 0.92976,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -56359,8 +56674,8 @@
       "context": 128000
     },
     "cost": {
-      "input": 0.174225,
-      "output": 0.6969,
+      "input": 0.17433,
+      "output": 0.69732,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -56375,8 +56690,8 @@
       "context": 128000
     },
     "cost": {
-      "input": 1.04535,
-      "output": 1.04535,
+      "input": 1.04598,
+      "output": 1.04598,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -57309,6 +57624,22 @@
       "cache_write": 0
     }
   },
+  "fireworks_ai/accounts/fireworks/models/inkling": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 1048576,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 1,
+      "output": 4.05,
+      "cache_read": 0.17,
+      "cache_write": 0
+    }
+  },
   "amazon/moonshotai.kimi-k2.5": {
     "reasoning": true,
     "tool_call": true,
@@ -57735,12 +58066,12 @@
       "context": 1048576
     },
     "cost": {
-      "input": 1.5,
-      "output": 7.5,
-      "cache_read": 0.15,
-      "cache_write": 0.083333,
-      "reasoning": 7.5,
-      "input_audio": 1.5
+      "input": 0.75,
+      "output": 3.75,
+      "cache_read": 0.075,
+      "cache_write": 0.041667,
+      "reasoning": 3.75,
+      "input_audio": 0.75
     }
   },
   "vertex/gemini-3.6-flash": {
@@ -57825,12 +58156,12 @@
       "context": 1048576
     },
     "cost": {
-      "input": 1.5,
-      "output": 7.5,
-      "cache_read": 0.15,
-      "cache_write": 0.083333,
-      "reasoning": 7.5,
-      "input_audio": 1.5
+      "input": 0.75,
+      "output": 3.75,
+      "cache_read": 0.075,
+      "cache_write": 0.041667,
+      "reasoning": 3.75,
+      "input_audio": 0.75
     }
   },
   "vertex/gemini-3.6-flash@us": {
@@ -58003,12 +58334,12 @@
       "context": 1048576
     },
     "cost": {
-      "input": 1.5,
-      "output": 7.5,
-      "cache_read": 0.15,
-      "cache_write": 0.083333,
-      "reasoning": 7.5,
-      "input_audio": 1.5
+      "input": 0.75,
+      "output": 3.75,
+      "cache_read": 0.075,
+      "cache_write": 0.041667,
+      "reasoning": 3.75,
+      "input_audio": 0.75
     }
   },
   "vertex/gemini-3.1-flash-lite@eu": {
@@ -58093,8 +58424,8 @@
       "context": 128000
     },
     "cost": {
-      "input": 0.754975,
-      "output": 0.754975,
+      "input": 0.75543,
+      "output": 0.75543,
       "cache_read": 0,
       "cache_write": 0
     }
@@ -58109,8 +58440,8 @@
       "context": 131072
     },
     "cost": {
-      "input": 0.174225,
-      "output": 0.754975,
+      "input": 0.17433,
+      "output": 0.75543,
       "cache_read": 0,
       "cache_write": 0
     }
