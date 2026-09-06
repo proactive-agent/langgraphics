@@ -3141,8 +3141,8 @@
     "temperature": false,
     "limit": {
       "output": 65536,
-      "context": 1048756,
-      "input": 1048756
+      "context": 1048576,
+      "input": 1048576
     },
     "cost": {
       "input": 0.3,
@@ -3361,8 +3361,8 @@
     "temperature": false,
     "limit": {
       "output": 65536,
-      "context": 1048756,
-      "input": 1048756
+      "context": 1048576,
+      "input": 1048576
     },
     "cost": {
       "input": 2.5,
@@ -3998,7 +3998,7 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 32000,
+      "output": 64000,
       "context": 200000,
       "input": 200000
     },
@@ -4387,8 +4387,8 @@
     "temperature": false,
     "limit": {
       "output": 65536,
-      "context": 1048756,
-      "input": 1048756
+      "context": 1048576,
+      "input": 1048576
     },
     "cost": {
       "input": 0.15,
@@ -4471,8 +4471,8 @@
     "temperature": false,
     "limit": {
       "output": 65536,
-      "context": 1048756,
-      "input": 1048756
+      "context": 1048576,
+      "input": 1048576
     },
     "cost": {
       "input": 0.15,
@@ -4555,8 +4555,8 @@
     "temperature": false,
     "limit": {
       "output": 65536,
-      "context": 1048756,
-      "input": 1048756
+      "context": 1048576,
+      "input": 1048576
     },
     "cost": {
       "input": 0.3,
@@ -4638,8 +4638,8 @@
     "temperature": false,
     "limit": {
       "output": 65536,
-      "context": 1048756,
-      "input": 1048756
+      "context": 1048576,
+      "input": 1048576
     },
     "cost": {
       "input": 0.1,
@@ -5327,8 +5327,8 @@
     "temperature": false,
     "limit": {
       "output": 65536,
-      "context": 1048756,
-      "input": 1048756
+      "context": 1048576,
+      "input": 1048576
     },
     "cost": {
       "input": 2.5,
@@ -5460,8 +5460,8 @@
     "temperature": false,
     "limit": {
       "output": 65536,
-      "context": 1048756,
-      "input": 1048756
+      "context": 1048576,
+      "input": 1048576
     },
     "cost": {
       "input": 2.5,
@@ -8053,8 +8053,8 @@
     "temperature": true,
     "limit": {
       "output": 65536,
-      "context": 1048756,
-      "input": 1048756
+      "context": 1048576,
+      "input": 1048576
     },
     "cost": {
       "input": 0.5,
@@ -8192,8 +8192,8 @@
     "temperature": false,
     "limit": {
       "output": 65536,
-      "context": 1048756,
-      "input": 1048756
+      "context": 1048576,
+      "input": 1048576
     },
     "cost": {
       "input": 2,
@@ -8366,8 +8366,8 @@
     "temperature": false,
     "limit": {
       "output": 65536,
-      "context": 1048756,
-      "input": 1048756
+      "context": 1048576,
+      "input": 1048576
     },
     "cost": {
       "input": 2,
@@ -9567,23 +9567,6 @@
       "cache_write": 0
     }
   },
-  "nousresearch/hermes-4-70b:thinking": {
-    "reasoning": false,
-    "tool_call": false,
-    "attachment": false,
-    "temperature": false,
-    "limit": {
-      "output": 8192,
-      "context": 128000,
-      "input": 128000
-    },
-    "cost": {
-      "input": 0.2006,
-      "output": 0.3995,
-      "cache_read": 0.1003,
-      "cache_write": 0
-    }
-  },
   "nousresearch/hermes-4-405b": {
     "reasoning": true,
     "tool_call": false,
@@ -10602,16 +10585,16 @@
       "input": 922000
     },
     "cost": {
-      "input": 4,
-      "output": 20,
-      "cache_read": 0.4,
-      "cache_write": 5,
+      "input": 10,
+      "output": 50,
+      "cache_read": 1,
+      "cache_write": 12.5,
       "tiers": [
         {
-          "input": 8,
-          "output": 30,
-          "cache_read": 0.8,
-          "cache_write": 10,
+          "input": 20,
+          "output": 75,
+          "cache_read": 2,
+          "cache_write": 25,
           "tier": {
             "type": "context",
             "size": 272000
@@ -10619,10 +10602,10 @@
         }
       ],
       "context_over_200k": {
-        "input": 8,
-        "output": 30,
-        "cache_read": 0.8,
-        "cache_write": 10
+        "input": 20,
+        "output": 75,
+        "cache_read": 2,
+        "cache_write": 25
       }
     }
   },
@@ -11580,8 +11563,8 @@
     "temperature": false,
     "limit": {
       "output": 16384,
-      "context": 131072,
-      "input": 131072
+      "context": 32000,
+      "input": 32000
     },
     "cost": {
       "input": 0.31,
@@ -19134,9 +19117,9 @@
       "context": 1048576
     },
     "cost": {
-      "input": 0.075,
-      "output": 0.25,
-      "cache_read": 0.015,
+      "input": 0.15,
+      "output": 0.5,
+      "cache_read": 0.03,
       "cache_write": 0
     }
   },
@@ -19935,9 +19918,9 @@
       "context": 524288
     },
     "cost": {
-      "input": 0.08,
-      "output": 0.16,
-      "cache_read": 0.02,
+      "input": 0.05,
+      "output": 0.1,
+      "cache_read": 0.01,
       "cache_write": 0
     }
   },
@@ -20069,6 +20052,23 @@
       "output": 14,
       "cache_read": 0.175,
       "cache_write": 0
+    }
+  },
+  "azure/gpt-6-astra": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1050000,
+      "input": 922000
+    },
+    "cost": {
+      "input": 10,
+      "output": 50,
+      "cache_read": 1,
+      "cache_write": 12.5
     }
   },
   "azure/gpt-5.2-pro": {
@@ -21346,6 +21346,22 @@
       "input": 0.076,
       "output": 0.153,
       "cache_read": 0.014,
+      "cache_write": 0
+    }
+  },
+  "runware/kimi-k3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 1048576,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 3,
+      "output": 15,
+      "cache_read": 0.3,
       "cache_write": 0
     }
   },
@@ -32424,6 +32440,22 @@
       "cache_write": 0
     }
   },
+  "inkling": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 1,
+      "output": 4.05,
+      "cache_read": 0.17,
+      "cache_write": 0
+    }
+  },
   "qwen3.6-max": {
     "reasoning": true,
     "tool_call": true,
@@ -33483,22 +33515,6 @@
       "input": 0.33,
       "output": 2.75,
       "cache_read": 0.033,
-      "cache_write": 0
-    }
-  },
-  "inkling": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 65536,
-      "context": 1048576
-    },
-    "cost": {
-      "input": 1,
-      "output": 4.05,
-      "cache_read": 0.17,
       "cache_write": 0
     }
   },
@@ -39364,7 +39380,7 @@
       "input": 20,
       "output": 100,
       "cache_read": 2,
-      "cache_write": 12.5,
+      "cache_write": 25,
       "tiers": [
         {
           "input": 40,
@@ -39482,7 +39498,7 @@
       "input": 0.4,
       "output": 2.4,
       "cache_read": 0.04,
-      "cache_write": 0.25
+      "cache_write": 0.5
     }
   },
   "openai/gpt-5.4-fast": {
@@ -39600,7 +39616,7 @@
       "input": 4,
       "output": 24,
       "cache_read": 0.4,
-      "cache_write": 2.5
+      "cache_write": 5
     }
   },
   "openai/gpt-4.1-nano-fast": {
@@ -39751,7 +39767,7 @@
       "input": 4,
       "output": 20,
       "cache_read": 0.4,
-      "cache_write": 2.5
+      "cache_write": 5
     }
   },
   "openai/whisper-1": {
@@ -41053,10 +41069,28 @@
       "context": 1000000
     },
     "cost": {
-      "input": 3.125,
-      "output": 18.75,
-      "cache_read": 0.3125,
-      "cache_write": 3.90625
+      "input": 2.5,
+      "output": 15,
+      "cache_read": 0.25,
+      "cache_write": 3.125,
+      "tiers": [
+        {
+          "input": 5,
+          "output": 22.5,
+          "cache_read": 0.5,
+          "cache_write": 6.25,
+          "tier": {
+            "type": "context",
+            "size": 272000
+          }
+        }
+      ],
+      "context_over_200k": {
+        "input": 5,
+        "output": 22.5,
+        "cache_read": 0.5,
+        "cache_write": 6.25
+      }
     }
   },
   "kimi-k3-fast-api": {
@@ -41245,6 +41279,40 @@
       "cache_write": 0
     }
   },
+  "openai-gpt-6-astra-pro": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1050000
+    },
+    "cost": {
+      "input": 12.5,
+      "output": 62.5,
+      "cache_read": 1.25,
+      "cache_write": 15.625,
+      "tiers": [
+        {
+          "input": 25,
+          "output": 93.75,
+          "cache_read": 2.5,
+          "cache_write": 31.25,
+          "tier": {
+            "type": "context",
+            "size": 272000
+          }
+        }
+      ],
+      "context_over_200k": {
+        "input": 25,
+        "output": 93.75,
+        "cache_read": 2.5,
+        "cache_write": 31.25
+      }
+    }
+  },
   "openai-gpt-54-mini": {
     "reasoning": true,
     "tool_call": true,
@@ -41412,10 +41480,28 @@
       "context": 1000000
     },
     "cost": {
-      "input": 6.25,
-      "output": 37.5,
-      "cache_read": 0.625,
-      "cache_write": 7.8125
+      "input": 2.5,
+      "output": 12.5,
+      "cache_read": 0.25,
+      "cache_write": 3.125,
+      "tiers": [
+        {
+          "input": 5,
+          "output": 18.75,
+          "cache_read": 0.5,
+          "cache_write": 6.25,
+          "tier": {
+            "type": "context",
+            "size": 272000
+          }
+        }
+      ],
+      "context_over_200k": {
+        "input": 5,
+        "output": 18.75,
+        "cache_read": 0.5,
+        "cache_write": 6.25
+      }
     }
   },
   "xiaomi-mimo-v2-5": {
@@ -41444,16 +41530,16 @@
       "context": 1000000
     },
     "cost": {
-      "input": 3.125,
-      "output": 18.75,
-      "cache_read": 0.3125,
-      "cache_write": 3.90625,
+      "input": 2.5,
+      "output": 15,
+      "cache_read": 0.25,
+      "cache_write": 3.125,
       "tiers": [
         {
-          "input": 6.25,
-          "output": 28.125,
-          "cache_read": 0.625,
-          "cache_write": 7.8125,
+          "input": 5,
+          "output": 22.5,
+          "cache_read": 0.5,
+          "cache_write": 6.25,
           "tier": {
             "type": "context",
             "size": 272000
@@ -41461,10 +41547,10 @@
         }
       ],
       "context_over_200k": {
-        "input": 6.25,
-        "output": 28.125,
-        "cache_read": 0.625,
-        "cache_write": 7.8125
+        "input": 5,
+        "output": 22.5,
+        "cache_read": 0.5,
+        "cache_write": 6.25
       }
     }
   },
@@ -41511,16 +41597,16 @@
       "context": 1000000
     },
     "cost": {
-      "input": 1.25,
-      "output": 7.5,
-      "cache_read": 0.125,
-      "cache_write": 1.5625,
+      "input": 0.25,
+      "output": 1.5,
+      "cache_read": 0.025,
+      "cache_write": 0.3125,
       "tiers": [
         {
-          "input": 2.5,
-          "output": 11.25,
-          "cache_read": 0.25,
-          "cache_write": 3.125,
+          "input": 0.5,
+          "output": 2.25,
+          "cache_read": 0.05,
+          "cache_write": 0.625,
           "tier": {
             "type": "context",
             "size": 272000
@@ -41528,10 +41614,10 @@
         }
       ],
       "context_over_200k": {
-        "input": 2.5,
-        "output": 11.25,
-        "cache_read": 0.25,
-        "cache_write": 3.125
+        "input": 0.5,
+        "output": 2.25,
+        "cache_read": 0.05,
+        "cache_write": 0.625
       }
     }
   },
@@ -41835,10 +41921,28 @@
       "context": 1000000
     },
     "cost": {
-      "input": 0.26666667,
-      "output": 1.6,
-      "cache_read": 0.02666667,
-      "cache_write": 0.33333334
+      "input": 0.25,
+      "output": 1.5,
+      "cache_read": 0.025,
+      "cache_write": 0.3125,
+      "tiers": [
+        {
+          "input": 0.5,
+          "output": 2.25,
+          "cache_read": 0.05,
+          "cache_write": 0.625,
+          "tier": {
+            "type": "context",
+            "size": 272000
+          }
+        }
+      ],
+      "context_over_200k": {
+        "input": 0.5,
+        "output": 2.25,
+        "cache_read": 0.05,
+        "cache_write": 0.625
+      }
     }
   },
   "llama-3.3-70b": {
@@ -41899,16 +42003,16 @@
       "context": 1000000
     },
     "cost": {
-      "input": 6.25,
-      "output": 37.5,
-      "cache_read": 0.625,
-      "cache_write": 7.8125,
+      "input": 2.5,
+      "output": 12.5,
+      "cache_read": 0.25,
+      "cache_write": 3.125,
       "tiers": [
         {
-          "input": 12.5,
-          "output": 56.25,
-          "cache_read": 1.25,
-          "cache_write": 15.625,
+          "input": 5,
+          "output": 18.75,
+          "cache_read": 0.5,
+          "cache_write": 6.25,
           "tier": {
             "type": "context",
             "size": 272000
@@ -41916,10 +42020,10 @@
         }
       ],
       "context_over_200k": {
-        "input": 12.5,
-        "output": 56.25,
-        "cache_read": 1.25,
-        "cache_write": 15.625
+        "input": 5,
+        "output": 18.75,
+        "cache_read": 0.5,
+        "cache_write": 6.25
       }
     }
   },
@@ -46150,6 +46254,22 @@
       ]
     }
   },
+  "qwen/qwen3.8-max-0902": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 131072,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 2,
+      "output": 6,
+      "cache_read": 0.25,
+      "cache_write": 2.5
+    }
+  },
   "qwen/qwen-2.5-coder-32b-instruct": {
     "reasoning": false,
     "tool_call": false,
@@ -46858,7 +46978,7 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 26214,
+      "output": 819200,
       "context": 1024000
     },
     "cost": {
@@ -47070,9 +47190,9 @@
       "context": 1048576
     },
     "cost": {
-      "input": 2.5,
-      "output": 14,
-      "cache_read": 0.29,
+      "input": 2.55,
+      "output": 12.75,
+      "cache_read": 0.256,
       "cache_write": 0
     }
   },
@@ -47687,9 +47807,9 @@
       "context": 1310720
     },
     "cost": {
-      "input": 1.15,
-      "output": 3.5,
-      "cache_read": 0.1,
+      "input": 1.17,
+      "output": 3.96,
+      "cache_read": 0.234,
       "cache_write": 0
     }
   },
