@@ -12925,6 +12925,22 @@
       "cache_write": 5
     }
   },
+  "sakana/sakana-namazu": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 65536,
+      "context": 262144
+    },
+    "cost": {
+      "input": 0.95,
+      "output": 4,
+      "cache_read": 0.15,
+      "cache_write": 0
+    }
+  },
   "sakana/fugu-ultra-v1.1": {
     "reasoning": true,
     "tool_call": true,
@@ -13715,23 +13731,6 @@
       "input": 0.493,
       "output": 0.493,
       "cache_read": 0.2465,
-      "cache_write": 0
-    }
-  },
-  "kitani/clover-1-150b": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": false,
-    "limit": {
-      "output": 100000,
-      "context": 200000,
-      "input": 200000
-    },
-    "cost": {
-      "input": 0.15,
-      "output": 0.8,
-      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -17950,6 +17949,22 @@
       "input": 3,
       "output": 15,
       "cache_read": 0.3,
+      "cache_write": 0
+    }
+  },
+  "umans-glm-5.3": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 131071,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 1.4,
+      "output": 4.4,
+      "cache_read": 0.26,
       "cache_write": 0
     }
   },
@@ -25376,9 +25391,9 @@
       "context": 1048576
     },
     "cost": {
-      "input": 0.615,
+      "input": 0.576,
       "output": 13,
-      "cache_read": 0.45,
+      "cache_read": 0.3,
       "cache_write": 0
     }
   },
@@ -25596,13 +25611,13 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 115200,
+      "output": 147456,
       "context": 163840
     },
     "cost": {
-      "input": 0.29,
-      "output": 1.14,
-      "cache_read": 0.11,
+      "input": 0.25,
+      "output": 1,
+      "cache_read": 0,
       "cache_write": 0
     }
   },
@@ -26000,13 +26015,13 @@
     "attachment": true,
     "temperature": true,
     "limit": {
-      "output": 943718,
+      "output": 131072,
       "context": 1048576
     },
     "cost": {
-      "input": 0.02625,
-      "output": 0.928749,
-      "cache_read": 0.015,
+      "input": 0.032,
+      "output": 0.5,
+      "cache_read": 0.0288,
       "cache_write": 0
     }
   },
@@ -26016,13 +26031,13 @@
     "attachment": false,
     "temperature": true,
     "limit": {
-      "output": 131072,
+      "output": 943718,
       "context": 1048576
     },
     "cost": {
-      "input": 0.12,
-      "output": 4,
-      "cache_read": 0.08,
+      "input": 0.05,
+      "output": 4.4,
+      "cache_read": 0.04,
       "cache_write": 0
     }
   },
@@ -26300,9 +26315,9 @@
       "context": 1048576
     },
     "cost": {
-      "input": 0.015,
-      "output": 0.676999,
-      "cache_read": 0.005,
+      "input": 0.003,
+      "output": 2.4,
+      "cache_read": 0.003,
       "cache_write": 0
     }
   },
@@ -26316,9 +26331,9 @@
       "context": 1048576
     },
     "cost": {
-      "input": 0.11,
-      "output": 2.7,
-      "cache_read": 0.099,
+      "input": 0.136,
+      "output": 4.2,
+      "cache_read": 0.12,
       "cache_write": 0
     }
   },
@@ -26332,9 +26347,9 @@
       "context": 1048576
     },
     "cost": {
-      "input": 0.0171,
+      "input": 0.0152,
       "output": 1.28,
-      "cache_read": 0.0154,
+      "cache_read": 0.0137,
       "cache_write": 0
     }
   },
@@ -26810,22 +26825,6 @@
         "output": 45,
         "cache_read": 1
       }
-    }
-  },
-  "sakana/sakana-namazu": {
-    "reasoning": true,
-    "tool_call": true,
-    "attachment": true,
-    "temperature": true,
-    "limit": {
-      "output": 65536,
-      "context": 262144
-    },
-    "cost": {
-      "input": 0.95,
-      "output": 4,
-      "cache_read": 0.15,
-      "cache_write": 0
     }
   },
   "inclusionai/ling-3.0-flash-sante:free": {
@@ -41966,6 +41965,22 @@
       "cache_write": 0
     }
   },
+  "deepseek/deepseek-v4.1-flash-fast": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": true,
+    "limit": {
+      "output": 1000000,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 0.3,
+      "output": 1.2,
+      "cache_read": 0.006,
+      "cache_write": 0
+    }
+  },
   "quiverai/arrow-1.1": {
     "reasoning": false,
     "tool_call": false,
@@ -51897,6 +51912,23 @@
       "cache_write": 0.07
     }
   },
+  "tencent/step-5-preview": {
+    "reasoning": true,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": false,
+    "limit": {
+      "output": 1000000,
+      "context": 1000000,
+      "input": 1000000
+    },
+    "cost": {
+      "input": 1,
+      "output": 2.7,
+      "cache_read": 0.05,
+      "cache_write": 0
+    }
+  },
   "tencent/deepseek-v4-pro-0813": {
     "reasoning": true,
     "tool_call": false,
@@ -52038,6 +52070,22 @@
       "input": 0.06,
       "output": 0.18,
       "cache_read": 0.009,
+      "cache_write": 0
+    }
+  },
+  "flexai/deepseek-v4.1-flash": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 384000,
+      "context": 1048576
+    },
+    "cost": {
+      "input": 0.14,
+      "output": 0.42,
+      "cache_read": 0.021,
       "cache_write": 0
     }
   },
@@ -52811,6 +52859,22 @@
       "cache_write": 0.083333,
       "reasoning": 1.5,
       "input_audio": 0.5
+    }
+  },
+  "greenference/gpt-oss-20b": {
+    "reasoning": true,
+    "tool_call": false,
+    "attachment": false,
+    "temperature": true,
+    "limit": {
+      "output": 32768,
+      "context": 131072
+    },
+    "cost": {
+      "input": 0.009,
+      "output": 0.045,
+      "cache_read": 0.0045,
+      "cache_write": 0
     }
   },
   "perplexityai/sonar-pro": {
@@ -59229,6 +59293,22 @@
       "cache_write": 2.75
     }
   },
+  "us.anthropic.claude-sonnet-5-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 2.2,
+      "output": 11,
+      "cache_read": 0.22,
+      "cache_write": 2.75
+    }
+  },
   "qwen.qwen3-coder-next": {
     "reasoning": false,
     "tool_call": true,
@@ -60551,6 +60631,22 @@
       "output": 2.75,
       "cache_read": 0.0825,
       "cache_write": 0.33
+    }
+  },
+  "eu.anthropic.claude-sonnet-5-5": {
+    "reasoning": true,
+    "tool_call": true,
+    "attachment": true,
+    "temperature": false,
+    "limit": {
+      "output": 128000,
+      "context": 1000000
+    },
+    "cost": {
+      "input": 2.2,
+      "output": 11,
+      "cache_read": 0.22,
+      "cache_write": 2.75
     }
   },
   "us.amazon.nova-micro-v1:0": {
