@@ -4,11 +4,24 @@ from datetime import datetime, timedelta
 from typing import Any
 from unittest.mock import MagicMock
 
+import pytest
 from langchain_core.documents import Document
 from langchain_core.load import dumpd
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
 
 from langgraphics.formatter import Formatter
+
+# Fixed prices so cost tests don't depend on the auto-updated models.json.
+FIXED_MODELS = {
+    "openai/gpt-4o-mini": {
+        "cost": {"input": 0.15, "output": 0.6, "cache_read": 0.075, "cache_write": 0},
+    },
+}
+
+
+@pytest.fixture
+def fixed_models(monkeypatch):
+    monkeypatch.setattr(Formatter, "models", FIXED_MODELS)
 
 
 def make_run(
@@ -302,9 +315,9 @@ class TestCosts:
         result = Formatter.costs("openai/gpt-4o-mini", 0, 0)
         assert result == {"cached": "0.0", "total": "0.0"}
 
-    def test_known_model_with_tokens(self):
+    def test_known_model_with_tokens(self, fixed_models):
         result = Formatter.costs("openai/gpt-4o-mini", 1000, 2000)
-        assert result == {"cached": "0.0000375", "total": "0.0006"}
+        assert result == {"cached": "0.000075", "total": "0.0012"}
 
 
 class TestMetrics:
@@ -318,13 +331,13 @@ class TestMetrics:
         result = Formatter.metrics(run)
         assert result["latency"] == "1s 500ms"
 
-    def test_cost_for_known_model(self):
+    def test_cost_for_known_model(self, fixed_models):
         run = make_metrics_run(
             extra={"ls_model_name": "openai/gpt-4o-mini"},
             outputs={"total_tokens": 2000, "cached_tokens": 1000},
         )
         result = Formatter.metrics(run)
-        assert result["costs"] == {"cached": "0.0000375", "total": "0.0006"}
+        assert result["costs"] == {"cached": "0.000075", "total": "0.0012"}
 
     def test_unknown_model_fallback(self):
         run = make_metrics_run()
